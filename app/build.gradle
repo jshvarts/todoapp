@@ -1,3 +1,12 @@
+ext {
+    appCompatVersion = "25.1.0"
+    conductorVersion = "2.1.0"
+    daggerVersion = "2.9"
+    espressoVersion = "2.2.2"
+    junitVersion = "4.12"
+    rxBindingsVersion = "1.0.0"
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
@@ -25,12 +34,24 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    testCompile 'junit:junit:4.12'
+    compile "com.android.support:appcompat-v7:$appCompatVersion"
+    testCompile "junit:junit:$junitVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    // Dagger
+    compile "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    // ReactiveX
+    compile "com.jakewharton.rxbinding:rxbinding-kotlin:$rxBindingsVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-support-v4-kotlin:$rxBindingsVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-appcompat-v7-kotlin:$rxBindingsVersion"
+
+    // Conductor
+    compile "com.bluelinelabs:conductor:$conductorVersion"
 }
 repositories {
     mavenCentral()
