@@ -29,3 +29,11 @@ logical objects within other logical objects as much as possible.  This eases
 testing.
 * Every object, with the exception of System-Created objects, should be
   generated via dagger with construction time injection.
+
+## Butterknife
+
+```
+// Usage:
+@BindView(R.id.view)
+lateinit var view
+```

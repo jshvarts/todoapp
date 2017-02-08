@@ -1,5 +1,6 @@
 ext {
     appCompatVersion = "25.1.0"
+    butterknifeVersion = "8.5.1"
     conductorVersion = "2.1.0"
     daggerVersion = "2.9"
     espressoVersion = "2.2.2"
@@ -52,6 +53,10 @@ dependencies {
 
     // Conductor
     compile "com.bluelinelabs:conductor:$conductorVersion"
+
+    // Butterknife
+    compile "com.jakewharton:butterknife:$butterknifeVersion"
+    kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 }
 repositories {
     mavenCentral()
