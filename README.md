@@ -27,3 +27,5 @@
   generatable via this graph, and care should be taken to reduce creation of
 logical objects within other logical objects as much as possible.  This eases
 testing.
+* Every object, with the exception of System-Created objects, should be
+  generated via dagger with construction time injection.
