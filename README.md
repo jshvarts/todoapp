@@ -1,5 +1,23 @@
 # TODO App
 
+## Packages
+
+* Feature Driven -- Each logical component should be within it's own package
+* Flatter is Cleaner -- Keep to a minimum of subpackages to keep code clean
+
+```
+Example Screen Feature:
+
+- com.exallium.todoapp.myscreen
+- - MyScreenComponent.kt    -- Dagger Component Class
+- - MyScreenController.kt   -- View / Controller Implementation
+- - MyScreenModel.kt        -- Model Interface
+- - MyScreenModelImpl.kt    -- Model Implementation
+- - MyScreenModule.kt       -- Dagger Module
+- - MyScreenView.kt         -- View Interface
+- - MyScreenPresenter.kt    -- Presentation Logic Class
+```
+
 ## MVP
 
 * View -- A conductor Controller instance (Interfaced) Responsible for all
