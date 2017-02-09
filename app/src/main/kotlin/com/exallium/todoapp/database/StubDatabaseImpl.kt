@@ -7,7 +7,7 @@ import rx.Single
  */
 class StubDatabaseImpl(private val idFactory: IdFactory) : Database {
 
-    val db = mutableMapOf<String, Note>()
+    private val db = mutableMapOf<String, Note>()
 
     init {
         db.putAll((1..5).map {

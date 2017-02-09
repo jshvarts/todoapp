@@ -5,6 +5,7 @@ ext {
     daggerVersion = "2.9"
     espressoVersion = "2.2.2"
     junitVersion = "4.12"
+    mockitoVersion = "2.7.5"
     rxBindingsVersion = "1.0.0"
 }
 
@@ -30,6 +31,8 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
 }
 
@@ -41,6 +44,8 @@ dependencies {
     compile "com.android.support:appcompat-v7:$appCompatVersion"
     testCompile "junit:junit:$junitVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
 
     // Dagger
     compile "com.google.dagger:dagger:$daggerVersion"
