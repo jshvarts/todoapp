@@ -55,3 +55,18 @@ testing.
 @BindView(R.id.view)
 lateinit var view
 ```
+## Unit Tests
+
+This project attempts to maintain as high code coverage as possible.
+
+Testing from the command line can be done like so:
+
+```./gradlew testDebug```
+
+Jacoco is used to generate code coverage reports for debug builds. To get code coverage on a specific build variant:
+
+```
+./gradlew jacoco<build-type>TestReport
+./gradlew jacocoDebugTestReport # code coverage for debug builds
+```
+
