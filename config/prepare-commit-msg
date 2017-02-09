@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Example 1:
+# Current branch: feature/100-foo-bar
+# Commit message before hook editing: foo-bar
+# Commit message after hook editing: 100: foo-bar 
+# 
+# Example 2:
+# Current branch: bugfix/100-foo-bar
+# Commit message before hook editing: foo-bar
+# Commit message after hook editing: 100: foo-bar
+#
+# Example 3:
+# Current branch: master
+# Commit message before hook editing: foo-bar
+# Commit message after hook editing: foo-bar
+#
+# Note: merge commits (those which start with ‘Merge’ prefix) are not edited
+
+input_message=`cat "$1"`
+
+# Check if we have a merge commit, don’t change it
+first_word=`echo "$input_message" | cut -f 1 -d " "`
+if [ $first_word == "Merge" ] ; then
+    echo "$input_message" > "$1"
+    exit 0
+fi
+
+current_branch=`git rev-parse --abbrev-ref HEAD`
+
+# Delete branch type prefix, like ‘feature/‘ or ‘bugfix/‘
+current_branch_no_type=${current_branch#*/}
+
+issue=`echo "$current_branch_no_type" | cut -d - -f1` #delete everything after first ‘-‘ #sign
+
+echo $issue: $input_message > "$1"

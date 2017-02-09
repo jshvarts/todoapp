@@ -80,3 +80,4 @@ Jacoco is used to generate code coverage reports for debug builds. To get code c
 ./gradlew jacocoDebugTestReport # code coverage for debug builds
 ```
 
+Mockito 2 is utilized to allow proper mocking of final methods and classes, which allows us to avoid PowerMock.
