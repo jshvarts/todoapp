@@ -1,0 +1,46 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    /**
+     * Cannot update Jacoco until 0% coverage is resolved by the community.
+     * https://github.com/jacoco/jacoco/issues/288
+     **/
+    toolVersion = "0.7.1.201405082137"
+    reportsDir = file("$buildDir/reports")
+}
+
+def coverageSourceDirs = [
+        "${rootDir}/app/src/main/kotlin"
+]
+
+def buildTypes = android.buildTypes.collect { it }
+
+buildTypes.each { buildType ->
+    if (!buildType.testCoverageEnabled) {
+        return
+    }
+
+    def buildTypeName = buildType.name.capitalize()
+    def testTaskName = "test${buildTypeName}UnitTest"
+
+    //noinspection GroovyAssignabilityCheck
+    task "jacoco${buildTypeName}TestReport" (type:JacocoReport, dependsOn: testTaskName) {
+
+        group = "Reporting"
+        description = "Generate Jacoco coverage report for ${buildTypeName} build."
+
+        classDirectories = fileTree(
+                dir: "${rootDir}/app/build/intermediates/classes/debug/",
+                excludes: ['**/R.class',
+                           '**/R$*.class']
+        )
+
+        sourceDirectories = files(coverageSourceDirs)
+        executionData = files("${buildDir}/jacoco/${testTaskName}.exec")
+
+        reports {
+            xml.enabled false
+        }
+    }
+}
+
