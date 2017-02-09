@@ -12,7 +12,7 @@ interface Database {
     /**
      * Returns all the notes currently in the database
      */
-    fun getAllNotes(): Single<List<Note>>
+    fun getAllNotes(): Single<Set<Note>>
 
     /**
      * Gets the Note with id from the database

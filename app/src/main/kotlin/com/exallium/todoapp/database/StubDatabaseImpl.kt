@@ -16,7 +16,7 @@ class StubDatabaseImpl(private val idFactory: IdFactory) : Database {
         })
     }
 
-    override fun getAllNotes(): Single<List<Note>> = Single.just(db.values.toList())
+    override fun getAllNotes(): Single<Set<Note>> = Single.just(db.values.toSet())
 
     override fun getNoteById(id: String): Single<Note> {
         val note = db[id]
