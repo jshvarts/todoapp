@@ -1,5 +1,15 @@
 # TODO App
 
+TODO-List Sample application demonstrating proper archtecture with the following
+aspects:
+
+* Model / View / Presenter
+* Reactive Functional Programming
+* Kotlin
+* High-Coverage Unit Testing
+* Dependency Injection
+* Singleton-Proxy Pattern (to ease unit testing, no PowerMock)
+
 ## Packages
 
 * Feature Driven -- Each logical component should be within it's own package
