@@ -31,8 +31,7 @@ buildTypes.each { buildType ->
 
         classDirectories = fileTree(
                 dir: "${rootDir}/app/build/intermediates/classes/debug/",
-                excludes: ['**/R.class',
-                           '**/R$*.class']
+                excludes: reportExcludes()
         )
 
         sourceDirectories = files(coverageSourceDirs)
@@ -42,5 +41,13 @@ buildTypes.each { buildType ->
             xml.enabled false
         }
     }
+}
+
+def reportExcludes() {
+    return ['**/R.class',
+            '**/R$*.class',
+            '**/*Module.class',
+            '**/*Module_*.class',
+            '**/*Component.class']
 }
 
