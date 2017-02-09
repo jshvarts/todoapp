@@ -1,20 +1,43 @@
 package com.exallium.todoapp.allnotes
 
+import android.support.v7.widget.RecyclerView
+import android.view.ViewGroup
 import com.exallium.todoapp.database.Note
 import rx.Subscription
 
-class AllNotesAdapter(model: AllNotesModel, val allNotesDiffUtilProxy: AllNotesDiffUtilProxy) {
+/**
+ * Adapter which displays all notes in the database
+ */
+class AllNotesAdapter(val model: AllNotesModel,
+                      val allNotesDiffUtilProxy: AllNotesDiffUtilProxy) : RecyclerView.Adapter<NoteViewHolder>() {
 
     var notes = listOf<Note>()
 
-    val subscription: Subscription = model.getAllNotes().subscribe {
+    val subscribeFn: (Set<Note>) -> (Unit) = {
         val oldNotes = notes
         notes = it.toList()
         allNotesDiffUtilProxy(this, oldNotes, notes)
     }
 
-    fun cleanup() {
-        subscription.unsubscribe()
+    var subscription: Subscription? = null
+
+    fun requestUpdate() {
+        subscription?.unsubscribe()
+        subscription = model.getAllNotes().subscribe(subscribeFn)
     }
 
+    fun cleanup() {
+        subscription?.unsubscribe()
+        subscription = null
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): NoteViewHolder {
+        throw UnsupportedOperationException("not implemented")
+    }
+
+    override fun onBindViewHolder(holder: NoteViewHolder?, position: Int) {
+        throw UnsupportedOperationException("not implemented")
+    }
+
+    override fun getItemCount() = notes.size
 }

@@ -10,6 +10,7 @@ class AllNotesPresenter(private val view: AllNotesView,
 
     override fun onViewCreated() {
         view.setAdapter(adapter)
+        adapter.requestUpdate()
     }
 
     override fun onViewDestroyed() {

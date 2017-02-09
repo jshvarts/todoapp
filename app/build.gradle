@@ -51,6 +51,7 @@ dependencies {
     })
     testCompile "junit:junit:$junitVersion"
     compile "com.android.support:appcompat-v7:$appCompatVersion"
+    compile "com.android.support:recyclerview-v7:$appCompatVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     testCompile "org.mockito:mockito-core:$mockitoVersion"
@@ -63,6 +64,7 @@ dependencies {
     compile "com.jakewharton.rxbinding:rxbinding-kotlin:$rxBindingsVersion"
     compile "com.jakewharton.rxbinding:rxbinding-support-v4-kotlin:$rxBindingsVersion"
     compile "com.jakewharton.rxbinding:rxbinding-appcompat-v7-kotlin:$rxBindingsVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-recyclerview-v7-kotlin:$rxBindingsVersion"
 
     // Conductor
     compile "com.bluelinelabs:conductor:$conductorVersion"
