@@ -41,7 +41,7 @@ android {
     }
 }
 
-apply from: "$rootDir/jacoco.gradle"
+apply from: "$rootDir/config/jacoco.gradle"
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
