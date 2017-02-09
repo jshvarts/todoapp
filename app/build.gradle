@@ -7,6 +7,7 @@ ext {
     junitVersion = "4.12"
     mockitoVersion = "2.7.5"
     rxBindingsVersion = "1.0.0"
+    timberVersion = "4.5.1"
 }
 
 apply plugin: 'com.android.application'
@@ -41,8 +42,8 @@ dependencies {
     androidTestCompile("com.android.support.test.espresso:espresso-core:$espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "com.android.support:appcompat-v7:$appCompatVersion"
     testCompile "junit:junit:$junitVersion"
+    compile "com.android.support:appcompat-v7:$appCompatVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     testCompile "org.mockito:mockito-core:$mockitoVersion"
@@ -62,7 +63,11 @@ dependencies {
     // Butterknife
     compile "com.jakewharton:butterknife:$butterknifeVersion"
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+
+    // Timber
+    compile "com.jakewharton.timber:timber:$timberVersion"
 }
+
 repositories {
     mavenCentral()
 }
