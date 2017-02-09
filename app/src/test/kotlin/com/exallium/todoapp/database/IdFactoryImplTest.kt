@@ -1,19 +1,25 @@
 package com.exallium.todoapp.database
 
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 
 /**
- * Unit testing for IdFactoryImpl
+ * Unit testing for {@link IdFactoryImpl}
  */
 class IdFactoryImplTest {
 
-    val testSubject = IdFactoryImpl()
+    lateinit var testSubject: IdFactoryImpl
+
+    @Before
+    fun setUp() {
+        testSubject = IdFactoryImpl()
+    }
 
     @Test
-    fun createId_when1000Requested_allAreUnique() {
+    fun createId_when10Requested_allAreUnique() {
         // GIVEN
-        val expected = 1000
+        val expected = 10
 
         // WHEN
         val result = (1..expected).map { testSubject.createId() }.distinct().size
