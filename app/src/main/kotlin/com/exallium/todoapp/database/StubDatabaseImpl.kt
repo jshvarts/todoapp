@@ -33,7 +33,10 @@ class StubDatabaseImpl(private val idFactory: IdFactory) : Database {
     }
 
     override fun deleteNote(note: Note): Single<Unit> {
-        db.remove(note.id)
-        return Single.just(Unit)
+        return if (db.remove(note.id) == null) {
+            Single.error(DatabaseException("Note does not exist"))
+        } else {
+            Single.just(Unit)
+        }
     }
 }
