@@ -1,14 +1,15 @@
 package com.exallium.todoapp.database
 
-import java.util.UUID
-
-data class Note(val id: UUID,
+/**
+ * The Note entity
+ */
+data class Note(val id: String,
                 val title: String,
                 val body: String,
                 val created: Long,
                 val updated: Long) {
 
-    fun with(id: UUID? = null,
+    fun with(id: String? = null,
              title: String? = null,
              body: String? = null,
              created: Long? = null,
