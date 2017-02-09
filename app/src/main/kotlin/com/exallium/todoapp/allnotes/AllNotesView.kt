@@ -6,4 +6,5 @@ import com.exallium.todoapp.mvp.BaseView
  * View interface for Controller displaying all notes
  */
 interface AllNotesView : BaseView {
+    fun setAdapter(adapter: AllNotesAdapter)
 }

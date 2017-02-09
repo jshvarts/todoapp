@@ -1,5 +1,6 @@
 package com.exallium.todoapp.app
 
+import com.exallium.todoapp.database.Database
 import dagger.Component
 import javax.inject.Singleton
 
@@ -8,4 +9,6 @@ import javax.inject.Singleton
  */
 @Singleton
 @Component(modules = arrayOf(TodoAppModule::class))
-interface TodoAppComponent
+interface TodoAppComponent {
+    fun database(): Database
+}
