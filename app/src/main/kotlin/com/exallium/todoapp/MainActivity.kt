@@ -24,7 +24,7 @@ class MainActivity : Activity() {
         ButterKnife.bind(this)
         router = Conductor.attachRouter(this, container, savedInstanceState)
         if (!router.hasRootController()) {
-            // TODO -- Show Starting Screen
+            //RouterTransaction.with()
         }
     }
 
