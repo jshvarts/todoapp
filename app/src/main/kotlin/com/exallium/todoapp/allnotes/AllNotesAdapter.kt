@@ -11,7 +11,8 @@ import rx.subjects.PublishSubject
  * Adapter which displays all notes in the database
  */
 class AllNotesAdapter(val model: AllNotesModel,
-                      val allNotesDiffUtilProxy: AllNotesDiffUtilProxy) : RecyclerView.Adapter<NoteViewHolder>() {
+                      val allNotesDiffUtilProxy: AllNotesDiffUtilProxy,
+                      val noteViewHolderFactory: NoteViewHolderFactory) : RecyclerView.Adapter<NoteViewHolder>() {
 
     var notes = listOf<Note>()
 
@@ -33,8 +34,8 @@ class AllNotesAdapter(val model: AllNotesModel,
         subscription = null
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): NoteViewHolder {
-        throw UnsupportedOperationException("not implemented")
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
+        return noteViewHolderFactory.create(parent)
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder?, position: Int) {

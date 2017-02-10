@@ -21,7 +21,7 @@ class AllNotesModule(private val allNotesView: AllNotesView) {
     @Provides
     @PerScreen
     fun provideAdapter(model: AllNotesModel, diffUtilProxy: AllNotesDiffUtilProxy): AllNotesAdapter
-        = AllNotesAdapter(model, diffUtilProxy)
+        = AllNotesAdapter(model, diffUtilProxy, NoteViewHolder)
 
     @Provides
     @PerScreen
