@@ -52,6 +52,7 @@ dependencies {
     })
     testCompile "junit:junit:$junitVersion"
     compile "com.android.support:appcompat-v7:$appCompatVersion"
+    compile "com.android.support:design:$appCompatVersion"
     compile "com.android.support:recyclerview-v7:$appCompatVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 

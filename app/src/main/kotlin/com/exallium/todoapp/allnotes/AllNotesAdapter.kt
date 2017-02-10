@@ -3,9 +3,11 @@ package com.exallium.todoapp.allnotes
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.exallium.todoapp.database.Note
+import com.jakewharton.rxbinding.view.clicks
 import rx.Observable
 import rx.Subscription
 import rx.subjects.PublishSubject
+import rx.subscriptions.CompositeSubscription
 
 /**
  * Adapter which displays all notes in the database
@@ -22,16 +24,16 @@ class AllNotesAdapter(val model: AllNotesModel,
         allNotesDiffUtilProxy(this, oldNotes, notes)
     }
 
-    var subscription: Subscription? = null
+    var dataSubscription: Subscription? = null
 
     fun requestUpdate() {
-        subscription?.unsubscribe()
-        subscription = model.getAllNotes().subscribe(subscribeFn)
+        dataSubscription?.unsubscribe()
+        dataSubscription = model.getAllNotes().subscribe(subscribeFn)
     }
 
     fun cleanup() {
-        subscription?.unsubscribe()
-        subscription = null
+        dataSubscription?.unsubscribe()
+        dataSubscription = null
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {

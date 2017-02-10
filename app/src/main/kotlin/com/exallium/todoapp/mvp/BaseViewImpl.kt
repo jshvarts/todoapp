@@ -68,14 +68,14 @@ abstract class BaseViewImpl<
      * Any edge-case setup code for a particular view goes here.
      * Try to avoid using this.
      */
-    protected fun setUp() {
+    protected open fun setUp() {
     }
 
     /**
      * Any edge-case teardown code for a particular view goes here.
      * Try to avoid using this.
      */
-    protected fun tearDown() {
+    protected open fun tearDown() {
     }
 
     abstract fun getComponent(): C
