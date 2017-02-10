@@ -13,7 +13,6 @@ class TodoApp : Application() {
     }
 
     override fun onCreate() {
-        super.onCreate()
         component = DaggerTodoAppComponent.create()
     }
 
