@@ -3,7 +3,9 @@ package com.exallium.todoapp.allnotes
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.exallium.todoapp.database.Note
+import rx.Observable
 import rx.Subscription
+import rx.subjects.PublishSubject
 
 /**
  * Adapter which displays all notes in the database
@@ -36,7 +38,9 @@ class AllNotesAdapter(val model: AllNotesModel,
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder?, position: Int) {
-        throw UnsupportedOperationException("not implemented")
+        val note = notes[position]
+        holder?.setTitle(note.title)
+        holder?.setBody(note.body)
     }
 
     override fun getItemCount() = notes.size
