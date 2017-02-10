@@ -25,5 +25,6 @@ class AllNotesModule(private val allNotesView: AllNotesView) {
 
     @Provides
     @PerScreen
-    fun providePresenter(): AllNotesPresenter = AllNotesPresenter(allNotesView)
+    fun providePresenter(adapter: AllNotesAdapter): AllNotesPresenter
+            = AllNotesPresenter(allNotesView, adapter)
 }
