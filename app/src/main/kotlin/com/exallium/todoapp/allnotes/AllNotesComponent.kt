@@ -7,4 +7,4 @@ import dagger.Component
 
 @PerScreen
 @Component(modules = arrayOf(AllNotesModule::class), dependencies = arrayOf(TodoAppComponent::class))
-interface AllNotesComponent : BaseComponent<AllNotesController>
+interface AllNotesComponent : BaseComponent<AllNotesViewImpl>

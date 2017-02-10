@@ -16,10 +16,10 @@ import javax.inject.Inject
 /**
  * Base Conductor Controller, which is visible to Presenters as a sub-interface of BaseView
  */
-abstract class BaseController<
+abstract class BaseViewImpl<
         out V : BaseView,
         P : BasePresenter<V>,
-        B : BaseController<V, P, B, C>,
+        B : BaseViewImpl<V, P, B, C>,
         out C : BaseComponent<B>>(bundle: Bundle) : Controller(bundle), BaseView {
 
     private lateinit var _presenter: P
