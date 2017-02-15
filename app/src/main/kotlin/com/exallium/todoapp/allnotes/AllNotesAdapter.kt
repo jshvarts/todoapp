@@ -17,9 +17,9 @@ class AllNotesAdapter(val model: AllNotesModel,
 
     private var notes = listOf<Note>()
 
-    private val subscribeFn: (Set<Note>) -> (Unit) = {
+    private val subscribeFn = { newNotes: Set<Note> ->
         val oldNotes = notes
-        notes = it.toList()
+        notes = newNotes.toList()
         allNotesDiffUtilProxy(this, oldNotes, notes)
     }
 
