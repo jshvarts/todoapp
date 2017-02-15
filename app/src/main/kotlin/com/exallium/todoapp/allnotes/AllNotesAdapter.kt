@@ -3,11 +3,9 @@ package com.exallium.todoapp.allnotes
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.exallium.todoapp.database.Note
-import com.jakewharton.rxbinding.view.clicks
 import rx.Observable
 import rx.Subscription
 import rx.subjects.PublishSubject
-import rx.subscriptions.CompositeSubscription
 
 /**
  * Adapter which displays all notes in the database

@@ -1,6 +1,6 @@
 package com.exallium.todoapp.database
 
-import java.util.UUID
+import java.util.*
 
 /**
  * Concrete Implementation for generation of IDs
