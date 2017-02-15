@@ -16,7 +16,6 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     companion object : NoteViewHolderFactory {
         override fun create(parent: ViewGroup): NoteViewHolder {
-            // TODO -- Add actual layout
             val view = LayoutInflater.from(parent.context)
                     .inflate(android.R.layout.two_line_list_item, parent, false)
             return NoteViewHolder(view)

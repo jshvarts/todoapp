@@ -7,6 +7,8 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
+import com.bluelinelabs.conductor.RouterTransaction
+import com.exallium.todoapp.allnotes.AllNotesViewImpl
 
 /**
  * Single Activity for Application
@@ -24,7 +26,7 @@ class MainActivity : Activity() {
         ButterKnife.bind(this)
         router = Conductor.attachRouter(this, container, savedInstanceState)
         if (!router.hasRootController()) {
-            //RouterTransaction.with()
+            router.setRoot(RouterTransaction.with(AllNotesViewImpl(Bundle())))
         }
     }
 
