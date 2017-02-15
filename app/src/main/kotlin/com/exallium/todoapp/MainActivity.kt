@@ -26,9 +26,9 @@ class MainActivity : AppCompatActivity() {
     @BindView(R.id.main_activity_toolbar_title)
     lateinit var toolbarTitle: TextSwitcher
 
-    lateinit var router: Router
+    private lateinit var router: Router
 
-    val changeListener = object : ControllerChangeHandler.ControllerChangeListener {
+    private val changeListener = object : ControllerChangeHandler.ControllerChangeListener {
         override fun onChangeStarted(to: Controller?, from: Controller?, isPush: Boolean, container: ViewGroup, handler: ControllerChangeHandler) {
         }
 
