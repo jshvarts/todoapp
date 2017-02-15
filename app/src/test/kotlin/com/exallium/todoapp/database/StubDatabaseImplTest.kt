@@ -4,7 +4,6 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.MockitoAnnotations
 import rx.observers.TestSubscriber
 
 /**
@@ -20,7 +19,6 @@ class StubDatabaseImplTest {
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
         Mockito.`when`(idFactory.createId()).thenReturn("1", "2", "3", "4", "5")
         testSubject = StubDatabaseImpl(idFactory)
     }
