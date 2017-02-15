@@ -2,6 +2,8 @@ package com.exallium.todoapp.app
 
 import android.app.Application
 import com.exallium.todoapp.BuildConfig
+import com.exallium.todoapp.database.DatabaseModule
+import com.exallium.todoapp.screenbundle.ScreenBundleModule
 import timber.log.Timber
 
 /**
@@ -16,7 +18,11 @@ class TodoApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        component = DaggerTodoAppComponent.create()
+        component = DaggerTodoAppComponent.builder()
+                .databaseModule(DatabaseModule())
+                .screenBundleModule(ScreenBundleModule())
+                .todoAppModule(TodoAppModule(this))
+                .build()
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
