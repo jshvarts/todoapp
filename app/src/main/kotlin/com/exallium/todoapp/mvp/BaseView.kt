@@ -1,5 +1,8 @@
 package com.exallium.todoapp.mvp
 
+import android.support.annotation.StringRes
+import android.support.design.widget.BaseTransientBottomBar
+import android.support.design.widget.Snackbar
 import rx.Observable
 
 /**
@@ -17,4 +20,6 @@ interface BaseView {
     }
 
     fun lifecycleEvents(): Observable<LifecycleEvent>
+    fun displaySnackbar(@StringRes stringResourceId: Int, @BaseTransientBottomBar.Duration length: Int = Snackbar.LENGTH_SHORT)
+    fun displaySnackbar(string: String, @BaseTransientBottomBar.Duration length: Int = Snackbar.LENGTH_SHORT)
 }

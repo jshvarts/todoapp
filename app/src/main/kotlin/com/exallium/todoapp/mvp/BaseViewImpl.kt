@@ -3,6 +3,9 @@ package com.exallium.todoapp.mvp
 import android.app.Activity
 import android.os.Bundle
 import android.support.annotation.IdRes
+import android.support.annotation.StringRes
+import android.support.design.widget.BaseTransientBottomBar
+import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,6 +61,14 @@ abstract class BaseViewImpl<
     }
 
     override final fun lifecycleEvents(): Observable<BaseView.LifecycleEvent> = lifecycleSubject
+
+    override fun displaySnackbar(@StringRes stringResourceId: Int, @BaseTransientBottomBar.Duration length: Int) {
+        view?.let { Snackbar.make(it, stringResourceId, length) }
+    }
+
+    override fun displaySnackbar(string: String, @BaseTransientBottomBar.Duration length: Int) {
+        view?.let { Snackbar.make(it, string, length) }
+    }
 
     @Inject
     fun setPresenter(presenter: P) {
