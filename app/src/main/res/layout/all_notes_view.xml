@@ -7,9 +7,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/all_notes_view_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="?attr/listPreferredItemPaddingRight"
-        android:layout_marginStart="?attr/listPreferredItemPaddingLeft"/>
+        android:layout_height="match_parent"/>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"

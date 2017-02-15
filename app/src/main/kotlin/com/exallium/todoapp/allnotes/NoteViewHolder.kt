@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.exallium.todoapp.R
 
 /**
  * View of a Note in the AllNotesAdapter
@@ -17,7 +18,7 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     companion object : NoteViewHolderFactory {
         override fun create(parent: ViewGroup): NoteViewHolder {
             val view = LayoutInflater.from(parent.context)
-                    .inflate(android.R.layout.two_line_list_item, parent, false)
+                    .inflate(R.layout.all_notes_view_adapter_item, parent, false)
             return NoteViewHolder(view)
         }
     }
