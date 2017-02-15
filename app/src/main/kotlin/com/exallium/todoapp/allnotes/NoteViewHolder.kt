@@ -9,6 +9,8 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.exallium.todoapp.R
+import com.jakewharton.rxbinding.view.clicks
+import rx.Observable
 
 /**
  * View of a Note in the AllNotesAdapter
@@ -44,4 +46,6 @@ class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun setBody(body: String) {
         bodyView.text = body
     }
+
+    fun noteClicks(): Observable<Int> = itemView.clicks().map { adapterPosition }
 }

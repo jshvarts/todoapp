@@ -16,15 +16,16 @@ class AllNotesAdapter(val model: AllNotesModel,
                       val allNotesDiffUtilProxy: AllNotesDiffUtilProxy,
                       val noteViewHolderFactory: NoteViewHolderFactory) : RecyclerView.Adapter<NoteViewHolder>() {
 
-    var notes = listOf<Note>()
+    private var notes = listOf<Note>()
 
-    val subscribeFn: (Set<Note>) -> (Unit) = {
+    private val subscribeFn: (Set<Note>) -> (Unit) = {
         val oldNotes = notes
         notes = it.toList()
         allNotesDiffUtilProxy(this, oldNotes, notes)
     }
 
-    var dataSubscription: Subscription? = null
+    private var dataSubscription: Subscription? = null
+    private var clickSubject = PublishSubject.create<Int>()
 
     fun requestUpdate() {
         dataSubscription?.unsubscribe()
@@ -37,7 +38,9 @@ class AllNotesAdapter(val model: AllNotesModel,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        return noteViewHolderFactory.create(parent)
+        val holder = noteViewHolderFactory.create(parent)
+        holder.noteClicks().subscribe(clickSubject)
+        return holder
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder?, position: Int) {
@@ -47,4 +50,6 @@ class AllNotesAdapter(val model: AllNotesModel,
     }
 
     override fun getItemCount() = notes.size
+
+    fun noteClicks(): Observable<Note> = clickSubject.map { notes[it] }
 }
