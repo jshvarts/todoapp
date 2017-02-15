@@ -6,6 +6,7 @@ import com.exallium.todoapp.database.Note
 import rx.Observable
 import rx.Subscription
 import rx.subjects.PublishSubject
+import rx.subscriptions.CompositeSubscription
 
 /**
  * Adapter which displays all notes in the database
@@ -24,6 +25,7 @@ class AllNotesAdapter(val model: AllNotesModel,
 
     private var dataSubscription: Subscription? = null
     private var clickSubject = PublishSubject.create<Int>()
+    private var clickSubscriptions = CompositeSubscription()
 
     fun requestUpdate() {
         dataSubscription?.unsubscribe()
@@ -32,12 +34,12 @@ class AllNotesAdapter(val model: AllNotesModel,
 
     fun cleanup() {
         dataSubscription?.unsubscribe()
-        dataSubscription = null
+        clickSubscriptions.clear()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val holder = noteViewHolderFactory.create(parent)
-        holder.noteClicks().subscribe(clickSubject)
+        clickSubscriptions.add(holder.noteClicks().subscribe(clickSubject))
         return holder
     }
 
