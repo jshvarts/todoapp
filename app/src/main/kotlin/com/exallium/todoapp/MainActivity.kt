@@ -1,7 +1,7 @@
 package com.exallium.todoapp
 
-import android.app.Activity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -13,7 +13,7 @@ import com.exallium.todoapp.allnotes.AllNotesViewImpl
 /**
  * Single Activity for Application
  */
-class MainActivity : Activity() {
+class MainActivity : AppCompatActivity() {
 
     @BindView(R.id.conductor_container)
     lateinit var container: ViewGroup
