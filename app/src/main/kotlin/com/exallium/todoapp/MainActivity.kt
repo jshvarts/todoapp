@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         TodoApp.component.inject(this)
         router = Conductor.attachRouter(this, container, savedInstanceState)
         router.addChangeListener(changeListener)
-        toolbarTitle.setText(getString(R.string.app_name))
         if (!router.hasRootController()) {
             router.setRoot(RouterTransaction.with(AllNotesViewImpl(Bundle())))
         }

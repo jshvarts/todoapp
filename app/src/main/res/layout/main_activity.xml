@@ -12,6 +12,8 @@
 
         <TextSwitcher
             android:id="@+id/main_activity_toolbar_title"
+            android:inAnimation="@android:anim/fade_in"
+            android:outAnimation="@android:anim/fade_out"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
