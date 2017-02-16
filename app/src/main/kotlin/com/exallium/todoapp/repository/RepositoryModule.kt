@@ -1,5 +1,6 @@
 package com.exallium.todoapp.repository
 
+import com.exallium.todoapp.entities.Note
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -17,7 +18,19 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRepository(idFactory: IdFactory): Repository {
-        return StubRepositoryImpl(idFactory)
+    fun provideDataMapper(idFactory: IdFactory): DataMapper<Note> {
+        return StubNoteMapperImpl(idFactory)
+    }
+
+    @Provides
+    fun provideQueryMapper(dataMapper: DataMapper<Note>): QueryMapper<Note> {
+        return dataMapper as StubNoteMapperImpl
+    }
+
+    @Provides
+    @Singleton
+    fun provideRepository(noteDataMapper: DataMapper<Note>,
+                          noteQueryMapper: QueryMapper<Note>): Repository {
+        return RepositoryImpl(noteDataMapper, noteQueryMapper)
     }
 }
