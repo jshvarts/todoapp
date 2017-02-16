@@ -3,13 +3,11 @@ package com.exallium.todoapp.repository
 import com.exallium.todoapp.entities.Note
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.Assert.assertThat
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import rx.observers.TestSubscriber
 
 /**
  * Unit Testing for {@link RepositoryImpl} to verify expected behaviour
