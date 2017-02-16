@@ -7,10 +7,10 @@ import rx.Single
  * Generic Repository that wraps mapper results into Rx Singles
  */
 class RepositoryImpl(private val noteDataMapper: DataMapper<Note>,
-                     private val queryMapper: QueryMapper<Note>) : Repository {
+                     private val noteQueryMapper: QueryMapper<Note>) : Repository {
 
     override fun getAllNotes(): Single<Set<Note>> = Single.fromCallable {
-        val response = queryMapper.query(Query.AllObjectsQuery())
+        val response = noteQueryMapper.query(Query.AllObjectsQuery())
         when (response) {
             is QueryResponse.AllObjectsQueryResponse -> response.items
             else -> throw RepositoryException("Improper Response Type")
@@ -18,7 +18,7 @@ class RepositoryImpl(private val noteDataMapper: DataMapper<Note>,
     }
 
     override fun getNoteById(id: String): Single<Note> = Single.fromCallable {
-        val response = queryMapper.query(Query.SingleObjectByIdQuery(id))
+        val response = noteQueryMapper.query(Query.SingleObjectByIdQuery(id))
         when (response) {
             is QueryResponse.SingleObjectByIdQueryResponse -> response.item
             else -> throw RepositoryException("Improper Response Type")
