@@ -9,7 +9,7 @@ import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 
 /**
- * Adapter which displays all notes in the database
+ * Adapter which displays all notes in the repository
  */
 class AllNotesAdapter(val model: AllNotesModel,
                       val allNotesDiffUtilProxy: AllNotesDiffUtilProxy,

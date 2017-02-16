@@ -2,7 +2,7 @@ package com.exallium.todoapp.app
 
 import android.app.Application
 import com.exallium.todoapp.BuildConfig
-import com.exallium.todoapp.database.DatabaseModule
+import com.exallium.todoapp.repository.RepositoryModule
 import com.exallium.todoapp.screenbundle.ScreenBundleModule
 import timber.log.Timber
 
@@ -19,7 +19,7 @@ class TodoApp : Application() {
     override fun onCreate() {
         super.onCreate()
         component = DaggerTodoAppComponent.builder()
-                .databaseModule(DatabaseModule())
+                .repositoryModule(RepositoryModule())
                 .screenBundleModule(ScreenBundleModule())
                 .todoAppModule(TodoAppModule(this))
                 .build()

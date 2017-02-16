@@ -1,6 +1,6 @@
 package com.exallium.todoapp.allnotes
 
-import com.exallium.todoapp.database.Database
+import com.exallium.todoapp.repository.Repository
 import com.exallium.todoapp.di.PerScreen
 import dagger.Module
 import dagger.Provides
@@ -12,7 +12,7 @@ import dagger.Provides
 class AllNotesModule(private val allNotesView: AllNotesView) {
     @Provides
     @PerScreen
-    fun provideModel(database: Database): AllNotesModel = AllNotesModelImpl(database)
+    fun provideModel(repository: Repository): AllNotesModel = AllNotesModelImpl(repository)
 
     @Provides
     @PerScreen

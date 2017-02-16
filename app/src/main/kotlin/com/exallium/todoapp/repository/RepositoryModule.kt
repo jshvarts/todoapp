@@ -1,14 +1,14 @@
-package com.exallium.todoapp.database
+package com.exallium.todoapp.repository
 
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 /**
- * Dagger Module for Database Dependencies
+ * Dagger Module for Repository Dependencies
  */
 @Module
-class DatabaseModule {
+class RepositoryModule {
     @Provides
     @Singleton
     fun provideIdFactory(): IdFactory {
@@ -17,7 +17,7 @@ class DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(idFactory: IdFactory): Database {
-        return StubDatabaseImpl(idFactory)
+    fun provideRepository(idFactory: IdFactory): Repository {
+        return StubRepositoryImpl(idFactory)
     }
 }

@@ -1,4 +1,4 @@
-package com.exallium.todoapp.database
+package com.exallium.todoapp.repository
 
 /**
  * Interface for generating unique ids

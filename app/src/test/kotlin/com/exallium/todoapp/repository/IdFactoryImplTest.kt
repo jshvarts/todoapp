@@ -1,4 +1,4 @@
-package com.exallium.todoapp.database
+package com.exallium.todoapp.repository
 
 import org.junit.Assert.assertEquals
 import org.junit.Before

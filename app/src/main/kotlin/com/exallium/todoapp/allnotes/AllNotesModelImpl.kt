@@ -1,10 +1,10 @@
 package com.exallium.todoapp.allnotes
 
-import com.exallium.todoapp.database.Database
+import com.exallium.todoapp.repository.Repository
 
 /**
  * Implementation for All Notes model
  */
-class AllNotesModelImpl(val database: Database) : AllNotesModel {
-    override fun getAllNotes() = database.getAllNotes()
+class AllNotesModelImpl(val repository: Repository) : AllNotesModel {
+    override fun getAllNotes() = repository.getAllNotes()
 }

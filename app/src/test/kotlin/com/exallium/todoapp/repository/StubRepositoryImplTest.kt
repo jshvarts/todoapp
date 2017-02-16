@@ -1,4 +1,4 @@
-package com.exallium.todoapp.database
+package com.exallium.todoapp.repository
 
 import com.exallium.todoapp.entities.Note
 import org.junit.Before
@@ -8,12 +8,12 @@ import org.mockito.Mockito
 import rx.observers.TestSubscriber
 
 /**
- * Unit Testing for {@link StubDatabaseImpl} to verify expected behaviour
+ * Unit Testing for {@link StubRepositoryImpl} to verify expected behaviour
  */
-class StubDatabaseImplTest {
+class StubRepositoryImplTest {
     val NOTE_ID_NOT_FOUND = "UNKNOWN"
 
-    lateinit var testSubject: StubDatabaseImpl
+    lateinit var testSubject: StubRepositoryImpl
 
     @Mock
     lateinit var idFactory: IdFactory
@@ -21,7 +21,7 @@ class StubDatabaseImplTest {
     @Before
     fun setUp() {
         Mockito.`when`(idFactory.createId()).thenReturn("1", "2", "3", "4", "5")
-        testSubject = StubDatabaseImpl(idFactory)
+        testSubject = StubRepositoryImpl(idFactory)
     }
 
     @Test
@@ -55,7 +55,7 @@ class StubDatabaseImplTest {
     }
 
     @Test
-    fun getNoteById_whenIdDoesNotExist_returnsDatabaseError() {
+    fun getNoteById_whenIdDoesNotExist_returnsRepositoryError() {
         // GIVEN
         val testSubscriber = TestSubscriber<Note>()
 
@@ -63,7 +63,7 @@ class StubDatabaseImplTest {
         testSubject.getNoteById(NOTE_ID_NOT_FOUND).subscribe(testSubscriber)
 
         // THEN
-        testSubscriber.assertError(DatabaseException::class.java)
+        testSubscriber.assertError(RepositoryException::class.java)
         testSubscriber.assertNotCompleted()
     }
 
@@ -96,7 +96,7 @@ class StubDatabaseImplTest {
     }
 
     @Test
-    fun deleteNote_whenNoteDoesNotExist_returnsDatabaseError() {
+    fun deleteNote_whenNoteDoesNotExist_returnsRepositoryError() {
         // GIVEN
         val testSubscriber = TestSubscriber<Unit>()
 
@@ -104,7 +104,7 @@ class StubDatabaseImplTest {
         testSubject.deleteNote(newNote()).subscribe(testSubscriber)
 
         // THEN
-        testSubscriber.assertError(DatabaseException::class.java)
+        testSubscriber.assertError(RepositoryException::class.java)
         testSubscriber.assertNotCompleted()
     }
 

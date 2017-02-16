@@ -1,12 +1,12 @@
-package com.exallium.todoapp.database
+package com.exallium.todoapp.repository
 
 import com.exallium.todoapp.entities.Note
 import rx.Single
 
 /**
- * Stub Database to Test against
+ * Stub Repository to Test against
  */
-class StubDatabaseImpl(private val idFactory: IdFactory) : Database {
+class StubRepositoryImpl(private val idFactory: IdFactory) : Repository {
 
     private val db = mutableMapOf<String, Note>()
 
@@ -22,7 +22,7 @@ class StubDatabaseImpl(private val idFactory: IdFactory) : Database {
     override fun getNoteById(id: String): Single<Note> {
         val note = db[id]
         return if (note == null) {
-            Single.error(DatabaseException("Note does not exist"))
+            Single.error(RepositoryException("Note does not exist"))
         } else {
             Single.just(note)
         }
@@ -35,7 +35,7 @@ class StubDatabaseImpl(private val idFactory: IdFactory) : Database {
 
     override fun deleteNote(note: Note): Single<Unit> {
         return if (db.remove(note.id) == null) {
-            Single.error(DatabaseException("Note does not exist"))
+            Single.error(RepositoryException("Note does not exist"))
         } else {
             Single.just(Unit)
         }
