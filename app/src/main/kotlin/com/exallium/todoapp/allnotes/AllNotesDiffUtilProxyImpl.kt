@@ -1,7 +1,7 @@
 package com.exallium.todoapp.allnotes
 
 import android.support.v7.util.DiffUtil
-import com.exallium.todoapp.database.Note
+import com.exallium.todoapp.entities.Note
 
 /**
  * Concrete Implementation for Diff Util

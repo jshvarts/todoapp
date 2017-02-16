@@ -1,5 +1,6 @@
 package com.exallium.todoapp.database
 
+import com.exallium.todoapp.entities.Note
 import rx.Single
 
 /**

@@ -1,6 +1,6 @@
 package com.exallium.todoapp.allnotes
 
-import com.exallium.todoapp.database.Note
+import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.getNote
 import org.junit.Before
 import org.junit.Test

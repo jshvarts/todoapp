@@ -2,7 +2,7 @@ package com.exallium.todoapp.allnotes
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import com.exallium.todoapp.database.Note
+import com.exallium.todoapp.entities.Note
 import rx.Observable
 import rx.Subscription
 import rx.subjects.PublishSubject
