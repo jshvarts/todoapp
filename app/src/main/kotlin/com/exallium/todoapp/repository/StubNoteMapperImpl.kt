@@ -12,7 +12,10 @@ class StubNoteMapperImpl(private val idFactory: IdFactory) : DataMapper<Note>, Q
     init {
         db.putAll((1..5).map {
             val id = idFactory.createId()
-            Pair(id, Note(id, "title$it", "body$it", 0, 0))
+            // set dates for some entries only in order to see UI with and without dates
+            val created : Long = if (it % 2 == 0) System.currentTimeMillis() else 0
+            val updated : Long = if (it % 2 == 0) System.currentTimeMillis() else 0
+            Pair(id, Note(id, "title$it", "body$it", created, updated))
         })
     }
 

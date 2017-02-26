@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TodoApp</string>
+    <string name="note_date_created_label">"created: "</string>
+    <string name="note_date_updated_label">"updated: "</string>
 </resources>

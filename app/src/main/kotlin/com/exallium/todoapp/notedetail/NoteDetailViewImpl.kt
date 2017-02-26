@@ -8,6 +8,8 @@ import com.exallium.todoapp.app.TodoApp
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BaseViewImpl
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Conductor Controller displaying a single note
@@ -26,6 +28,12 @@ class NoteDetailViewImpl(bundle: Bundle) : BaseViewImpl<NoteDetailView, NoteDeta
     @BindView(R.id.note_body)
     lateinit var noteBodyTextView: TextView
 
+    @BindView(R.id.note_date_created)
+    lateinit var noteDateCreated: TextView
+
+    @BindView(R.id.note_date_updated)
+    lateinit var noteDateUpdated: TextView
+
     private var lastNoteId: String? = null
 
     override fun getComponent(): NoteDetailComponent = DaggerNoteDetailComponent.builder()
@@ -39,6 +47,8 @@ class NoteDetailViewImpl(bundle: Bundle) : BaseViewImpl<NoteDetailView, NoteDeta
         lastNoteId = note.id
         noteTitleTextView.text = note.title
         noteBodyTextView.text = note.body
+        setDate(noteDateCreated, note.created)
+        setDate(noteDateUpdated, note.updated)
     }
 
     override fun isCached(): Boolean {
@@ -51,5 +61,12 @@ class NoteDetailViewImpl(bundle: Bundle) : BaseViewImpl<NoteDetailView, NoteDeta
 
     override fun getNoteDetailId(): String {
         return noteId
+    }
+
+    private fun setDate(field: TextView, valueInMillis: Long) {
+        if (valueInMillis == null || valueInMillis == 0L) {
+            field.text = SimpleDateFormat().format(Date(valueInMillis))
+        }
+        field.text = SimpleDateFormat().format(Date(valueInMillis))
     }
 }
