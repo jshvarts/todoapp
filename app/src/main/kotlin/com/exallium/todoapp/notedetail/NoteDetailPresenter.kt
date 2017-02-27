@@ -1,6 +1,5 @@
 package com.exallium.todoapp.notedetail
 
-import android.os.Bundle
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BasePresenter
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
@@ -11,10 +10,10 @@ import timber.log.Timber
 /**
  * Presenter for Note Detail Screen
  */
-class NoteDetailPresenter(val view: NoteDetailView, val model: NoteDetailModel, val screenBundleHelper: ScreenBundleHelper,
-                          val args: Bundle) : BasePresenter<NoteDetailView>(view) {
+class NoteDetailPresenter(val view: NoteDetailView, val model: NoteDetailModel,
+                          val screenBundleHelper: ScreenBundleHelper) : BasePresenter<NoteDetailView>(view) {
     lateinit var note: Note
-    val noteId: String = screenBundleHelper.getNoteId(args)
+    val noteId: String = screenBundleHelper.getNoteId(view.retrieveBundle())
 
     override fun onViewCreated() {
         if (view.isCached(noteId)) {
@@ -25,6 +24,7 @@ class NoteDetailPresenter(val view: NoteDetailView, val model: NoteDetailModel, 
     }
 
     fun lookupNoteDetail(noteId: String) {
+        Timber.d("NOTE: " + noteId)
         var noteSingle: Single<Note> = model.getNoteById(noteId)
 
         var subscription = noteSingle.subscribe(object : SingleSubscriber<Note>() {

@@ -1,6 +1,5 @@
 package com.exallium.todoapp.notedetail
 
-import android.os.Bundle
 import com.exallium.todoapp.di.PerScreen
 import com.exallium.todoapp.repository.Repository
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
@@ -18,6 +17,6 @@ class NoteDetailModule(private val noteDetailView: NoteDetailView) {
 
     @Provides
     @PerScreen
-    fun providePresenter(model: NoteDetailModel, screenBundleHelper: ScreenBundleHelper, args: Bundle): NoteDetailPresenter
-            = NoteDetailPresenter(noteDetailView, model, screenBundleHelper, args)
+    fun providePresenter(model: NoteDetailModel, screenBundleHelper: ScreenBundleHelper): NoteDetailPresenter
+            = NoteDetailPresenter(noteDetailView, model, screenBundleHelper)
 }

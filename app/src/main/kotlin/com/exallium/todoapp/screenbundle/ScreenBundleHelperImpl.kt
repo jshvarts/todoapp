@@ -16,10 +16,6 @@ class ScreenBundleHelperImpl(private val resources: Resources) : ScreenBundleHel
     private val appName: String
         get() = resources.getString(R.string.app_name)
 
-    private val noteId: String
-        get() = resources.getString(R.string.bundle_arg_note_id)
-
-
     override fun setTitle(bundle: Bundle, screenTitleRes: Int) {
         bundle.putString(TITLE, resources.getString(screenTitleRes))
     }
@@ -31,10 +27,10 @@ class ScreenBundleHelperImpl(private val resources: Resources) : ScreenBundleHel
     override fun getTitle(bundle: Bundle?): String
             = bundle?.getString(TITLE, appName)?:appName
 
-    override fun setNoteId(bundle: Bundle, noteId: String) {
-        bundle.putString(TITLE, noteId)
+    override fun setNoteId(bundle: Bundle, noteId: String?) {
+        bundle.putString(NOTE_ID, noteId)
     }
 
-    override fun getNoteId(bundle: Bundle?): String
-            = bundle?.getString(NOTE_ID, noteId)?:noteId
+    override fun getNoteId(bundle: Bundle): String
+            = bundle.getString(NOTE_ID, "")
 }

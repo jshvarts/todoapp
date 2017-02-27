@@ -14,7 +14,7 @@ import java.util.*
 /**
  * Conductor Controller displaying a single note
  */
-class NoteDetailViewImpl(bundle: Bundle) : BaseViewImpl<NoteDetailView, NoteDetailPresenter, NoteDetailViewImpl,
+class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, NoteDetailPresenter, NoteDetailViewImpl,
         NoteDetailComponent>(bundle), NoteDetailView {
     @BindView(R.id.note_title)
     lateinit var noteTitleTextView: TextView
@@ -51,6 +51,10 @@ class NoteDetailViewImpl(bundle: Bundle) : BaseViewImpl<NoteDetailView, NoteDeta
             return true
         }
         return false
+    }
+
+    override fun retrieveBundle(): Bundle {
+        return bundle
     }
 
     private fun setDate(field: TextView, valueInMillis: Long) {
