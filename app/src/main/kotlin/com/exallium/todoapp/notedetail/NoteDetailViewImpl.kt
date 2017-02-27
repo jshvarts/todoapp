@@ -1,7 +1,6 @@
 package com.exallium.todoapp.notedetail
 
 import android.os.Bundle
-import android.view.View
 import android.widget.TextView
 import butterknife.BindView
 import com.exallium.todoapp.R
@@ -26,14 +25,8 @@ class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, Note
     @BindView(R.id.note_date_created)
     lateinit var noteDateCreated: TextView
 
-    @BindView(R.id.note_date_created_label)
-    lateinit var noteDateCreatedLabel: TextView
-
     @BindView(R.id.note_date_updated)
     lateinit var noteDateUpdated: TextView
-
-    @BindView(R.id.note_date_updated_label)
-    lateinit var noteDateUpdatedLabel: TextView
 
     private var lastNoteId: String? = null
 
@@ -48,8 +41,8 @@ class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, Note
         lastNoteId = note.id
         noteTitleTextView.text = note.title
         noteBodyTextView.text = note.body
-        setDate(noteDateCreated, noteDateCreatedLabel, note.created)
-        setDate(noteDateUpdated, noteDateUpdatedLabel, note.updated)
+        setDate(noteDateCreated, note.created)
+        setDate(noteDateUpdated, note.updated)
     }
 
     override fun isCached(noteId: String): Boolean {
@@ -64,11 +57,9 @@ class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, Note
         return bundle
     }
 
-    private fun setDate(field: TextView, fieldLabel: TextView, valueInMillis: Long) {
-        if (valueInMillis == 0L) {
+    private fun setDate(field: TextView, valueInMillis: Long) {
+        if (valueInMillis != 0L) {
             field.text = SimpleDateFormat().format(Date(valueInMillis))
-            field.visibility = View.VISIBLE
-            fieldLabel.visibility = View.VISIBLE
         }
     }
 }
