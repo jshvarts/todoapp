@@ -41,11 +41,6 @@ class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, Note
         setDate(noteDateUpdated, note.updated)
     }
 
-    // TODO move this to {@link BaseViewImpl}
-    override fun getArgs(): Bundle {
-        return bundle
-    }
-
     private fun setDate(field: TextView, valueInMillis: Long) {
         if (valueInMillis != 0L) {
             field.text = SimpleDateFormat().format(Date(valueInMillis))

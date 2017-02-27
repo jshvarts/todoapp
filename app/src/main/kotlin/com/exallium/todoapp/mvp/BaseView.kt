@@ -24,5 +24,8 @@ interface BaseView {
     fun displaySnackbar(@StringRes stringResourceId: Int, @BaseTransientBottomBar.Duration length: Int = Snackbar.LENGTH_SHORT)
     fun displaySnackbar(string: String, @BaseTransientBottomBar.Duration length: Int = Snackbar.LENGTH_SHORT)
 
+    /**
+     * Implemented by {@link com.bluelinelabs.conductor.Controller}
+     */
     fun getArgs(): Bundle
 }
