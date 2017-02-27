@@ -4,4 +4,5 @@
     <string name="bundle_arg_note_id">noteId</string>
     <string name="note_date_created_label">"created: "</string>
     <string name="note_date_updated_label">"updated: "</string>
+    <string name="note_detail_screen_error">Error looking up Note</string>
 </resources>

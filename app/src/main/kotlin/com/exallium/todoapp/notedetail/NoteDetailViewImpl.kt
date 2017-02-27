@@ -7,7 +7,6 @@ import com.exallium.todoapp.R
 import com.exallium.todoapp.app.TodoApp
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BaseViewImpl
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,8 +27,6 @@ class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, Note
     @BindView(R.id.note_date_updated)
     lateinit var noteDateUpdated: TextView
 
-    private var lastNoteId: String? = null
-
     override fun getComponent(): NoteDetailComponent = DaggerNoteDetailComponent.builder()
             .todoAppComponent(TodoApp.component)
             .noteDetailModule(NoteDetailModule(this))
@@ -38,22 +35,14 @@ class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, Note
     override fun getLayoutId(): Int = R.layout.note_detail_view
 
     override fun setNoteData(note: Note) {
-        lastNoteId = note.id
         noteTitleTextView.text = note.title
         noteBodyTextView.text = note.body
         setDate(noteDateCreated, note.created)
         setDate(noteDateUpdated, note.updated)
     }
 
-    override fun isCached(noteId: String): Boolean {
-        if (lastNoteId != null && lastNoteId.equals(noteId)) { true
-            Timber.d("Note already looked up")
-            return true
-        }
-        return false
-    }
-
-    override fun retrieveBundle(): Bundle {
+    // TODO move this to {@link BaseViewImpl}
+    override fun getArgs(): Bundle {
         return bundle
     }
 
