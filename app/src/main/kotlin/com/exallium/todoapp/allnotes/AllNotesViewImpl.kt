@@ -44,19 +44,10 @@ class AllNotesViewImpl(bundle: Bundle) : BaseViewImpl<AllNotesView, AllNotesPres
         notesRecyclerView.adapter = adapter
     }
 
-    override fun showSingleNote(id: String?) {
+    override fun showSingleNote(id: String?, args: Bundle) {
         Timber.d("Request to display Note $id")
-
-        var args: Bundle = makeNoteDetailBundle(id)
         router.pushController(RouterTransaction.with(NoteDetailViewImpl(args)))
     }
 
     override fun addNoteClicks(): Observable<Unit> = addNote.clicks()
-
-    private fun makeNoteDetailBundle(id: String?) : Bundle {
-        val args: Bundle = Bundle()
-        args.putString(NoteDetailViewImpl.Constants.ARG_NOTE_ID, id)
-        screenBundleHelper.setTitle(args, NoteDetailViewImpl.Constants.TOOLBAR_TITLE)
-        return args
-    }
 }
