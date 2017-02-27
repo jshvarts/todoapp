@@ -10,18 +10,13 @@ import com.exallium.todoapp.R
 import com.exallium.todoapp.app.TodoApp
 import com.exallium.todoapp.mvp.BaseViewImpl
 import com.exallium.todoapp.notedetail.NoteDetailViewImpl
-import com.exallium.todoapp.screenbundle.ScreenBundleHelper
 import com.jakewharton.rxbinding.view.clicks
 import rx.Observable
-import javax.inject.Inject
 
 /**
  * Conductor Controller displaying all Notes
  */
 class AllNotesViewImpl(bundle: Bundle) : BaseViewImpl<AllNotesView, AllNotesPresenter, AllNotesViewImpl, AllNotesComponent>(bundle), AllNotesView {
-    @Inject
-    lateinit var screenBundleHelper: ScreenBundleHelper
-
     @BindView(R.id.all_notes_view_recycler)
     lateinit var notesRecyclerView: RecyclerView
 
