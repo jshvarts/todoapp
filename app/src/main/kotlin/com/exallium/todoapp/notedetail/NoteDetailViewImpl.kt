@@ -14,14 +14,8 @@ import java.util.*
 /**
  * Conductor Controller displaying a single note
  */
-class NoteDetailViewImpl(bundle: Bundle) : BaseViewImpl<NoteDetailView, NoteDetailPresenter, NoteDetailViewImpl, NoteDetailComponent>(bundle), NoteDetailView {
-    object Constants {
-        const val TOOLBAR_TITLE = "Note"
-        const val ARG_NOTE_ID = "noteId"
-    }
-
-    var noteId: String = bundle.getString(Constants.ARG_NOTE_ID)
-
+class NoteDetailViewImpl(bundle: Bundle) : BaseViewImpl<NoteDetailView, NoteDetailPresenter, NoteDetailViewImpl,
+        NoteDetailComponent>(bundle), NoteDetailView {
     @BindView(R.id.note_title)
     lateinit var noteTitleTextView: TextView
 
@@ -51,7 +45,7 @@ class NoteDetailViewImpl(bundle: Bundle) : BaseViewImpl<NoteDetailView, NoteDeta
         setDate(noteDateUpdated, note.updated)
     }
 
-    override fun isCached(): Boolean {
+    override fun isCached(noteId: String): Boolean {
         if (lastNoteId != null && lastNoteId.equals(noteId)) { true
             Timber.d("Note already looked up")
             return true
@@ -59,12 +53,8 @@ class NoteDetailViewImpl(bundle: Bundle) : BaseViewImpl<NoteDetailView, NoteDeta
         return false
     }
 
-    override fun getNoteDetailId(): String {
-        return noteId
-    }
-
     private fun setDate(field: TextView, valueInMillis: Long) {
-        if (valueInMillis == null || valueInMillis == 0L) {
+        if (valueInMillis == 0L) {
             field.text = SimpleDateFormat().format(Date(valueInMillis))
         }
         field.text = SimpleDateFormat().format(Date(valueInMillis))

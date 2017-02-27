@@ -70,7 +70,7 @@ class AllNotesPresenterTest {
         publisher.onNext(expected)
 
         // THEN
-        verify(view).showSingleNote("noteId")
+        verify(view).showSingleNote("noteId", )
     }
 
     @Test

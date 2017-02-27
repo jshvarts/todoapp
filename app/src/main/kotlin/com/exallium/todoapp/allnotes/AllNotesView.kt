@@ -9,6 +9,6 @@ import rx.Observable
  */
 interface AllNotesView : BaseView {
     fun setAdapter(adapter: AllNotesAdapter)
-    fun showSingleNote(id: String? = null, args: Bundle)
+    fun showSingleNote(args: Bundle)
     fun addNoteClicks(): Observable<Unit>
 }

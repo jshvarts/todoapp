@@ -13,7 +13,6 @@ import com.exallium.todoapp.notedetail.NoteDetailViewImpl
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
 import com.jakewharton.rxbinding.view.clicks
 import rx.Observable
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -44,8 +43,7 @@ class AllNotesViewImpl(bundle: Bundle) : BaseViewImpl<AllNotesView, AllNotesPres
         notesRecyclerView.adapter = adapter
     }
 
-    override fun showSingleNote(id: String?, args: Bundle) {
-        Timber.d("Request to display Note $id")
+    override fun showSingleNote(args: Bundle) {
         router.pushController(RouterTransaction.with(NoteDetailViewImpl(args)))
     }
 
