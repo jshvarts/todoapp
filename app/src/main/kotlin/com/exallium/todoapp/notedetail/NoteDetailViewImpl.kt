@@ -15,6 +15,7 @@ import java.util.*
  */
 class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, NoteDetailPresenter, NoteDetailViewImpl,
         NoteDetailComponent>(bundle), NoteDetailView {
+
     @BindView(R.id.note_title)
     lateinit var noteTitleTextView: TextView
 
@@ -45,5 +46,9 @@ class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, Note
         if (valueInMillis != 0L) {
             field.text = SimpleDateFormat().format(Date(valueInMillis))
         }
+    }
+
+    override fun showUnableToLoadNoteDetailError() {
+        displaySnackbar(R.string.note_detail_screen_error)
     }
 }

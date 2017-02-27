@@ -8,4 +8,5 @@ import com.exallium.todoapp.mvp.BaseView
  */
 interface NoteDetailView : BaseView {
     fun setNoteData(note: Note)
+    fun showUnableToLoadNoteDetailError()
 }

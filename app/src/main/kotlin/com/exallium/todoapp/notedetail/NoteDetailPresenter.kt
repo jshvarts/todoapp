@@ -1,6 +1,5 @@
 package com.exallium.todoapp.notedetail
 
-import com.exallium.todoapp.R
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BasePresenter
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
@@ -27,7 +26,7 @@ class NoteDetailPresenter(val view: NoteDetailView, val model: NoteDetailModel,
             }
             override fun onError(t: Throwable) {
                 Timber.d(t, "error looking up note with id " + noteId)
-                view.displaySnackbar(R.string.note_detail_screen_error)
+                view.showUnableToLoadNoteDetailError()
             }
         })
 
