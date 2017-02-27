@@ -3,7 +3,6 @@ package com.exallium.todoapp.notedetail
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BasePresenter
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
-import rx.Single
 import rx.SingleSubscriber
 import timber.log.Timber
 
@@ -18,18 +17,15 @@ class NoteDetailPresenter(val view: NoteDetailView, val model: NoteDetailModel,
     }
 
     fun lookupNoteDetail(noteId: String) {
-        var noteSingle: Single<Note> = model.getNoteById(noteId)
-
-        var subscription = noteSingle.subscribe(object : SingleSubscriber<Note>() {
+        compositeSubscription.add(model.getNoteById(noteId).subscribe(object : SingleSubscriber<Note>() {
             override fun onSuccess(note: Note) {
                 view.setNoteData(note)
             }
+
             override fun onError(t: Throwable) {
                 Timber.d(t, "error looking up note with id " + noteId)
                 view.showUnableToLoadNoteDetailError()
             }
-        })
-
-        compositeSubscription.add(subscription)
+        }))
     }
 }
