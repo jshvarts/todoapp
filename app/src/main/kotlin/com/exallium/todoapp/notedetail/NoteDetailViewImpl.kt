@@ -49,6 +49,6 @@ class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, Note
     }
 
     override fun showUnableToLoadNoteDetailError() {
-        displaySnackbar(R.string.note_detail_screen_error)
+        displaySnackbar(R.string.unable_to_load_note_detail_error)
     }
 }
