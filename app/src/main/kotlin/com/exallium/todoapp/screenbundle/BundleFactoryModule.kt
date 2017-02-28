@@ -11,6 +11,5 @@ import javax.inject.Singleton
 class BundleFactoryModule {
     @Provides
     @Singleton
-    fun provideBundleFactory(): BundleFactory
-            = BundleFactoryImpl()
+    fun provideBundleFactory(): BundleFactory = BundleFactoryImpl()
 }
