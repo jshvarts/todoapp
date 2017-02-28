@@ -1,12 +1,11 @@
 package com.exallium.todoapp.repository
 
 import com.exallium.todoapp.entities.Note
-import org.hamcrest.CoreMatchers.`is`
-import org.junit.Assert.assertThat
+import com.nhaarman.mockito_kotlin.whenever
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 /**
@@ -23,7 +22,7 @@ class StubNoteMapperImplTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        Mockito.`when`(idFactory.createId()).thenReturn("1", "2", "3", "4", "5")
+        whenever(idFactory.createId()).thenReturn("1", "2", "3", "4", "5")
         testSubject = StubNoteMapperImpl(idFactory)
     }
 
@@ -34,7 +33,7 @@ class StubNoteMapperImplTest {
                 as QueryResponse.AllObjectsQueryResponse<Note>
 
         // THEN
-        assertThat(result.items.size, `is`(5))
+        assertEquals(result.items.size, 5)
     }
 
     @Test
@@ -48,7 +47,7 @@ class StubNoteMapperImplTest {
             as QueryResponse.SingleObjectByIdQueryResponse<Note>
 
         // THEN
-        assertThat(result.item, `is`(note))
+        assertEquals(result.item, note)
     }
 
     @Test(expected = RepositoryException::class)

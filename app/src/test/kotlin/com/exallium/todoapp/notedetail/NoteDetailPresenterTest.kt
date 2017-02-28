@@ -3,13 +3,14 @@ package com.exallium.todoapp.notedetail
 import android.os.Bundle
 import com.exallium.todoapp.R
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
+import com.nhaarman.mockito_kotlin.spy
 import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Answers
 import org.mockito.InjectMocks
-import org.mockito.*
-import org.mockito.Mockito.*
+import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 /**
@@ -40,8 +41,8 @@ class NoteDetailPresenterTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
 
-        `when`(screenBundleHelper.getNoteId(bundle)).thenReturn(TEST_NOTE_ID_STRING)
-        `when`(view.getArgs()).thenReturn(bundle)
+        whenever(screenBundleHelper.getNoteId(bundle)).thenReturn(TEST_NOTE_ID_STRING)
+        whenever(view.getArgs()).thenReturn(bundle)
     }
 
     @Test
