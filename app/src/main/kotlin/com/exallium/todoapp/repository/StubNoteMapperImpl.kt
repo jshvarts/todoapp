@@ -46,7 +46,5 @@ class StubNoteMapperImpl(private val idFactory: IdFactory) : DataMapper<Note>, Q
     /**
      * Sets dates for some entries only in order to see UI with and without dates
      */
-    private fun setDate(index: Int): Long {
-        return if (index % 2 == 0) System.currentTimeMillis() else 0
-    }
+    private fun setDate(index: Int): Long = if (index % 2 == 0) System.currentTimeMillis() else 0
 }
