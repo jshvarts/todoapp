@@ -1,5 +1,6 @@
 package com.exallium.todoapp.mvp
 
+import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.BaseTransientBottomBar
 import android.support.design.widget.Snackbar
@@ -22,4 +23,9 @@ interface BaseView {
     fun lifecycleEvents(): Observable<LifecycleEvent>
     fun displaySnackbar(@StringRes stringResourceId: Int, @BaseTransientBottomBar.Duration length: Int = Snackbar.LENGTH_SHORT)
     fun displaySnackbar(string: String, @BaseTransientBottomBar.Duration length: Int = Snackbar.LENGTH_SHORT)
+
+    /**
+     * Implemented by {@link com.bluelinelabs.conductor.Controller}
+     */
+    fun getArgs(): Bundle
 }

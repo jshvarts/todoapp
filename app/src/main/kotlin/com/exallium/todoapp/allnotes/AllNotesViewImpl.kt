@@ -5,18 +5,18 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import butterknife.BindView
+import com.bluelinelabs.conductor.RouterTransaction
 import com.exallium.todoapp.R
 import com.exallium.todoapp.app.TodoApp
 import com.exallium.todoapp.mvp.BaseViewImpl
+import com.exallium.todoapp.notedetail.NoteDetailViewImpl
 import com.jakewharton.rxbinding.view.clicks
 import rx.Observable
-import timber.log.Timber
 
 /**
  * Conductor Controller displaying all Notes
  */
 class AllNotesViewImpl(bundle: Bundle) : BaseViewImpl<AllNotesView, AllNotesPresenter, AllNotesViewImpl, AllNotesComponent>(bundle), AllNotesView {
-
     @BindView(R.id.all_notes_view_recycler)
     lateinit var notesRecyclerView: RecyclerView
 
@@ -38,8 +38,8 @@ class AllNotesViewImpl(bundle: Bundle) : BaseViewImpl<AllNotesView, AllNotesPres
         notesRecyclerView.adapter = adapter
     }
 
-    override fun showSingleNote(id: String?) {
-        Timber.d("Request to display Note $id")
+    override fun showSingleNote(args: Bundle) {
+        router.pushController(RouterTransaction.with(NoteDetailViewImpl(args)))
     }
 
     override fun addNoteClicks(): Observable<Unit> = addNote.clicks()

@@ -2,6 +2,8 @@ package com.exallium.todoapp.allnotes
 
 import com.exallium.todoapp.repository.Repository
 import com.exallium.todoapp.di.PerScreen
+import com.exallium.todoapp.screenbundle.BundleFactory
+import com.exallium.todoapp.screenbundle.ScreenBundleHelper
 import dagger.Module
 import dagger.Provides
 
@@ -25,6 +27,6 @@ class AllNotesModule(private val allNotesView: AllNotesView) {
 
     @Provides
     @PerScreen
-    fun providePresenter(adapter: AllNotesAdapter): AllNotesPresenter
-            = AllNotesPresenter(allNotesView, adapter)
+    fun providePresenter(adapter: AllNotesAdapter, screenBundleHelper: ScreenBundleHelper, bundleFactory: BundleFactory): AllNotesPresenter
+            = AllNotesPresenter(allNotesView, adapter, screenBundleHelper, bundleFactory)
 }

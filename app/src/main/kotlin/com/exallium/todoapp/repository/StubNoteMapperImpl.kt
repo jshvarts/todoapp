@@ -12,7 +12,7 @@ class StubNoteMapperImpl(private val idFactory: IdFactory) : DataMapper<Note>, Q
     init {
         db.putAll((1..5).map {
             val id = idFactory.createId()
-            Pair(id, Note(id, "title$it", "body$it", 0, 0))
+            Pair(id, Note(id, "title$it", "body$it", setDate(it), setDate(it)))
         })
     }
 
@@ -42,4 +42,9 @@ class StubNoteMapperImpl(private val idFactory: IdFactory) : DataMapper<Note>, Q
             db.values.take(query.limit).toSet()
         })
     }
+
+    /**
+     * Sets dates for some entries only in order to see UI with and without dates
+     */
+    private fun setDate(index: Int): Long = if (index % 2 == 0) System.currentTimeMillis() else 0
 }

@@ -1,5 +1,6 @@
 package com.exallium.todoapp.allnotes
 
+import android.os.Bundle
 import com.exallium.todoapp.mvp.BaseView
 import rx.Observable
 
@@ -8,6 +9,6 @@ import rx.Observable
  */
 interface AllNotesView : BaseView {
     fun setAdapter(adapter: AllNotesAdapter)
-    fun showSingleNote(id: String? = null)
+    fun showSingleNote(args: Bundle)
     fun addNoteClicks(): Observable<Unit>
 }

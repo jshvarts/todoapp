@@ -1,15 +1,15 @@
 package com.exallium.todoapp.allnotes
 
+import android.os.Bundle
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.getNote
+import com.exallium.todoapp.screenbundle.BundleFactory
+import com.exallium.todoapp.screenbundle.ScreenBundleHelper
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Answers
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verify
-import org.mockito.MockitoAnnotations
+import org.mockito.*
+import org.mockito.Mockito.*
 import rx.subjects.PublishSubject
 
 /**
@@ -25,6 +25,12 @@ class AllNotesPresenterTest {
 
     @Mock(answer = Answers.RETURNS_MOCKS)
     private lateinit var adapter: AllNotesAdapter
+
+    @Mock(answer = Answers.RETURNS_MOCKS)
+    private lateinit var screenBundleHelper: ScreenBundleHelper
+
+    @Mock
+    private lateinit var bundleFactory: BundleFactory
 
     @Before
     fun setUp() {
@@ -59,31 +65,41 @@ class AllNotesPresenterTest {
     }
 
     @Test
-    fun noteClicked_showSingleNote() {
+    fun noteClicked_createBundleAndShowSingleNote() {
         // GIVEN
         val publisher = PublishSubject.create<Note>()
-        `when`(adapter.noteClicks()).thenReturn(publisher)
+        whenever(adapter.noteClicks()).thenReturn(publisher)
         testSubject.onViewCreated()
         val expected = getNote().with(id="noteId")
+        val bundle: Bundle = given_bundle()
 
         // WHEN
         publisher.onNext(expected)
 
         // THEN
-        verify(view).showSingleNote("noteId")
+        verify(bundleFactory).createBundle()
+        verify(screenBundleHelper).setNoteId(bundle, expected.id)
+        verify(view).showSingleNote(bundle)
     }
 
     @Test
     fun addClicked_showSingleNote() {
         // GIVEN
         val publisher = PublishSubject.create<Unit>()
-        `when`(view.addNoteClicks()).thenReturn(publisher)
+        whenever(view.addNoteClicks()).thenReturn(publisher)
         testSubject.onViewCreated()
+        val bundle: Bundle = given_bundle()
 
         // WHEN
         publisher.onNext(Unit)
 
         // THEN
-        verify(view).showSingleNote()
+        verify(view).showSingleNote(bundle)
+    }
+
+    private fun given_bundle() : Bundle {
+        val bundle: Bundle = mock(Bundle::class.java)
+        whenever(bundleFactory.createBundle()).thenReturn(bundle)
+        return bundle
     }
 }

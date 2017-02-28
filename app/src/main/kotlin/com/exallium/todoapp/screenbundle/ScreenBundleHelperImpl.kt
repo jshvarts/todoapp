@@ -8,9 +8,9 @@ import com.exallium.todoapp.R
  * Implementation for ScreenBundleHelper
  */
 class ScreenBundleHelperImpl(private val resources: Resources) : ScreenBundleHelper {
-
     companion object {
         private val TITLE = "screenBundleHelper.title"
+        private val NOTE_ID = "screenBundleHelper.noteId"
     }
 
     private val appName: String
@@ -26,4 +26,11 @@ class ScreenBundleHelperImpl(private val resources: Resources) : ScreenBundleHel
 
     override fun getTitle(bundle: Bundle?): String
             = bundle?.getString(TITLE, appName)?:appName
+
+    override fun setNoteId(bundle: Bundle, noteId: String?) {
+        bundle.putString(NOTE_ID, noteId)
+    }
+
+    override fun getNoteId(bundle: Bundle): String
+            = bundle.getString(NOTE_ID, null)
 }
