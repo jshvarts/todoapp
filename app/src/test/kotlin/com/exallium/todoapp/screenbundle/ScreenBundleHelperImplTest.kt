@@ -16,16 +16,13 @@ import org.mockito.MockitoAnnotations
  * Unit testing for ScreenBundleHelperImpl
  */
 class ScreenBundleHelperImplTest {
+    private val TITLE = "screenBundleHelper.title"
+    private val NOTE_ID = "screenBundleHelper.noteId"
 
-    companion object {
-        private val TITLE = "screenBundleHelper.title"
-        private val NOTE_ID = "screenBundleHelper.noteId"
-
-        private val APP_NAME = "TodoApp"
-        private val TEST_TITLE_RES_ID = 1
-        private val TEST_TITLE_STRING = "test title"
-        private val TEST_NOTE_ID_STRING = "test note id"
-    }
+    private val APP_NAME = "TodoApp"
+    private val TEST_TITLE_RES_ID = 1
+    private val TEST_TITLE_STRING = "test title"
+    private val TEST_NOTE_ID_STRING = "test note id"
 
     @InjectMocks
     private lateinit var testSubject: ScreenBundleHelperImpl
