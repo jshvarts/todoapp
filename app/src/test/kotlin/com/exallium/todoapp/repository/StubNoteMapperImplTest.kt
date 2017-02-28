@@ -1,12 +1,12 @@
 package com.exallium.todoapp.repository
 
 import com.exallium.todoapp.entities.Note
+import com.nhaarman.mockito_kotlin.whenever
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 /**
@@ -23,7 +23,7 @@ class StubNoteMapperImplTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        Mockito.`when`(idFactory.createId()).thenReturn("1", "2", "3", "4", "5")
+        whenever(idFactory.createId()).thenReturn("1", "2", "3", "4", "5")
         testSubject = StubNoteMapperImpl(idFactory)
     }
 

@@ -2,11 +2,8 @@ package com.exallium.todoapp.repository
 
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.getNote
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.capture
-import com.nhaarman.mockito_kotlin.whenever
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
+import com.nhaarman.mockito_kotlin.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.mockito.*
@@ -55,7 +52,7 @@ class RepositoryImplTest {
         // THEN
         verify(queryMapper).query(capture(allObjectsQueryCaptor))
         val query = allObjectsQueryCaptor.value
-        assertThat(query.limit, `is`(-1))
+        assertEquals(query.limit, -1)
         testSubscriber.assertNoErrors()
         testSubscriber.assertValue(items)
     }
@@ -74,7 +71,7 @@ class RepositoryImplTest {
         // THEN
         verify(queryMapper).query(capture(singleObjectQueryCaptor))
         val id = singleObjectQueryCaptor.value.id
-        assertThat(id, `is`(item.id))
+        assertEquals(id, item.id)
         testSubscriber.assertNoErrors()
         testSubscriber.assertValue(item)
     }

@@ -3,13 +3,15 @@ package com.exallium.todoapp.screenbundle
 import android.content.res.Resources
 import android.os.Bundle
 import com.exallium.todoapp.R
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.verifyZeroInteractions
+import com.nhaarman.mockito_kotlin.whenever
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 
 /**
@@ -40,8 +42,8 @@ class ScreenBundleHelperImplTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
 
-        `when`(resources.getString(R.string.app_name)).thenReturn(APP_NAME)
-        `when`(resources.getString(TEST_TITLE_RES_ID)).thenReturn(TEST_TITLE_STRING)
+        whenever(resources.getString(R.string.app_name)).thenReturn(APP_NAME)
+        whenever(resources.getString(TEST_TITLE_RES_ID)).thenReturn(TEST_TITLE_STRING)
     }
 
     @Test
@@ -67,7 +69,7 @@ class ScreenBundleHelperImplTest {
     @Test
     fun getTitle_whenBundleDoesNotContainTitle_returnsAppName() {
         // GIVEN
-        `when`(bundle.getString(TITLE, APP_NAME)).thenReturn(APP_NAME)
+        whenever(bundle.getString(TITLE, APP_NAME)).thenReturn(APP_NAME)
 
         // WHEN
         val result = testSubject.getTitle(bundle)
@@ -80,7 +82,7 @@ class ScreenBundleHelperImplTest {
     @Test
     fun getTitle_whenBundleContainsTitle_returnsAppName() {
         // GIVEN
-        `when`(bundle.getString(TITLE, APP_NAME)).thenReturn(TEST_TITLE_STRING)
+        whenever(bundle.getString(TITLE, APP_NAME)).thenReturn(TEST_TITLE_STRING)
 
         // WHEN
         val result = testSubject.getTitle(bundle)
@@ -102,7 +104,7 @@ class ScreenBundleHelperImplTest {
     @Test
     fun getNoteId_returnsNoteId() {
         // GIVEN
-        `when`(bundle.getString(NOTE_ID, null)).thenReturn(TEST_NOTE_ID_STRING)
+        whenever(bundle.getString(NOTE_ID, null)).thenReturn(TEST_NOTE_ID_STRING)
 
         // WHEN
         val result = testSubject.getNoteId(bundle)

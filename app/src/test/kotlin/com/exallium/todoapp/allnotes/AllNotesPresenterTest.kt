@@ -5,11 +5,15 @@ import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.getNote
 import com.exallium.todoapp.screenbundle.BundleFactory
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
-import org.mockito.*
-import org.mockito.Mockito.*
+import org.mockito.Answers
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 import rx.subjects.PublishSubject
 
 /**
@@ -98,7 +102,7 @@ class AllNotesPresenterTest {
     }
 
     private fun given_bundle() : Bundle {
-        val bundle: Bundle = mock(Bundle::class.java)
+        val bundle: Bundle = mock()
         whenever(bundleFactory.createBundle()).thenReturn(bundle)
         return bundle
     }
