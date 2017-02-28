@@ -79,7 +79,6 @@ class AllNotesPresenterTest {
         // THEN
         verify(bundleFactory).createBundle()
         verify(screenBundleHelper).setNoteId(bundle, expected.id)
-        verify(screenBundleHelper).setTitle(bundle, R.string.note_detail_screen_title)
         verify(view).showSingleNote(bundle)
     }
 

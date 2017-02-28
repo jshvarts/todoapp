@@ -1,7 +1,6 @@
 package com.exallium.todoapp.allnotes
 
 import android.os.Bundle
-import com.exallium.todoapp.R
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BasePresenter
 import com.exallium.todoapp.screenbundle.BundleFactory
@@ -35,7 +34,6 @@ class AllNotesPresenter(private val view: AllNotesView,
     private fun makeNoteDetailBundle(id: String?) : Bundle {
         val args: Bundle = bundleFactory.createBundle()
         screenBundleHelper.setNoteId(args, id)
-        screenBundleHelper.setTitle(args, R.string.note_detail_screen_title)
         return args
     }
 }

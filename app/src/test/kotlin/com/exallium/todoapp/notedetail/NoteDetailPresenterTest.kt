@@ -1,6 +1,7 @@
 package com.exallium.todoapp.notedetail
 
 import android.os.Bundle
+import com.exallium.todoapp.R
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Before
@@ -41,6 +42,24 @@ class NoteDetailPresenterTest {
 
         `when`(screenBundleHelper.getNoteId(bundle)).thenReturn(TEST_NOTE_ID_STRING)
         `when`(view.getArgs()).thenReturn(bundle)
+    }
+
+    @Test
+    fun onViewCreated_getsBundleFromView() {
+        // WHEN
+        testSubject.onViewCreated()
+
+        // THEN
+        verify(view).getArgs()
+    }
+
+    @Test
+    fun onViewCreated_setsScreenTitleInBundle() {
+        // WHEN
+        testSubject.onViewCreated()
+
+        // THEN
+        verify(screenBundleHelper).setTitle(bundle, R.string.note_detail_screen_title)
     }
 
     @Test
