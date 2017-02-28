@@ -6,8 +6,7 @@ import com.exallium.todoapp.R
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.verifyZeroInteractions
 import com.nhaarman.mockito_kotlin.whenever
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.mockito.InjectMocks
@@ -76,7 +75,7 @@ class ScreenBundleHelperImplTest {
 
         // THEN
         verify(bundle).getString(TITLE, APP_NAME)
-        assertThat(result, `is`(APP_NAME))
+        assertEquals(result, APP_NAME)
     }
 
     @Test
@@ -89,7 +88,7 @@ class ScreenBundleHelperImplTest {
 
         // THEN
         verify(bundle).getString(TITLE, APP_NAME)
-        assertThat(result, `is`(TEST_TITLE_STRING))
+        assertEquals(result, TEST_TITLE_STRING)
     }
 
     @Test
@@ -98,7 +97,7 @@ class ScreenBundleHelperImplTest {
         val result = testSubject.getTitle(null)
 
         // THEN
-        assertThat(result, `is`(APP_NAME))
+        assertEquals(result, APP_NAME)
     }
 
     @Test
@@ -111,7 +110,7 @@ class ScreenBundleHelperImplTest {
 
         // THEN
         verify(bundle).getString(NOTE_ID, null)
-        assertThat(result, `is`(TEST_NOTE_ID_STRING))
+        assertEquals(result, TEST_NOTE_ID_STRING)
     }
 
     @Test
