@@ -9,8 +9,9 @@ import timber.log.Timber
 /**
  * Presenter for Note Detail Screen
  */
-class NoteDetailPresenter(val view: NoteDetailView, val model: NoteDetailModel,
-                          val screenBundleHelper: ScreenBundleHelper) : BasePresenter<NoteDetailView>(view) {
+class NoteDetailPresenter(private val view: NoteDetailView,
+                          private val model: NoteDetailModel,
+                          private val screenBundleHelper: ScreenBundleHelper) : BasePresenter<NoteDetailView>(view) {
     override fun onViewCreated() {
         val noteId: String = screenBundleHelper.getNoteId(view.getArgs())
         lookupNoteDetail(noteId)

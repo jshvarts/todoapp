@@ -9,6 +9,7 @@ import butterknife.ButterKnife
 import com.bluelinelabs.conductor.*
 import com.exallium.todoapp.allnotes.AllNotesViewImpl
 import com.exallium.todoapp.app.TodoApp
+import com.exallium.todoapp.screenbundle.BundleFactory
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
 import javax.inject.Inject
 
@@ -19,6 +20,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var screenBundleHelper: ScreenBundleHelper
+
+    @Inject
+    lateinit var bundleFactory: BundleFactory
 
     @BindView(R.id.conductor_container)
     lateinit var container: ViewGroup
@@ -46,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         router = Conductor.attachRouter(this, container, savedInstanceState)
         router.addChangeListener(changeListener)
         if (!router.hasRootController()) {
-            router.setRoot(RouterTransaction.with(AllNotesViewImpl(Bundle())))
+            router.setRoot(RouterTransaction.with(AllNotesViewImpl(bundleFactory.createBundle())))
         }
     }
 

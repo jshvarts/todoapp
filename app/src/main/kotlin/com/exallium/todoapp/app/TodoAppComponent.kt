@@ -3,6 +3,7 @@ package com.exallium.todoapp.app
 import android.content.res.Resources
 import com.exallium.todoapp.MainActivity
 import com.exallium.todoapp.repository.Repository
+import com.exallium.todoapp.screenbundle.BundleFactory
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
 import dagger.Component
 import javax.inject.Singleton
@@ -18,6 +19,8 @@ interface TodoAppComponent {
     fun repository(): Repository
 
     fun screenBundleHelper(): ScreenBundleHelper
+
+    fun bundleFactory(): BundleFactory
 
     fun inject(mainActivity: MainActivity)
 }
