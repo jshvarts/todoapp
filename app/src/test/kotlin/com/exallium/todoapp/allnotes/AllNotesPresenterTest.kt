@@ -1,11 +1,11 @@
 package com.exallium.todoapp.allnotes
 
 import android.os.Bundle
-import com.exallium.todoapp.R
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.getNote
 import com.exallium.todoapp.screenbundle.BundleFactory
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
 import org.mockito.*
@@ -68,7 +68,7 @@ class AllNotesPresenterTest {
     fun noteClicked_createBundleAndShowSingleNote() {
         // GIVEN
         val publisher = PublishSubject.create<Note>()
-        `when`(adapter.noteClicks()).thenReturn(publisher)
+        whenever(adapter.noteClicks()).thenReturn(publisher)
         testSubject.onViewCreated()
         val expected = getNote().with(id="noteId")
         val bundle: Bundle = given_bundle()
@@ -86,7 +86,7 @@ class AllNotesPresenterTest {
     fun addClicked_showSingleNote() {
         // GIVEN
         val publisher = PublishSubject.create<Unit>()
-        `when`(view.addNoteClicks()).thenReturn(publisher)
+        whenever(view.addNoteClicks()).thenReturn(publisher)
         testSubject.onViewCreated()
         val bundle: Bundle = given_bundle()
 
@@ -99,7 +99,7 @@ class AllNotesPresenterTest {
 
     private fun given_bundle() : Bundle {
         val bundle: Bundle = mock(Bundle::class.java)
-        `when`(bundleFactory.createBundle()).thenReturn(bundle)
+        whenever(bundleFactory.createBundle()).thenReturn(bundle)
         return bundle
     }
 }
