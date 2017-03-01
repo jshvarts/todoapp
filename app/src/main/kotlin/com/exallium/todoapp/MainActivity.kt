@@ -68,7 +68,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        onBackPressed()
+        if (item!!.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
         return super.onOptionsItemSelected(item)
     }
 }

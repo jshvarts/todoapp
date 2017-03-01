@@ -6,8 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!-- color of the Up Arrow in action bar -->
-        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlNormal">@color/colorControlNormal</item>
     </style>
 
     <style name="ToolbarTitleTextView">
