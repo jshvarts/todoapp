@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     @BindView(R.id.conductor_container)
     lateinit var container: ViewGroup
 
-    @BindView(R.id.toolbar)
+    @BindView(R.id.main_activity_toolbar)
     lateinit var toolbar: Toolbar
 
     @BindView(R.id.main_activity_toolbar_title)
