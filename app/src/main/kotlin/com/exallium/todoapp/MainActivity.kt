@@ -2,6 +2,8 @@ package com.exallium.todoapp
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
+import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.TextSwitcher
 import butterknife.BindView
@@ -27,6 +29,9 @@ class MainActivity : AppCompatActivity() {
     @BindView(R.id.conductor_container)
     lateinit var container: ViewGroup
 
+    @BindView(R.id.main_activity_toolbar)
+    lateinit var toolbar: Toolbar
+
     @BindView(R.id.main_activity_toolbar_title)
     lateinit var toolbarTitle: TextSwitcher
 
@@ -39,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         override fun onChangeCompleted(to: Controller?, from: Controller?, isPush: Boolean, container: ViewGroup, handler: ControllerChangeHandler) {
             val title = screenBundleHelper.getTitle(to?.args)
             toolbarTitle.setText(title)
+            supportActionBar!!.setDisplayHomeAsUpEnabled(!title.equals(resources.getString(R.string.app_name)))
         }
     }
 
@@ -47,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         ButterKnife.bind(this)
         TodoApp.component.inject(this)
+        setSupportActionBar(toolbar)
         router = Conductor.attachRouter(this, container, savedInstanceState)
         router.addChangeListener(changeListener)
         if (!router.hasRootController()) {
@@ -58,5 +65,13 @@ class MainActivity : AppCompatActivity() {
         if (!router.handleBack()) {
             super.onBackPressed()
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
