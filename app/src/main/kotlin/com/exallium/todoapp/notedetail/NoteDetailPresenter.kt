@@ -21,14 +21,13 @@ class NoteDetailPresenter(private val view: NoteDetailView,
         lookupNoteDetail(noteId)
     }
 
-    fun lookupNoteDetail(noteId: String) {
+    private fun lookupNoteDetail(noteId: String) {
         compositeSubscription.add(model.getNote(noteId).subscribe(object : SingleSubscriber<Note>() {
             override fun onSuccess(note: Note) {
                 view.setNoteData(note)
             }
-
             override fun onError(t: Throwable) {
-                Timber.d(t, "error looking up note with id " + noteId)
+                Timber.e(t, "error looking up note with id " + noteId)
                 view.showUnableToLoadNoteDetailError()
             }
         }))
