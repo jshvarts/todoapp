@@ -67,9 +67,12 @@ class StubNoteMapperImplTest {
     }
 
     @Test(expected = RepositoryException::class)
-    fun deleteNote_whenNoteDoesNotExist_returnsRepositoryError() {
+    fun deleteNote_whenIdDoesNotExist_returnsRepositoryError() {
+        // GIVEN
+        val noteId = "asdf"
+
         // WHEN
-        testSubject.remove(newNote().id)
+        testSubject.remove(noteId)
     }
 
     private fun newNote() = Note("id", "title", "body", 0, 0)
