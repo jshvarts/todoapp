@@ -20,8 +20,8 @@ class StubNoteMapperImpl(private val idFactory: IdFactory) : DataMapper<Note>, Q
         db[entity.id] = entity
     }
 
-    override fun remove(entity: Note) {
-        db.remove(entity.id)?:throw RepositoryException("Item Does Not Exist")
+    override fun remove(id: String) {
+        db.remove(id)?:throw RepositoryException("Item Does Not Exist")
     }
 
     override fun query(query: Query<Note>): QueryResponse<Note> {
