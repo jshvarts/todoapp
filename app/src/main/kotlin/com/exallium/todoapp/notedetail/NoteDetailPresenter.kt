@@ -22,7 +22,7 @@ class NoteDetailPresenter(private val view: NoteDetailView,
     }
 
     fun lookupNoteDetail(noteId: String) {
-        compositeSubscription.add(model.getNoteById(noteId).subscribe(object : SingleSubscriber<Note>() {
+        compositeSubscription.add(model.getNote(noteId).subscribe(object : SingleSubscriber<Note>() {
             override fun onSuccess(note: Note) {
                 view.setNoteData(note)
             }
