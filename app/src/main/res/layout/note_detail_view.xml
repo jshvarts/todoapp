@@ -56,4 +56,36 @@
 
     </LinearLayout>
 
+    <android.support.v7.widget.ButtonBarLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/note_detail_button_bar_layout_margin_top">
+
+        <Button
+            android:id="@+id/note_delete_button"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="@string/note_delete_button_text" />
+
+        <android.support.v4.widget.Space
+            android:id="@+id/spacer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible"/>
+
+        <Button
+            android:id="@+id/note_edit_button"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="@string/note_edit_button_text" />
+
+    </android.support.v7.widget.ButtonBarLayout>
+
 </LinearLayout>
