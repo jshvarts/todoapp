@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import butterknife.BindView
+import com.bluelinelabs.conductor.RouterTransaction
 import com.exallium.todoapp.R
+import com.exallium.todoapp.allnotes.AllNotesViewImpl
 import com.exallium.todoapp.app.TodoApp
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BaseViewImpl
@@ -64,4 +66,8 @@ class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, Note
     override fun deleteNoteClicks(): Observable<Unit> = deleteNote.clicks()
 
     override fun editNoteClicks(): Observable<Unit> = editNote.clicks()
+
+    override fun showAllNotes(args: Bundle) {
+        router.pushController(RouterTransaction.with(AllNotesViewImpl(args)))
+    }
 }
