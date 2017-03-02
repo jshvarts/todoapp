@@ -1,12 +1,15 @@
 package com.exallium.todoapp.notedetail
 
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import butterknife.BindView
 import com.exallium.todoapp.R
 import com.exallium.todoapp.app.TodoApp
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BaseViewImpl
+import com.jakewharton.rxbinding.view.clicks
+import rx.Observable
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,6 +30,12 @@ class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, Note
 
     @BindView(R.id.note_date_updated)
     lateinit var noteDateUpdated: TextView
+
+    @BindView(R.id.note_delete_button)
+    lateinit var deleteNote: View
+
+    @BindView(R.id.note_edit_button)
+    lateinit var editNote: View
 
     override fun getComponent(): NoteDetailComponent = DaggerNoteDetailComponent.builder()
             .todoAppComponent(TodoApp.component)
@@ -51,4 +60,8 @@ class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, Note
     override fun showUnableToLoadNoteDetailError() {
         displaySnackbar(R.string.unable_to_load_note_detail_error)
     }
+
+    override fun deleteNoteClicks(): Observable<Unit> = deleteNote.clicks()
+
+    override fun editNoteClicks(): Observable<Unit> = editNote.clicks()
 }
