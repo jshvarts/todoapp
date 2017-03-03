@@ -41,20 +41,23 @@ class NoteDetailPresenter(private val view: NoteDetailView,
         }).addToComposite()
     }
 
-    fun setupDeleteNoteSubscription(noteId: String) =
-            view.deleteNoteClicks()
-                    .flatMap { model.deleteNote(noteId).toObservable() }
-                    .subscribe(object : Subscriber<Unit>() {
-                    override fun onCompleted() {
-                        // do nothing
-                    }
-                    override fun onNext(unit: Unit) {
-                        Timber.d("deleted note with id " + noteId)
-                        view.showAllNotes(bundleFactory.createBundle())
-                    }
-                    override fun onError(t: Throwable) {
-                        Timber.w(t, "error deleting note with id " + noteId)
-                        view.showUnableToLoadNoteDetailError()
-                    }
-                }).addToComposite()
+    fun setupDeleteNoteSubscription(noteId: String) {
+        view.deleteNoteClicks()
+            .flatMap { model.deleteNote(noteId).toObservable() }
+            .subscribe(object : Subscriber<Unit>() {
+                override fun onCompleted() {
+                    // do nothing
+                }
+
+                override fun onNext(unit: Unit) {
+                    Timber.d("deleted note with id " + noteId)
+                    view.showAllNotes(bundleFactory.createBundle())
+                }
+
+                override fun onError(t: Throwable) {
+                    Timber.w(t, "error deleting note with id " + noteId)
+                    view.showUnableToLoadNoteDetailError()
+                }
+            }).addToComposite()
     }
+}
