@@ -25,7 +25,7 @@ class NoteDetailPresenter(private val view: NoteDetailView,
 
         setupGetNoteDetailSubscription(noteId)
 
-        reactToDeleteButtonClicks(noteId)
+        setupDeleteNoteSubscription(noteId)
     }
 
     fun setupGetNoteDetailSubscription(noteId: String) {
@@ -41,7 +41,7 @@ class NoteDetailPresenter(private val view: NoteDetailView,
         }))
     }
 
-    fun reactToDeleteButtonClicks(noteId: String) =
+    fun setupDeleteNoteSubscription(noteId: String) =
             compositeSubscription.add(view.deleteNoteClicks()
                     .flatMap { model.deleteNote(noteId).toObservable() }
                     .subscribe(object : Subscriber<Unit>() {

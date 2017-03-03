@@ -85,11 +85,11 @@ class NoteDetailPresenterTest {
         testSubject.onViewCreated()
 
         // THEN
-        verify(testSubject).lookupNoteDetail(TEST_NOTE_ID_STRING)
+        verify(testSubject).setupGetNoteDetailSubscription(TEST_NOTE_ID_STRING)
     }
 
     @Test
-    fun onViewCreated_reactsToDeleteButtonClicks() {
+    fun onViewCreated_setupDeleteNoteSubscription() {
         // GIVEN
         testSubject = spy(testSubject)
 
@@ -97,6 +97,6 @@ class NoteDetailPresenterTest {
         testSubject.onViewCreated()
 
         // THEN
-        verify(testSubject).reactToDeleteButtonClicks(TEST_NOTE_ID_STRING)
+        verify(testSubject).setupDeleteNoteSubscription(TEST_NOTE_ID_STRING)
     }
 }
