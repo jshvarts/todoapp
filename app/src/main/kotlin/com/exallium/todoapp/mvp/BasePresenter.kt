@@ -49,7 +49,7 @@ abstract class BasePresenter<out V : BaseView>(view: V) {
      */
     open fun onViewDestroyed() {}
 
-    fun routeLifecycleEvent(event: BaseView.LifecycleEvent) {
+    private fun routeLifecycleEvent(event: BaseView.LifecycleEvent) {
         when (event) {
             BaseView.LifecycleEvent.CREATE_VIEW -> onViewCreated()
             BaseView.LifecycleEvent.ACTIVITY_START -> onActivityStarted()
