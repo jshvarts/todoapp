@@ -63,5 +63,5 @@ abstract class BasePresenter<out V : BaseView>(view: V) {
         }
     }
 
-    fun Subscription.addToComposite() { compositeSubscription.add(this) }
+    protected fun Subscription.addToComposite() { compositeSubscription.add(this) }
 }
