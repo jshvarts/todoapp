@@ -29,7 +29,7 @@ class NoteDetailPresenter(private val view: NoteDetailView,
     }
 
     fun setupGetNoteDetailSubscription(noteId: String) {
-        compositeSubscription.add(model.getNote(noteId).subscribe(object : SingleSubscriber<Note>() {
+        model.getNote(noteId).subscribe(object : SingleSubscriber<Note>() {
             override fun onSuccess(note: Note) {
                 view.setNoteData(note)
             }
@@ -38,23 +38,26 @@ class NoteDetailPresenter(private val view: NoteDetailView,
                 Timber.w(t, "error looking up note with id " + noteId)
                 view.showUnableToLoadNoteDetailError()
             }
-        }))
+        }).addToComposite()
     }
 
-    fun setupDeleteNoteSubscription(noteId: String) =
-            compositeSubscription.add(view.deleteNoteClicks()
-                    .flatMap { model.deleteNote(noteId).toObservable() }
-                    .subscribe(object : Subscriber<Unit>() {
-                    override fun onCompleted() {
-                        // do nothing
-                    }
-                    override fun onNext(unit: Unit) {
-                        Timber.d("deleted note with id " + noteId)
-                        view.showAllNotes(bundleFactory.createBundle())
-                    }
-                    override fun onError(t: Throwable) {
-                        Timber.w(t, "error deleting note with id " + noteId)
-                        view.showUnableToLoadNoteDetailError()
-                    }
-                }))
+    fun setupDeleteNoteSubscription(noteId: String) {
+        view.deleteNoteClicks()
+            .flatMap { model.deleteNote(noteId).toObservable() }
+            .subscribe(object : Subscriber<Unit>() {
+                override fun onCompleted() {
+                    // do nothing
+                }
+
+                override fun onNext(unit: Unit) {
+                    Timber.d("deleted note with id " + noteId)
+                    view.showAllNotes(bundleFactory.createBundle())
+                }
+
+                override fun onError(t: Throwable) {
+                    Timber.w(t, "error deleting note with id " + noteId)
+                    view.showUnableToLoadNoteDetailError()
+                }
+            }).addToComposite()
     }
+}

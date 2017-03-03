@@ -1,5 +1,6 @@
 package com.exallium.todoapp.mvp
 
+import rx.Subscription
 import rx.subscriptions.CompositeSubscription
 
 /**
@@ -61,4 +62,6 @@ abstract class BasePresenter<out V : BaseView>(view: V) {
             }
         }
     }
+
+    protected fun Subscription.addToComposite() { compositeSubscription.add(this) }
 }

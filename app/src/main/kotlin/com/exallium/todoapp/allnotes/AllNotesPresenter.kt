@@ -23,8 +23,8 @@ class AllNotesPresenter(private val view: AllNotesView,
         view.setAdapter(adapter)
         adapter.requestUpdate()
 
-        compositeSubscription.add(adapter.noteClicks().subscribe(showNoteSubscriberFn))
-        compositeSubscription.add(view.addNoteClicks().map { null }.subscribe(showNoteSubscriberFn))
+        adapter.noteClicks().subscribe(showNoteSubscriberFn).addToComposite()
+        view.addNoteClicks().map { null }.subscribe(showNoteSubscriberFn).addToComposite()
     }
 
     override fun onViewDestroyed() {
