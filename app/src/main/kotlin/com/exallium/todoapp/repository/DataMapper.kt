@@ -7,5 +7,5 @@ package com.exallium.todoapp.repository
  */
 interface DataMapper<T> {
     fun save(entity: T)
-    fun remove(entity: T)
+    fun remove(id: String)
 }

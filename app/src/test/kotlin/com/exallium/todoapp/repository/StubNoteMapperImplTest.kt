@@ -9,7 +9,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 /**
- * Unit Testing for {@link RepositoryImpl} to verify expected behaviour
+ * Unit Testing for {@link StubNoteMapperImpl}
  */
 class StubNoteMapperImplTest {
     val NOTE_ID_NOT_FOUND = "UNKNOWN"
@@ -63,13 +63,16 @@ class StubNoteMapperImplTest {
         testSubject.save(note)
 
         // WHEN
-        testSubject.remove(note)
+        testSubject.remove(note.id)
     }
 
     @Test(expected = RepositoryException::class)
-    fun deleteNote_whenNoteDoesNotExist_returnsRepositoryError() {
+    fun deleteNote_whenIdDoesNotExist_returnsRepositoryError() {
+        // GIVEN
+        val noteId = "asdf"
+
         // WHEN
-        testSubject.remove(newNote())
+        testSubject.remove(noteId)
     }
 
     private fun newNote() = Note("id", "title", "body", 0, 0)
