@@ -77,7 +77,7 @@ class NoteDetailPresenterTest {
     }
 
     @Test
-    fun onViewCreated_looksUpNoteDetailById() {
+    fun onViewCreated_setupGetNoteDetailSubscription() {
         // GIVEN
         testSubject = spy(testSubject)
 

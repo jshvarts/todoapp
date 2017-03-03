@@ -23,12 +23,12 @@ class NoteDetailPresenter(private val view: NoteDetailView,
         screenBundleHelper.setTitle(args, R.string.note_detail_screen_title)
         val noteId: String = screenBundleHelper.getNoteId(args)
 
-        lookupNoteDetail(noteId)
+        setupGetNoteDetailSubscription(noteId)
 
         reactToDeleteButtonClicks(noteId)
     }
 
-    fun lookupNoteDetail(noteId: String) {
+    fun setupGetNoteDetailSubscription(noteId: String) {
         compositeSubscription.add(model.getNote(noteId).subscribe(object : SingleSubscriber<Note>() {
             override fun onSuccess(note: Note) {
                 view.setNoteData(note)
