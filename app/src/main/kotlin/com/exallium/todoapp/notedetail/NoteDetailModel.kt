@@ -8,6 +8,6 @@ import rx.Single
  */
 interface NoteDetailModel {
     fun getNote(id: String): Single<Note>
-    fun deleteNote(id: String)
+    fun deleteNote(id: String): Single<Unit>
     fun editNote(note: Note): Single<Unit>
 }

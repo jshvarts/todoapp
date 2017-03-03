@@ -87,4 +87,16 @@ class NoteDetailPresenterTest {
         // THEN
         verify(testSubject).lookupNoteDetail(TEST_NOTE_ID_STRING)
     }
+
+    @Test
+    fun onViewCreated_reactsToDeleteButtonClicks() {
+        // GIVEN
+        testSubject = spy(testSubject)
+
+        // WHEN
+        testSubject.onViewCreated()
+
+        // THEN
+        verify(testSubject).reactToDeleteButtonClicks(TEST_NOTE_ID_STRING)
+    }
 }

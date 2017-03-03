@@ -29,7 +29,7 @@ class RepositoryImpl(private val noteDataMapper: DataMapper<Note>,
         noteDataMapper.save(note)
     }
 
-    override fun deleteNote(id: String) {
+    override fun deleteNote(id: String): Single<Unit> = Single.fromCallable {
         noteDataMapper.remove(id)
     }
 }

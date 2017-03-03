@@ -7,9 +7,8 @@ import com.exallium.todoapp.mvp.BasePresenter
 import com.exallium.todoapp.screenbundle.BundleFactory
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
 import rx.SingleSubscriber
-import rx.android.schedulers.AndroidSchedulers
+import rx.Subscriber
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 /**
  * Presenter for Note Detail Screen
@@ -19,18 +18,14 @@ class NoteDetailPresenter(private val view: NoteDetailView,
                           private val screenBundleHelper: ScreenBundleHelper,
                           private val bundleFactory: BundleFactory) : BasePresenter<NoteDetailView>(view) {
 
-    // prevent multiple button taps
-    private val DEBOUNCE_TIMEOUT: Long = 100
-
-    private val showAllNotesSubscriberFn = { unit: Unit -> view.showAllNotes(bundleFactory.createBundle()) }
-
     override fun onViewCreated() {
         val args: Bundle = view.getArgs()
         screenBundleHelper.setTitle(args, R.string.note_detail_screen_title)
         val noteId: String = screenBundleHelper.getNoteId(args)
 
         lookupNoteDetail(noteId)
-        observeDeleteButtonClicks(noteId)
+
+        reactToDeleteButtonClicks(noteId)
     }
 
     fun lookupNoteDetail(noteId: String) {
@@ -46,10 +41,20 @@ class NoteDetailPresenter(private val view: NoteDetailView,
         }))
     }
 
-    fun observeDeleteButtonClicks(noteId: String) =
+    fun reactToDeleteButtonClicks(noteId: String) =
             compositeSubscription.add(view.deleteNoteClicks()
-                    .map { model.deleteNote(noteId) }
-                    .debounce(DEBOUNCE_TIMEOUT, TimeUnit.MILLISECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(showAllNotesSubscriberFn))
-}
+                    .flatMap { model.deleteNote(noteId).toObservable() }
+                    .subscribe(object : Subscriber<Unit>() {
+                    override fun onCompleted() {
+                        // do nothing
+                    }
+                    override fun onNext(unit: Unit) {
+                        Timber.d("deleted note with id " + noteId)
+                        view.showAllNotes(bundleFactory.createBundle())
+                    }
+                    override fun onError(t: Throwable) {
+                        Timber.w(t, "error deleting note with id " + noteId)
+                        view.showUnableToLoadNoteDetailError()
+                    }
+                }))
+    }
