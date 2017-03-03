@@ -28,5 +28,5 @@ interface Repository {
     /**
      * Removes note from the repository
      */
-    fun deleteNote(note: Note): Single<Unit>
+    fun deleteNote(id: String): Single<Unit>
 }

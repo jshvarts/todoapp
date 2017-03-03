@@ -10,6 +10,9 @@ import org.mockito.*
 import org.mockito.Mockito.verify
 import rx.observers.TestSubscriber
 
+/**
+ * Unit Testing for {@link RepositoryImpl}
+ */
 class RepositoryImplTest {
 
     @InjectMocks
@@ -120,9 +123,9 @@ class RepositoryImplTest {
         val note = getNote()
 
         // WHEN
-        testSubject.deleteNote(note).subscribe()
+        testSubject.deleteNote(note.id).subscribe()
 
         // THEN
-        verify(dataMapper).remove(note)
+        verify(dataMapper).remove(note.id)
     }
 }
