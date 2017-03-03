@@ -30,7 +30,7 @@ class NoteDetailModelImplTest {
         val noteId: String = "test note id"
 
         // WHEN
-        testSubject.getNoteById(noteId)
+        testSubject.getNote(noteId)
 
         // THEN
         verify(repository).getNoteById(noteId)

@@ -7,5 +7,7 @@ import rx.Single
  * Model interface for Presenter displaying a single note.
  */
 interface NoteDetailModel {
-    fun getNoteById(id: String): Single<Note>
+    fun getNote(id: String): Single<Note>
+    fun deleteNote(id: String): Single<Unit>
+    fun editNote(note: Note): Single<Unit>
 }
