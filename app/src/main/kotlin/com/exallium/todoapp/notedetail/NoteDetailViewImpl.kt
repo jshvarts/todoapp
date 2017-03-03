@@ -12,6 +12,7 @@ import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BaseViewImpl
 import com.jakewharton.rxbinding.view.clicks
 import rx.Observable
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 

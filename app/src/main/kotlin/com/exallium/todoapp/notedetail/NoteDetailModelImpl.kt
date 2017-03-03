@@ -8,6 +8,6 @@ import com.exallium.todoapp.repository.Repository
  */
 class NoteDetailModelImpl(private val repository: Repository) : NoteDetailModel {
     override fun getNote(id: String) = repository.getNoteById(id)
-    override fun deleteNote(note: Note) = repository.deleteNote(note)
+    override fun deleteNote(id: String) = repository.deleteNote(id)
     override fun editNote(note: Note) = repository.saveNote(note)
 }

@@ -2,6 +2,7 @@ package com.exallium.todoapp.notedetail
 
 import android.os.Bundle
 import com.exallium.todoapp.R
+import com.exallium.todoapp.screenbundle.BundleFactory
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
 import com.nhaarman.mockito_kotlin.spy
 import com.nhaarman.mockito_kotlin.verify
@@ -36,6 +37,9 @@ class NoteDetailPresenterTest {
 
     @Mock
     private lateinit var bundle: Bundle
+
+    @Mock(answer = Answers.RETURNS_MOCKS)
+    private lateinit var bundleFactory: BundleFactory
 
     @Before
     fun setUp() {

@@ -1,5 +1,7 @@
 package com.exallium.todoapp.repository
 
+import rx.Single
+
 /**
  *  DataMapper Interface for Persisting and Removing Data
  *
