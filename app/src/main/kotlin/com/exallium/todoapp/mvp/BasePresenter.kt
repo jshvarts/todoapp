@@ -1,5 +1,6 @@
 package com.exallium.todoapp.mvp
 
+import rx.Subscription
 import rx.subscriptions.CompositeSubscription
 
 /**
@@ -48,7 +49,7 @@ abstract class BasePresenter<out V : BaseView>(view: V) {
      */
     open fun onViewDestroyed() {}
 
-    private fun routeLifecycleEvent(event: BaseView.LifecycleEvent) {
+    fun routeLifecycleEvent(event: BaseView.LifecycleEvent) {
         when (event) {
             BaseView.LifecycleEvent.CREATE_VIEW -> onViewCreated()
             BaseView.LifecycleEvent.ACTIVITY_START -> onActivityStarted()
@@ -61,4 +62,6 @@ abstract class BasePresenter<out V : BaseView>(view: V) {
             }
         }
     }
+
+    fun Subscription.addToComposite() { compositeSubscription.add(this) }
 }
