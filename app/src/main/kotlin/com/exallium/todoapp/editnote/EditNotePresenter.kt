@@ -1,33 +1,31 @@
-package com.exallium.todoapp.notedetail
+package com.exallium.todoapp.editnote
 
 import android.os.Bundle
 import com.exallium.todoapp.R
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BasePresenter
-import com.exallium.todoapp.screenbundle.BundleFactory
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
 import rx.SingleSubscriber
 import rx.Subscriber
 import timber.log.Timber
 
 /**
- * Presenter for Note Detail Screen
+ * Presenter for Edit Note Screen
  */
-class NoteDetailPresenter(private val view: NoteDetailView,
-                          private val model: NoteDetailModel,
-                          private val screenBundleHelper: ScreenBundleHelper,
-                          private val bundleFactory: BundleFactory) : BasePresenter<NoteDetailView>(view) {
+class EditNotePresenter(private val view: EditNoteView,
+                          private val model: EditNoteModel,
+                          private val screenBundleHelper: ScreenBundleHelper) : BasePresenter<EditNoteView>(view) {
 
     override fun onViewCreated() {
         val args: Bundle = view.getArgs()
-        screenBundleHelper.setTitle(args, R.string.note_detail_screen_title)
+        screenBundleHelper.setTitle(args, R.string.edit_note_screen_title)
         val noteId: String = screenBundleHelper.getNoteId(args)
 
         setupGetNoteDetailSubscription(noteId)
 
-        setupDeleteNoteSubscription(noteId)
+        setupCancelEditNoteSubscription(noteId)
 
-        setupEditNoteSubscription(noteId)
+        setupSaveNoteSubscription(noteId)
     }
 
     fun setupGetNoteDetailSubscription(noteId: String) {
@@ -37,48 +35,51 @@ class NoteDetailPresenter(private val view: NoteDetailView,
             }
 
             override fun onError(t: Throwable) {
-                Timber.w(t, "error looking up note with id " + noteId)
-                view.showUnableToLoadNoteDetailError()
+                Timber.w(t, "error looking up note for edit with id " + noteId)
+                view.showUnableToLoadNoteError()
             }
         }).addToComposite()
     }
 
-    fun setupDeleteNoteSubscription(noteId: String) {
-        view.deleteNoteClicks()
-            .flatMap { model.deleteNote(noteId).toObservable() }
+    fun setupSaveNoteSubscription(noteId: String) {
+        view.saveNoteClicks()
+            .flatMap { model.editNote(getNewNote(noteId)).toObservable() }
             .subscribe(object : Subscriber<Unit>() {
                 override fun onCompleted() {
                     // do nothing
                 }
 
                 override fun onNext(unit: Unit) {
-                    Timber.d("deleted note with id " + noteId)
-                    view.showAllNotes(bundleFactory.createBundle())
+                    Timber.d("saved note with id " + noteId)
+                    view.showNoteDetail(view.getArgs())
                 }
 
                 override fun onError(t: Throwable) {
-                    Timber.w(t, "error deleting note with id " + noteId)
-                    view.showUnableToLoadNoteDetailError()
+                    Timber.w(t, "error saving note with id " + noteId)
+                    view.showUnableToSaveNoteError()
                 }
             }).addToComposite()
     }
 
-    fun setupEditNoteSubscription(noteId: String) {
-        view.editNoteClicks()
+    fun setupCancelEditNoteSubscription(noteId: String) {
+        view.cancelEditNoteClicks()
                 .subscribe(object : Subscriber<Unit>() {
                     override fun onCompleted() {
                         // do nothing
                     }
 
                     override fun onNext(unit: Unit) {
-                        Timber.d("forward to save note with id " + noteId)
-                        view.showEditNote(view.getArgs())
+                        Timber.d("forward back to note detail with id " + noteId)
+                        view.showNoteDetail(view.getArgs())
                     }
 
                     override fun onError(t: Throwable) {
-                        Timber.w(t, "error deleting note with id " + noteId)
-                        view.showUnableToLoadNoteDetailError()
+                        Timber.w(t, "forward back to note detail with id " + noteId)
                     }
                 }).addToComposite()
+    }
+
+    private fun getNewNote(noteId: String): Note {
+        return Note(noteId, view.getNewNoteTitle(), view.getNewNoteBody(), 0, 0)
     }
 }

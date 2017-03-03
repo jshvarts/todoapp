@@ -14,4 +14,5 @@ interface NoteDetailView : BaseView {
     fun deleteNoteClicks(): Observable<Unit>
     fun editNoteClicks(): Observable<Unit>
     fun showAllNotes(args: Bundle)
+    fun showEditNote(args: Bundle)
 }
