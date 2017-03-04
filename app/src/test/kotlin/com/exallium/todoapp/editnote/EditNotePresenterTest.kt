@@ -87,7 +87,7 @@ class EditNotePresenterTest {
     }
 
     @Test
-    fun onViewCreated_setupDeleteNoteSubscription() {
+    fun onViewCreated_setupCancelEditNoteSubscription() {
         // GIVEN
         testSubject = spy(testSubject)
 
@@ -113,7 +113,6 @@ class EditNotePresenterTest {
     @Test
     fun buildUpdatedNote_buildsNewNoteObjectUsingOldAndNewData() {
         // GIVEN
-        testSubject = spy(testSubject)
         val oldNote: Note = mock()
         whenever(view.getNewNoteTitle()).thenReturn(TEST_NOTE_NEW_TITLE)
         whenever(view.getNewNoteBody()).thenReturn(TEST_NOTE_NEW_BODY)
