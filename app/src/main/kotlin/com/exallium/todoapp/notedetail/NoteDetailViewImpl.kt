@@ -12,9 +12,8 @@ import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BaseViewImpl
 import com.jakewharton.rxbinding.view.clicks
 import rx.Observable
-import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 /**
  * Conductor Controller displaying a single note
@@ -62,6 +61,10 @@ class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, Note
 
     override fun showUnableToLoadNoteDetailError() {
         displaySnackbar(R.string.unable_to_load_note_detail_error)
+    }
+
+    override fun showNoteDeletedMessage() {
+        displaySnackbar(R.string.note_deleted_message)
     }
 
     override fun deleteNoteClicks(): Observable<Unit> = deleteNote.clicks()

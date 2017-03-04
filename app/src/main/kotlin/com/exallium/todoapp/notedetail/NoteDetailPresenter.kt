@@ -51,6 +51,7 @@ class NoteDetailPresenter(private val view: NoteDetailView,
 
                 override fun onNext(unit: Unit) {
                     Timber.d("deleted note with id " + noteId)
+                    view.showNoteDeletedMessage()
                     view.showAllNotes(bundleFactory.createBundle())
                 }
 
