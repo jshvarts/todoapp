@@ -2,7 +2,6 @@ package com.exallium.todoapp.createnote
 
 import android.content.Context
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -13,8 +12,6 @@ import com.exallium.todoapp.app.TodoApp
 import com.exallium.todoapp.mvp.BaseViewImpl
 import com.exallium.todoapp.notedetail.NoteDetailViewImpl
 import com.jakewharton.rxbinding.view.clicks
-import com.jakewharton.rxbinding.widget.RxTextView
-import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
 import rx.Observable
 
 /**
@@ -46,10 +43,6 @@ class CreateNoteViewImpl(val bundle: Bundle) : BaseViewImpl<CreateNoteView, Crea
 
     override fun saveNoteClicks(): Observable<Unit> = saveNote.clicks()
 
-    override fun afterNoteTitleChangeEvents(): Observable<TextViewAfterTextChangeEvent> = RxTextView.afterTextChangeEvents(noteTitleEditText)
-
-    override fun afterNoteBodyChangeEvents(): Observable<TextViewAfterTextChangeEvent> = RxTextView.afterTextChangeEvents(noteBodyEditText)
-
     override fun showNoteDetail(args: Bundle) {
         view?.hideKeyboard(applicationContext?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
         router.popCurrentController()
@@ -70,12 +63,6 @@ class CreateNoteViewImpl(val bundle: Bundle) : BaseViewImpl<CreateNoteView, Crea
 
     override fun showUnableToSaveNoteError() {
         displaySnackbar(R.string.unable_to_save_note_error)
-    }
-
-    override fun enableSubmit() {
-        if (!TextUtils.isEmpty(noteTitleEditText.text) && !TextUtils.isEmpty(noteBodyEditText.text)) {
-            saveNote.isEnabled = true
-        }
     }
 
     private fun View.hideKeyboard(inputMethodManager: InputMethodManager) {

@@ -17,6 +17,8 @@ class CreateNotePresenter(private val view: CreateNoteView,
                           private val screenBundleHelper: ScreenBundleHelper,
                           private val idFactory: IdFactory) : BasePresenter<CreateNoteView>(view) {
 
+    var noteId: String = ""
+
     private val showAllNotesSubscriberFn = { unit: Unit? ->
         view.showAllNotes(view.getArgs())
     }
@@ -30,9 +32,8 @@ class CreateNotePresenter(private val view: CreateNoteView,
     }
 
     fun setupSaveNoteSubscription() {
-        val note: Note = buildNote()
         view.saveNoteClicks()
-                .flatMap { model.saveNote(note).toObservable() }
+                .flatMap { model.saveNote(buildNote()).toObservable() }
                 .subscribe(object : Subscriber<Unit>() {
                     override fun onCompleted() {
                         // do nothing
@@ -41,7 +42,7 @@ class CreateNotePresenter(private val view: CreateNoteView,
                     override fun onNext(unit: Unit) {
                         Timber.d("saved new note")
                         val args: Bundle = view.getArgs()
-                        screenBundleHelper.setNoteId(args, note.id)
+                        screenBundleHelper.setNoteId(args, noteId)
                         view.showNoteDetail(args)
                     }
 
@@ -53,7 +54,8 @@ class CreateNotePresenter(private val view: CreateNoteView,
     }
 
     internal fun buildNote(): Note {
+        noteId = idFactory.createId()
         val now = System.currentTimeMillis()
-        return Note(idFactory.createId(), view.getNoteTitle(), view.getNoteBody(), now, now)
+        return Note(noteId, view.getNoteTitle(), view.getNoteBody(), now, now)
     }
 }

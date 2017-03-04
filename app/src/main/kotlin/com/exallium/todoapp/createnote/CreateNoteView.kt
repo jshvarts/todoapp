@@ -2,7 +2,6 @@ package com.exallium.todoapp.createnote
 
 import android.os.Bundle
 import com.exallium.todoapp.mvp.BaseView
-import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
 import rx.Observable
 
 /**
@@ -16,7 +15,4 @@ interface CreateNoteView : BaseView {
     fun showUnableToSaveNoteError()
     fun cancelCreateNoteClicks(): Observable<Unit>
     fun saveNoteClicks(): Observable<Unit>
-    fun afterNoteTitleChangeEvents(): Observable<TextViewAfterTextChangeEvent>
-    fun afterNoteBodyChangeEvents(): Observable<TextViewAfterTextChangeEvent>
-    fun enableSubmit()
 }
