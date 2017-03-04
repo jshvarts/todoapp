@@ -64,8 +64,4 @@ class CreateNoteViewImpl(val bundle: Bundle) : BaseViewImpl<CreateNoteView, Crea
     override fun showUnableToSaveNoteError() {
         displaySnackbar(R.string.unable_to_save_note_error)
     }
-
-    private fun View.hideKeyboard(inputMethodManager: InputMethodManager) {
-        inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
-    }
 }
