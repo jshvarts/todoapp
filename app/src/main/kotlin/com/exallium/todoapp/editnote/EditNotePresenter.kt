@@ -23,7 +23,7 @@ class EditNotePresenter(private val view: EditNoteView,
 
         setupGetNoteDetailSubscription(noteId)
 
-        setupCancelEditNoteSubscription(noteId)
+        setupCancelEditNoteSubscription()
 
         setupSaveNoteSubscription(noteId)
     }
@@ -41,7 +41,7 @@ class EditNotePresenter(private val view: EditNoteView,
         }).addToComposite()
     }
 
-    fun setupCancelEditNoteSubscription(noteId: String) {
+    fun setupCancelEditNoteSubscription() {
         view.cancelEditNoteClicks()
                 .subscribe(object : Subscriber<Unit>() {
                     override fun onCompleted() {
@@ -49,12 +49,13 @@ class EditNotePresenter(private val view: EditNoteView,
                     }
 
                     override fun onNext(unit: Unit) {
-                        Timber.d("forward back to note detail with id " + noteId)
+                        Timber.d("cancel note edit")
                         view.showNewNoteDetail(view.getArgs())
                     }
 
                     override fun onError(t: Throwable) {
-                        Timber.w(t, "forward back to note detail with id " + noteId)
+                        Timber.w(t, "error canceling note edit")
+                        view.showNewNoteDetail(view.getArgs())
                     }
                 }).addToComposite()
     }
@@ -92,5 +93,5 @@ class EditNotePresenter(private val view: EditNoteView,
                 }).addToComposite()
     }
 
-    private fun buildUpdatedNote(oldNote: Note): Note = model.buildUpdatedNote(oldNote, view.getNewNoteTitle(), view.getNewNoteBody())
+    internal fun buildUpdatedNote(oldNote: Note): Note = model.buildUpdatedNote(oldNote, view.getNewNoteTitle(), view.getNewNoteBody())
 }
