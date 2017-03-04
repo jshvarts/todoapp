@@ -111,18 +111,18 @@ class EditNotePresenterTest {
     }
 
     @Test
-    fun buildUpdatedNote_buildsNewNoteObjectUsingOldAndNewData() {
+    fun buildNote_buildsNewNoteObjectUsingOldAndNewData() {
         // GIVEN
         val oldNote: Note = mock()
         whenever(view.getNewNoteTitle()).thenReturn(TEST_NOTE_NEW_TITLE)
         whenever(view.getNewNoteBody()).thenReturn(TEST_NOTE_NEW_BODY)
 
         // WHEN
-        testSubject.buildUpdatedNote(oldNote)
+        testSubject.buildNote(oldNote)
 
         // THEN
         verify(view).getNewNoteTitle()
         verify(view).getNewNoteBody()
-        verify(model).buildUpdatedNote(oldNote, TEST_NOTE_NEW_TITLE, TEST_NOTE_NEW_BODY)
+        verify(model).buildNote(oldNote, TEST_NOTE_NEW_TITLE, TEST_NOTE_NEW_BODY)
     }
 }

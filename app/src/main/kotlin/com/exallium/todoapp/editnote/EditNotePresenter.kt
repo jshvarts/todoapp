@@ -75,7 +75,7 @@ class EditNotePresenter(private val view: EditNoteView,
 
     private fun performSaveNote(oldNote: Note) {
         view.saveNoteClicks()
-                .flatMap { model.editNote(buildUpdatedNote(oldNote)).toObservable() }
+                .flatMap { model.editNote(buildNote(oldNote)).toObservable() }
                 .subscribe(object : Subscriber<Unit>() {
                     override fun onCompleted() {
                         // do nothing
@@ -93,5 +93,5 @@ class EditNotePresenter(private val view: EditNoteView,
                 }).addToComposite()
     }
 
-    internal fun buildUpdatedNote(oldNote: Note): Note = model.buildUpdatedNote(oldNote, view.getNewNoteTitle(), view.getNewNoteBody())
+    internal fun buildNote(oldNote: Note): Note = model.buildNote(oldNote, view.getNewNoteTitle(), view.getNewNoteBody())
 }

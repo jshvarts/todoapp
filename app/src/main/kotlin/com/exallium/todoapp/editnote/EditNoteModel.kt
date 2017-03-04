@@ -13,6 +13,6 @@ interface EditNoteModel {
     /**
      * creates in-memory Note object based on existing item and the new data
      */
-    fun buildUpdatedNote(oldNote: Note, newNoteTitle: String, newNoteBody: String) : Note
+    fun buildNote(oldNote: Note, newNoteTitle: String, newNoteBody: String) : Note
 }
 

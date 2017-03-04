@@ -53,7 +53,7 @@ class EditNoteModelImplTest {
     }
 
     @Test
-    fun buildUpdatedNote_createsCorrectNote() {
+    fun buildNote_createsCorrectNote() {
         // GIVEN
         val oldNote: Note = mock()
         whenever(oldNote.id).thenReturn("test note id")
@@ -62,7 +62,7 @@ class EditNoteModelImplTest {
         val newNoteBody: String = "new note body"
 
         // WHEN
-        val result = testSubject.buildUpdatedNote(oldNote, newNoteTitle, newNoteBody)
+        val result = testSubject.buildNote(oldNote, newNoteTitle, newNoteBody)
 
         // THEN
         Assert.assertEquals(oldNote.id, result.id)
