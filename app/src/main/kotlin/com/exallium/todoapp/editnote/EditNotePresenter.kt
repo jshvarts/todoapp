@@ -41,26 +41,6 @@ class EditNotePresenter(private val view: EditNoteView,
         }).addToComposite()
     }
 
-    fun setupSaveNoteSubscription(noteId: String) {
-        view.saveNoteClicks()
-            .flatMap { model.editNote(getNewNote(noteId)).toObservable() }
-            .subscribe(object : Subscriber<Unit>() {
-                override fun onCompleted() {
-                    // do nothing
-                }
-
-                override fun onNext(unit: Unit) {
-                    Timber.d("saved note with id " + noteId)
-                    view.showNoteDetail(view.getArgs())
-                }
-
-                override fun onError(t: Throwable) {
-                    Timber.w(t, "error saving note with id " + noteId)
-                    view.showUnableToSaveNoteError()
-                }
-            }).addToComposite()
-    }
-
     fun setupCancelEditNoteSubscription(noteId: String) {
         view.cancelEditNoteClicks()
                 .subscribe(object : Subscriber<Unit>() {
@@ -70,7 +50,7 @@ class EditNotePresenter(private val view: EditNoteView,
 
                     override fun onNext(unit: Unit) {
                         Timber.d("forward back to note detail with id " + noteId)
-                        view.showNoteDetail(view.getArgs())
+                        view.showNewNoteDetail(view.getArgs())
                     }
 
                     override fun onError(t: Throwable) {
@@ -79,7 +59,38 @@ class EditNotePresenter(private val view: EditNoteView,
                 }).addToComposite()
     }
 
-    private fun getNewNote(noteId: String): Note {
-        return Note(noteId, view.getNewNoteTitle(), view.getNewNoteBody(), 0, 0)
+    fun setupSaveNoteSubscription(noteId: String) {
+        model.getNote(noteId).subscribe(object : SingleSubscriber<Note>() {
+            override fun onSuccess(note: Note) {
+                performSaveNote(note)
+            }
+
+            override fun onError(t: Throwable) {
+                Timber.w(t, "error looking up note with id " + noteId)
+                view.showUnableToLoadNoteError()
+            }
+        }).addToComposite()
     }
+
+    private fun performSaveNote(oldNote: Note) {
+        view.saveNoteClicks()
+                .flatMap { model.editNote(buildUpdatedNote(oldNote)).toObservable() }
+                .subscribe(object : Subscriber<Unit>() {
+                    override fun onCompleted() {
+                        // do nothing
+                    }
+
+                    override fun onNext(unit: Unit) {
+                        Timber.d("saved note with id " + oldNote.id)
+                        view.showNewNoteDetail(view.getArgs())
+                    }
+
+                    override fun onError(t: Throwable) {
+                        Timber.w(t, "error saving note with id " + oldNote.id)
+                        view.showUnableToSaveNoteError()
+                    }
+                }).addToComposite()
+    }
+
+    private fun buildUpdatedNote(oldNote: Note): Note = model.buildUpdatedNote(oldNote, view.getNewNoteTitle(), view.getNewNoteBody())
 }
