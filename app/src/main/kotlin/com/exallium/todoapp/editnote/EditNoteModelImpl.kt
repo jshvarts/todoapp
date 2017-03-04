@@ -5,7 +5,7 @@ import com.exallium.todoapp.repository.Repository
 import java.util.Date
 
 /**
- * Implementation for Note Detail model.
+ * Implementation for Edit Note Model.
  */
 class EditNoteModelImpl(private val repository: Repository) : EditNoteModel {
     override fun getNote(id: String) = repository.getNoteById(id)

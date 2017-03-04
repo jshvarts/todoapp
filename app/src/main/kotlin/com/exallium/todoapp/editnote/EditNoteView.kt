@@ -6,7 +6,7 @@ import com.exallium.todoapp.mvp.BaseView
 import rx.Observable
 
 /**
- * View interface for Controller displaying note edit screen.
+ * View interface for Controller displaying Edit Note Screen.
  */
 interface EditNoteView : BaseView {
     fun setNoteData(note: Note)

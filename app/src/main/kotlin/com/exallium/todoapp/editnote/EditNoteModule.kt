@@ -7,7 +7,7 @@ import dagger.Module
 import dagger.Provides
 
 /**
- * Note Detail Dagger Module
+ * Edit Note Dagger Module
  */
 @Module
 class EditNoteModule(private val editNoteView: EditNoteView) {
