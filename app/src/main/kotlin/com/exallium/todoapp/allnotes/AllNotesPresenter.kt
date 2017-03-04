@@ -19,12 +19,16 @@ class AllNotesPresenter(private val view: AllNotesView,
         view.showSingleNote(args)
     }
 
+    private val showCreateNoteSubscriberFn = { unit: Unit? ->
+        view.showCreateNote(bundleFactory.createBundle())
+    }
+
     override fun onViewCreated() {
         view.setAdapter(adapter)
         adapter.requestUpdate()
 
         adapter.noteClicks().subscribe(showNoteSubscriberFn).addToComposite()
-        view.addNoteClicks().map { null }.subscribe(showNoteSubscriberFn).addToComposite()
+        view.addNoteClicks().map { null }.subscribe(showCreateNoteSubscriberFn).addToComposite()
     }
 
     override fun onViewDestroyed() {
