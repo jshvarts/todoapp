@@ -9,4 +9,8 @@ import rx.Single
 interface EditNoteModel {
     fun getNote(id: String): Single<Note>
     fun editNote(note: Note): Single<Unit>
+    /**
+     * creates in-memory Note object based on existing item and the new data
+     */
+    fun buildUpdatedNote(oldNote: Note, newNoteTitle: String, newNoteBody: String) : Note
 }
