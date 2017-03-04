@@ -18,6 +18,10 @@ class NoteDetailPresenter(private val view: NoteDetailView,
                           private val screenBundleHelper: ScreenBundleHelper,
                           private val bundleFactory: BundleFactory) : BasePresenter<NoteDetailView>(view) {
 
+    private val showEditNoteSubscriberFn = { unit: Unit? ->
+        view.showEditNote(view.getArgs())
+    }
+
     override fun onViewCreated() {
         val args: Bundle = view.getArgs()
         screenBundleHelper.setTitle(args, R.string.note_detail_screen_title)
@@ -27,7 +31,7 @@ class NoteDetailPresenter(private val view: NoteDetailView,
 
         setupDeleteNoteSubscription(noteId)
 
-        setupEditNoteSubscription(noteId)
+        view.editNoteClicks().map { null }.subscribe(showEditNoteSubscriberFn).addToComposite()
     }
 
     fun setupGetNoteDetailSubscription(noteId: String) {
@@ -61,24 +65,5 @@ class NoteDetailPresenter(private val view: NoteDetailView,
                     view.showUnableToLoadNoteDetailError()
                 }
             }).addToComposite()
-    }
-
-    fun setupEditNoteSubscription(noteId: String) {
-        view.editNoteClicks()
-                .subscribe(object : Subscriber<Unit>() {
-                    override fun onCompleted() {
-                        // do nothing
-                    }
-
-                    override fun onNext(unit: Unit) {
-                        Timber.d("forward to save note with id " + noteId)
-                        view.showEditNote(view.getArgs())
-                    }
-
-                    override fun onError(t: Throwable) {
-                        Timber.w(t, "error deleting note with id " + noteId)
-                        view.showUnableToLoadNoteDetailError()
-                    }
-                }).addToComposite()
     }
 }

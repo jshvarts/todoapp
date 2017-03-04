@@ -87,18 +87,6 @@ class EditNotePresenterTest {
     }
 
     @Test
-    fun onViewCreated_setupCancelEditNoteSubscription() {
-        // GIVEN
-        testSubject = spy(testSubject)
-
-        // WHEN
-        testSubject.onViewCreated()
-
-        // THEN
-        verify(testSubject).setupCancelEditNoteSubscription()
-    }
-
-    @Test
     fun onViewCreated_setupSaveNoteSubscription() {
         // GIVEN
         testSubject = spy(testSubject)

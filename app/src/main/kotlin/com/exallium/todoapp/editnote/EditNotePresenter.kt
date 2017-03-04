@@ -16,6 +16,10 @@ class EditNotePresenter(private val view: EditNoteView,
                           private val model: EditNoteModel,
                           private val screenBundleHelper: ScreenBundleHelper) : BasePresenter<EditNoteView>(view) {
 
+    private val showNewNoteDetailSubscriberFn = { unit: Unit? ->
+        view.showNewNoteDetail(view.getArgs())
+    }
+
     override fun onViewCreated() {
         val args: Bundle = view.getArgs()
         screenBundleHelper.setTitle(args, R.string.edit_note_screen_title)
@@ -23,9 +27,9 @@ class EditNotePresenter(private val view: EditNoteView,
 
         setupGetNoteDetailSubscription(noteId)
 
-        setupCancelEditNoteSubscription()
-
         setupSaveNoteSubscription(noteId)
+
+        view.cancelEditNoteClicks().map { null }.subscribe(showNewNoteDetailSubscriberFn).addToComposite()
     }
 
     fun setupGetNoteDetailSubscription(noteId: String) {
@@ -39,25 +43,6 @@ class EditNotePresenter(private val view: EditNoteView,
                 view.showUnableToLoadNoteError()
             }
         }).addToComposite()
-    }
-
-    fun setupCancelEditNoteSubscription() {
-        view.cancelEditNoteClicks()
-                .subscribe(object : Subscriber<Unit>() {
-                    override fun onCompleted() {
-                        // do nothing
-                    }
-
-                    override fun onNext(unit: Unit) {
-                        Timber.d("cancel note edit")
-                        view.showNewNoteDetail(view.getArgs())
-                    }
-
-                    override fun onError(t: Throwable) {
-                        Timber.w(t, "error canceling note edit")
-                        view.showNewNoteDetail(view.getArgs())
-                    }
-                }).addToComposite()
     }
 
     fun setupSaveNoteSubscription(noteId: String) {
