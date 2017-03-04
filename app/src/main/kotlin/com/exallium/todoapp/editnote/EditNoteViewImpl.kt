@@ -1,7 +1,9 @@
 package com.exallium.todoapp.editnote
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import butterknife.BindView
 import com.exallium.todoapp.R
@@ -45,7 +47,8 @@ class EditNoteViewImpl(val bundle: Bundle) : BaseViewImpl<EditNoteView, EditNote
 
     override fun saveNoteClicks(): Observable<Unit> = saveNote.clicks()
 
-    override fun showNoteDetail(args: Bundle) {
+    override fun showNewNoteDetail(args: Bundle) {
+        view?.hideKeyboard(applicationContext?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
         router.popCurrentController()
     }
 
@@ -63,5 +66,9 @@ class EditNoteViewImpl(val bundle: Bundle) : BaseViewImpl<EditNoteView, EditNote
 
     override fun showUnableToSaveNoteError() {
         displaySnackbar(R.string.unable_to_save_note_error)
+    }
+
+    private fun View.hideKeyboard(inputMethodManager: InputMethodManager) {
+        inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
     }
 }
