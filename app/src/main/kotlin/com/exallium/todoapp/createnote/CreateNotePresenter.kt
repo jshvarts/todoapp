@@ -1,6 +1,5 @@
 package com.exallium.todoapp.createnote
 
-import android.os.Bundle
 import com.exallium.todoapp.R
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BasePresenter
@@ -16,8 +15,6 @@ class CreateNotePresenter(private val view: CreateNoteView,
                           private val model: CreateNoteModel,
                           private val screenBundleHelper: ScreenBundleHelper,
                           private val idFactory: IdFactory) : BasePresenter<CreateNoteView>(view) {
-
-    var noteId: String = ""
 
     private val showAllNotesSubscriberFn = { unit: Unit? ->
         view.showAllNotes(view.getArgs())
@@ -41,9 +38,7 @@ class CreateNotePresenter(private val view: CreateNoteView,
 
                     override fun onNext(unit: Unit) {
                         Timber.d("saved new note")
-                        val args: Bundle = view.getArgs()
-                        screenBundleHelper.setNoteId(args, noteId)
-                        view.showNoteDetail(args)
+                        view.showNoteDetail(view.getArgs())
                     }
 
                     override fun onError(t: Throwable) {
@@ -54,7 +49,7 @@ class CreateNotePresenter(private val view: CreateNoteView,
     }
 
     internal fun buildNote(): Note {
-        noteId = idFactory.createId()
+        val noteId = idFactory.createId().apply { screenBundleHelper.setNoteId(view.getArgs(), this) }
         val now = System.currentTimeMillis()
         return Note(noteId, view.getNoteTitle(), view.getNoteBody(), now, now)
     }
