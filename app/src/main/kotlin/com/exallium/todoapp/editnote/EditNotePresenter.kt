@@ -1,6 +1,5 @@
 package com.exallium.todoapp.editnote
 
-import android.os.Bundle
 import com.exallium.todoapp.R
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BasePresenter
@@ -17,11 +16,11 @@ class EditNotePresenter(private val view: EditNoteView,
                           private val screenBundleHelper: ScreenBundleHelper) : BasePresenter<EditNoteView>(view) {
 
     private val showNewNoteDetailSubscriberFn = { unit: Unit? ->
-        view.showNewNoteDetail(view.getArgs())
+        view.showNewNoteDetail(getArgs())
     }
 
     override fun onViewCreated() {
-        val args: Bundle = view.getArgs()
+        val args = getArgs()
         screenBundleHelper.setTitle(args, R.string.edit_note_screen_title)
         val noteId: String = screenBundleHelper.getNoteId(args)
 
@@ -68,7 +67,7 @@ class EditNotePresenter(private val view: EditNoteView,
 
                     override fun onNext(unit: Unit) {
                         Timber.d("saved note with id " + oldNote.id)
-                        view.showNewNoteDetail(view.getArgs())
+                        view.showNewNoteDetail(getArgs())
                     }
 
                     override fun onError(t: Throwable) {
