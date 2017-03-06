@@ -15,8 +15,7 @@ class AllNotesPresenter(private val view: AllNotesView,
                         private val bundleFactory: BundleFactory) : BasePresenter<AllNotesView>(view) {
 
     private val showNoteSubscriberFn = { note: Note? ->
-        var args: Bundle = makeNoteDetailBundle(note?.id)
-        view.showSingleNote(args)
+        view.showSingleNote(makeNoteDetailBundle(note?.id))
     }
 
     private val showCreateNoteSubscriberFn = { unit: Unit? ->
@@ -36,8 +35,6 @@ class AllNotesPresenter(private val view: AllNotesView,
     }
 
     private fun makeNoteDetailBundle(id: String?) : Bundle {
-        val args: Bundle = bundleFactory.createBundle()
-        screenBundleHelper.setNoteId(args, id)
-        return args
+        return bundleFactory.createBundle().apply { screenBundleHelper.setNoteId(this, id) }
     }
 }
