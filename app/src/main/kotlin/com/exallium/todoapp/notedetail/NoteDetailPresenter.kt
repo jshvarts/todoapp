@@ -18,6 +18,10 @@ class NoteDetailPresenter(private val view: NoteDetailView,
                           private val screenBundleHelper: ScreenBundleHelper,
                           private val bundleFactory: BundleFactory) : BasePresenter<NoteDetailView>(view) {
 
+    private val showEditNoteSubscriberFn = { unit: Unit? ->
+        view.showEditNote(view.getArgs())
+    }
+
     override fun onViewCreated() {
         val args: Bundle = view.getArgs()
         screenBundleHelper.setTitle(args, R.string.note_detail_screen_title)
@@ -26,6 +30,8 @@ class NoteDetailPresenter(private val view: NoteDetailView,
         setupGetNoteDetailSubscription(noteId)
 
         setupDeleteNoteSubscription(noteId)
+
+        view.editNoteClicks().map { null }.subscribe(showEditNoteSubscriberFn).addToComposite()
     }
 
     fun setupGetNoteDetailSubscription(noteId: String) {

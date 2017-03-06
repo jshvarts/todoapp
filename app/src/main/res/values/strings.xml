@@ -11,4 +11,11 @@
     <string name="note_delete_button_text">Delete Note</string>
     <string name="note_edit_button_text">Edit Note</string>
 
+    <!-- Edit Note -->
+    <string name="edit_note_screen_title">Edit Note</string>
+    <string name="unable_to_load_note_error">Error loading Note for editing</string>
+    <string name="unable_to_save_note_error">Error saving Note</string>
+    <string name="edit_note_cancel_button_text">Cancel</string>
+    <string name="edit_note_save_button_text">Save</string>
+
 </resources>
