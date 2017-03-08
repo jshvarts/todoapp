@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.TextSwitcher
+import butterknife.BindString
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.bluelinelabs.conductor.*
@@ -35,6 +36,9 @@ class MainActivity : AppCompatActivity() {
     @BindView(R.id.main_activity_toolbar_title)
     lateinit var toolbarTitle: TextSwitcher
 
+    @BindString(R.string.app_name)
+    lateinit var appName: String
+
     private lateinit var router: Router
 
     private val changeListener = object : ControllerChangeHandler.ControllerChangeListener {
@@ -42,9 +46,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onChangeCompleted(to: Controller?, from: Controller?, isPush: Boolean, container: ViewGroup, handler: ControllerChangeHandler) {
-            val title = screenBundleHelper.getTitle(to?.args)
-            toolbarTitle.setText(title)
-            supportActionBar!!.setDisplayHomeAsUpEnabled(!title.equals(resources.getString(R.string.app_name)))
+            screenBundleHelper.getTitle(to?.args)
+                .apply { toolbarTitle.setText(this) }
+                .apply { supportActionBar!!.setDisplayHomeAsUpEnabled(!this.equals(appName)) }
         }
     }
 

@@ -64,11 +64,7 @@ abstract class BaseViewImpl<
     override final fun lifecycleEvents(): Observable<BaseView.LifecycleEvent> = lifecycleSubject
 
     override fun displaySnackbar(@StringRes stringResourceId: Int, @BaseTransientBottomBar.Duration length: Int) {
-        view?.let { Snackbar.make(it, stringResourceId, length) }
-    }
-
-    override fun displaySnackbar(string: String, @BaseTransientBottomBar.Duration length: Int) {
-        view?.let { Snackbar.make(it, string, length) }
+        view?.let { Snackbar.make(it, stringResourceId, length).show() }
     }
 
     @Inject

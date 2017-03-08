@@ -8,13 +8,13 @@ import com.bluelinelabs.conductor.RouterTransaction
 import com.exallium.todoapp.R
 import com.exallium.todoapp.allnotes.AllNotesViewImpl
 import com.exallium.todoapp.app.TodoApp
+import com.exallium.todoapp.editnote.EditNoteViewImpl
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BaseViewImpl
 import com.jakewharton.rxbinding.view.clicks
 import rx.Observable
-import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 /**
  * Conductor Controller displaying a single note
@@ -50,18 +50,16 @@ class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, Note
     override fun setNoteData(note: Note) {
         noteTitleTextView.text = note.title
         noteBodyTextView.text = note.body
-        setDate(noteDateCreated, note.created)
-        setDate(noteDateUpdated, note.updated)
-    }
-
-    private fun setDate(field: TextView, valueInMillis: Long) {
-        if (valueInMillis != 0L) {
-            field.text = SimpleDateFormat().format(Date(valueInMillis))
-        }
+        noteDateCreated.setDate(note.created)
+        noteDateUpdated.setDate(note.updated)
     }
 
     override fun showUnableToLoadNoteDetailError() {
-        displaySnackbar(R.string.unable_to_load_note_detail_error)
+        displaySnackbar(R.string.unable_to_load_note_error)
+    }
+
+    override fun showNoteDeletedMessage() {
+        displaySnackbar(R.string.note_deleted_message)
     }
 
     override fun deleteNoteClicks(): Observable<Unit> = deleteNote.clicks()
@@ -70,5 +68,15 @@ class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, Note
 
     override fun showAllNotes(args: Bundle) {
         router.pushController(RouterTransaction.with(AllNotesViewImpl(args)))
+    }
+
+    override fun showEditNote(args: Bundle) {
+        router.pushController(RouterTransaction.with(EditNoteViewImpl(args)))
+    }
+
+    private fun TextView.setDate(valueInMillis: Long) {
+        if (valueInMillis != 0L) {
+            this.text = SimpleDateFormat().format(Date(valueInMillis))
+        }
     }
 }

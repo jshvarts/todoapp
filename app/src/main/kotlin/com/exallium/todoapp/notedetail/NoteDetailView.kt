@@ -11,7 +11,9 @@ import rx.Observable
 interface NoteDetailView : BaseView {
     fun setNoteData(note: Note)
     fun showUnableToLoadNoteDetailError()
+    fun showNoteDeletedMessage()
     fun deleteNoteClicks(): Observable<Unit>
     fun editNoteClicks(): Observable<Unit>
     fun showAllNotes(args: Bundle)
+    fun showEditNote(args: Bundle)
 }
