@@ -8,6 +8,7 @@ import butterknife.BindView
 import com.bluelinelabs.conductor.RouterTransaction
 import com.exallium.todoapp.R
 import com.exallium.todoapp.app.TodoApp
+import com.exallium.todoapp.createnote.CreateNoteViewImpl
 import com.exallium.todoapp.mvp.BaseViewImpl
 import com.exallium.todoapp.notedetail.NoteDetailViewImpl
 import com.jakewharton.rxbinding.view.clicks
@@ -40,6 +41,10 @@ class AllNotesViewImpl(bundle: Bundle) : BaseViewImpl<AllNotesView, AllNotesPres
 
     override fun showSingleNote(args: Bundle) {
         router.pushController(RouterTransaction.with(NoteDetailViewImpl(args)))
+    }
+
+    override fun showCreateNote(args: Bundle) {
+        router.pushController(RouterTransaction.with(CreateNoteViewImpl(args)))
     }
 
     override fun addNoteClicks(): Observable<Unit> = addNote.clicks()

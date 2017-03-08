@@ -8,6 +8,10 @@
     <dimen name="note_detail_margin">16dp</dimen>
     <dimen name="note_detail_button_bar_layout_margin_top">50dp</dimen>
 
+    <!-- Create Note -->
+    <dimen name="create_note_body_margin_bottom">30dp</dimen>
+    <dimen name="create_note_button_bar_layout_margin_top">50dp</dimen>
+
     <!-- Edit Note -->
     <dimen name="edit_note_body_margin_bottom">30dp</dimen>
     <dimen name="edit_note_button_bar_layout_margin_top">50dp</dimen>
