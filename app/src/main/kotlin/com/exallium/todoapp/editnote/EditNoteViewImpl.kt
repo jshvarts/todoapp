@@ -11,6 +11,7 @@ import com.exallium.todoapp.app.TodoApp
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BaseViewImpl
 import com.jakewharton.rxbinding.view.clicks
+import com.jakewharton.rxbinding.widget.textChanges
 import rx.Observable
 
 /**
@@ -43,12 +44,17 @@ class EditNoteViewImpl(val bundle: Bundle) : BaseViewImpl<EditNoteView, EditNote
     override fun setNoteData(note: Note) {
         noteTitleEditText.setText(note.title)
         noteBodyTextView.setText(note.body)
+        noteBodyTextView.textChanges()
         dataInitialized = true
     }
 
     override fun cancelEditNoteClicks(): Observable<Unit> = cancelEditNote.clicks()
 
     override fun saveNoteClicks(): Observable<Unit> = saveNote.clicks()
+
+    override fun titleTextChanges(): Observable<CharSequence> = noteTitleEditText.textChanges()
+
+    override fun bodyTextChanges(): Observable<CharSequence> = noteBodyTextView.textChanges()
 
     override fun showNewNoteDetail(args: Bundle) {
         view?.hideKeyboard(applicationContext?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
@@ -69,6 +75,18 @@ class EditNoteViewImpl(val bundle: Bundle) : BaseViewImpl<EditNoteView, EditNote
 
     override fun showUnableToSaveNoteError() {
         displaySnackbar(R.string.unable_to_save_note_error)
+    }
+
+    override fun showInvalidNoteTitleError() {
+        displaySnackbar(R.string.invalid_note_title_error)
+    }
+
+    override fun showInvalidNoteBodyError() {
+        displaySnackbar(R.string.invalid_note_body_error)
+    }
+
+    override fun toggleSubmit(enable: Boolean) {
+        saveNote.isEnabled = enable
     }
 
     override fun isDataInitialized(): Boolean {

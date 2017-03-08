@@ -109,6 +109,18 @@ class EditNotePresenterTest {
     }
 
     @Test
+    fun onViewCreated_setupTextViewsChanged() {
+        // GIVEN
+        testSubject = spy(testSubject)
+
+        // WHEN
+        testSubject.onViewCreated()
+
+        // THEN
+        verify(testSubject).setupTextViewsChanged()
+    }
+
+    @Test
     fun buildNote_buildsNewNoteObjectUsingOldAndNewData() {
         // GIVEN
         val oldNote: Note = mock()
