@@ -31,6 +31,8 @@ class EditNoteViewImpl(val bundle: Bundle) : BaseViewImpl<EditNoteView, EditNote
     @BindView(R.id.edit_note_save_button)
     lateinit var saveNote: View
 
+    private var dataInitialized: Boolean = false
+
     override fun getComponent(): EditNoteComponent = DaggerEditNoteComponent.builder()
             .todoAppComponent(TodoApp.component)
             .editNoteModule(EditNoteModule(this))
@@ -41,6 +43,7 @@ class EditNoteViewImpl(val bundle: Bundle) : BaseViewImpl<EditNoteView, EditNote
     override fun setNoteData(note: Note) {
         noteTitleEditText.setText(note.title)
         noteBodyTextView.setText(note.body)
+        dataInitialized = true
     }
 
     override fun cancelEditNoteClicks(): Observable<Unit> = cancelEditNote.clicks()
@@ -66,6 +69,10 @@ class EditNoteViewImpl(val bundle: Bundle) : BaseViewImpl<EditNoteView, EditNote
 
     override fun showUnableToSaveNoteError() {
         displaySnackbar(R.string.unable_to_save_note_error)
+    }
+
+    override fun isDataInitialized(): Boolean {
+        return dataInitialized
     }
 
     private fun View.hideKeyboard(inputMethodManager: InputMethodManager) {

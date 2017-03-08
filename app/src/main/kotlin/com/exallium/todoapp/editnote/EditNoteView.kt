@@ -17,4 +17,5 @@ interface EditNoteView : BaseView {
     fun showUnableToSaveNoteError()
     fun getNewNoteTitle(): String
     fun getNewNoteBody(): String
+    fun isDataInitialized(): Boolean
 }

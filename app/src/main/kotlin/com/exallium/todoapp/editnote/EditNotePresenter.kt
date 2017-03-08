@@ -25,7 +25,9 @@ class EditNotePresenter(private val view: EditNoteView,
         screenBundleHelper.setTitle(args, R.string.edit_note_screen_title)
         val noteId: String = screenBundleHelper.getNoteId(args)
 
-        setupGetNoteDetailSubscription(noteId)
+        if (!view.isDataInitialized()) {
+            setupGetNoteDetailSubscription(noteId)
+        }
 
         setupSaveNoteSubscription(noteId)
 

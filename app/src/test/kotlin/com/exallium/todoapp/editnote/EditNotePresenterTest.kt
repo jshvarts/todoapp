@@ -4,10 +4,7 @@ import android.os.Bundle
 import com.exallium.todoapp.R
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.spy
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockito_kotlin.*
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Answers
@@ -75,7 +72,20 @@ class EditNotePresenterTest {
     }
 
     @Test
-    fun onViewCreated_setupGetNoteDetailSubscription() {
+    fun onViewCreated_whenDataIsInitialized_doesNotSetupGetNoteDetailSubscription() {
+        // GIVEN
+        testSubject = spy(testSubject)
+        whenever(view.isDataInitialized()).thenReturn(true)
+
+        // WHEN
+        testSubject.onViewCreated()
+
+        // THEN
+        verify(testSubject, never()).setupGetNoteDetailSubscription(TEST_NOTE_ID_STRING)
+    }
+
+    @Test
+    fun onViewCreated_whenDataNotInitialized_setupGetNoteDetailSubscription() {
         // GIVEN
         testSubject = spy(testSubject)
 
