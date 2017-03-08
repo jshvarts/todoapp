@@ -36,16 +36,14 @@ class EditNotePresenter(private val view: EditNoteView,
 
     fun setupTextViewsChanged() {
         view.titleTextChanges()
-                .map { model.validateNoteTitleText(view.getNewNoteTitle()) }
+                .map { model.validateNoteTitleText(it.toString()) }
                 .doOnNext { if (!it) { view.showInvalidNoteTitleError(); view.toggleSubmit(false) } }
-                // filters out anything that doesn't match the predicate (only emit true events (the text is valid).
                 .filter { it }
                 .subscribe { view.toggleSubmit(validateAllFields()) }
 
         view.bodyTextChanges()
-                .map { model.validateNoteBodyText(view.getNewNoteBody()) }
+                .map { model.validateNoteBodyText(it.toString()) }
                 .doOnNext { if (!it) { view.showInvalidNoteBodyError(); view.toggleSubmit(false) } }
-                // filters out anything that doesn't match the predicate (only emit true events (the text is valid).
                 .filter { it }
                 .subscribe { view.toggleSubmit(validateAllFields()) }
     }
