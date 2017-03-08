@@ -53,7 +53,6 @@ class EditNotePresenter(private val view: EditNoteView,
     fun setupGetNoteDetailSubscription(noteId: String) {
         model.getNote(noteId).subscribe(object : SingleSubscriber<Note>() {
             override fun onSuccess(note: Note) {
-                Timber.d("looking up note")
                 view.setNoteData(note)
             }
 
