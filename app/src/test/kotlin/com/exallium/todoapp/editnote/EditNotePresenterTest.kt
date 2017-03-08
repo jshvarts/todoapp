@@ -70,22 +70,9 @@ class EditNotePresenterTest {
         // THEN
         verify(screenBundleHelper).getNoteId(bundle)
     }
-
+    
     @Test
-    fun onViewCreated_whenDataIsInitialized_doesNotSetupGetNoteDetailSubscription() {
-        // GIVEN
-        testSubject = spy(testSubject)
-        whenever(view.isDataInitialized()).thenReturn(true)
-
-        // WHEN
-        testSubject.onViewCreated()
-
-        // THEN
-        verify(testSubject, never()).setupGetNoteDetailSubscription(TEST_NOTE_ID_STRING)
-    }
-
-    @Test
-    fun onViewCreated_whenDataNotInitialized_setupGetNoteDetailSubscription() {
+    fun onViewCreated_setupGetNoteDetailSubscription() {
         // GIVEN
         testSubject = spy(testSubject)
 

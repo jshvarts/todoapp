@@ -25,9 +25,7 @@ class EditNotePresenter(private val view: EditNoteView,
         screenBundleHelper.setTitle(args, R.string.edit_note_screen_title)
         val noteId: String = screenBundleHelper.getNoteId(args)
 
-        if (!view.isDataInitialized()) {
-            setupGetNoteDetailSubscription(noteId)
-        }
+        setupGetNoteDetailSubscription(noteId)
 
         setupSaveNoteSubscription(noteId)
 
@@ -55,6 +53,7 @@ class EditNotePresenter(private val view: EditNoteView,
     fun setupGetNoteDetailSubscription(noteId: String) {
         model.getNote(noteId).subscribe(object : SingleSubscriber<Note>() {
             override fun onSuccess(note: Note) {
+                Timber.d("looking up note")
                 view.setNoteData(note)
             }
 

@@ -21,6 +21,5 @@ interface EditNoteView : BaseView {
     fun showInvalidNoteBodyError()
     fun getNewNoteTitle(): String
     fun getNewNoteBody(): String
-    fun isDataInitialized(): Boolean
     fun toggleSubmit(inputValid: Boolean)
 }
