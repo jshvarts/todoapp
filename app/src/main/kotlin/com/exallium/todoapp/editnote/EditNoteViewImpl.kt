@@ -44,7 +44,6 @@ class EditNoteViewImpl(val bundle: Bundle) : BaseViewImpl<EditNoteView, EditNote
     override fun setNoteData(note: Note) {
         noteTitleEditText.setText(note.title)
         noteBodyTextView.setText(note.body)
-        noteBodyTextView.textChanges()
         dataInitialized = true
     }
 
