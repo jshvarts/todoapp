@@ -45,15 +45,6 @@ class EditNotePresenterTest {
     }
 
     @Test
-    fun onViewCreated_getsBundleFromView() {
-        // WHEN
-        testSubject.onViewCreated()
-
-        // THEN
-        verify(view).getArgs()
-    }
-
-    @Test
     fun onViewCreated_setsScreenTitleInBundle() {
         // WHEN
         testSubject.onViewCreated()

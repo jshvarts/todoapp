@@ -11,17 +11,17 @@ import timber.log.Timber
 /**
  * Presenter for Create Note Screen
  */
-class CreateNotePresenter(private val view: CreateNoteView,
+class CreateNotePresenter(view: CreateNoteView,
                           private val model: CreateNoteModel,
                           private val screenBundleHelper: ScreenBundleHelper,
                           private val idFactory: IdFactory) : BasePresenter<CreateNoteView>(view) {
 
-    private val showAllNotesSubscriberFn = { unit: Unit? ->
-        view.showAllNotes(view.getArgs())
+    private val showAllNotesSubscriberFn: (Unit?) -> (Unit) = {
+        view.showAllNotes(getArgs())
     }
 
     override fun onViewCreated() {
-        screenBundleHelper.setTitle(view.getArgs(), R.string.create_note_screen_title)
+        screenBundleHelper.setTitle(getArgs(), R.string.create_note_screen_title)
 
         view.cancelCreateNoteClicks().map { null }.subscribe(showAllNotesSubscriberFn).addToComposite()
 
@@ -38,7 +38,7 @@ class CreateNotePresenter(private val view: CreateNoteView,
 
                     override fun onNext(unit: Unit) {
                         Timber.d("saved new note")
-                        view.showNoteDetail(view.getArgs())
+                        view.showNoteDetail(getArgs())
                     }
 
                     override fun onError(t: Throwable) {
@@ -49,7 +49,7 @@ class CreateNotePresenter(private val view: CreateNoteView,
     }
 
     internal fun buildNote(): Note {
-        val noteId = idFactory.createId().apply { screenBundleHelper.setNoteId(view.getArgs(), this) }
+        val noteId = idFactory.createId().apply { screenBundleHelper.setNoteId(getArgs(), this) }
         val now = System.currentTimeMillis()
         return Note(noteId, view.getNoteTitle(), view.getNoteBody(), now, now)
     }

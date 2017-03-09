@@ -9,7 +9,7 @@ import com.exallium.todoapp.screenbundle.ScreenBundleHelper
 /**
  * Presenter for AllNotes Screen
  */
-class AllNotesPresenter(private val view: AllNotesView,
+class AllNotesPresenter(view: AllNotesView,
                         private val adapter: AllNotesAdapter,
                         private val screenBundleHelper: ScreenBundleHelper,
                         private val bundleFactory: BundleFactory) : BasePresenter<AllNotesView>(view) {
@@ -18,7 +18,7 @@ class AllNotesPresenter(private val view: AllNotesView,
         view.showSingleNote(makeNoteDetailBundle(note?.id))
     }
 
-    private val showCreateNoteSubscriberFn = { unit: Unit? ->
+    private val showCreateNoteSubscriberFn: (Unit?) -> (Unit) = {
         view.showCreateNote(bundleFactory.createBundle())
     }
 
