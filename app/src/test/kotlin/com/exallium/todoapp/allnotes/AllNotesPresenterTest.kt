@@ -87,7 +87,7 @@ class AllNotesPresenterTest {
     }
 
     @Test
-    fun addClicked_showSingleNote() {
+    fun addClicked_showCreateNote() {
         // GIVEN
         val publisher = PublishSubject.create<Unit>()
         whenever(view.addNoteClicks()).thenReturn(publisher)
@@ -98,7 +98,7 @@ class AllNotesPresenterTest {
         publisher.onNext(Unit)
 
         // THEN
-        verify(view).showSingleNote(bundle)
+        verify(view).showCreateNote(bundle)
     }
 
     private fun given_bundle() : Bundle {

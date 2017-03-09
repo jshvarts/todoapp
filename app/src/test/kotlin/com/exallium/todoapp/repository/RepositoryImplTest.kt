@@ -123,7 +123,7 @@ class RepositoryImplTest {
         val note = getNote()
 
         // WHEN
-        testSubject.deleteNote(note.id)
+        testSubject.deleteNote(note.id).subscribe()
 
         // THEN
         verify(dataMapper).remove(note.id)
