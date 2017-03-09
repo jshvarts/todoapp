@@ -5,6 +5,7 @@ import com.exallium.todoapp.R
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BasePresenter
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
+import rx.Observable
 import rx.SingleSubscriber
 import rx.Subscriber
 import timber.log.Timber
@@ -35,17 +36,23 @@ class EditNotePresenter(private val view: EditNoteView,
     }
 
     fun setupTextViewsChanged() {
-        view.titleTextChanges()
-                .map { model.validateNoteTitleText(it.toString()) }
-                .doOnNext { if (!it) { view.showInvalidNoteTitleError(); view.toggleSubmit(false) } }
-                .filter { it }
-                .subscribe { view.toggleSubmit(validateAllFields()) }
+        setupTextChangedValidation(view.titleTextChanges(), model::validateNoteTitleText, view::showInvalidNoteTitleError)
+        setupTextChangedValidation(view.bodyTextChanges(), model::validateNoteBodyText, view::showInvalidNoteBodyError)
+    }
 
-        view.bodyTextChanges()
-                .map { model.validateNoteBodyText(it.toString()) }
-                .doOnNext { if (!it) { view.showInvalidNoteBodyError(); view.toggleSubmit(false) } }
+    fun setupTextChangedValidation(textChangedObservabe: Observable<CharSequence>,
+                                   validationFn: (String) -> Boolean,
+                                   showErrFn: () -> Unit) {
+        textChangedObservabe
+                .map(CharSequence::toString)
+                .map(validationFn)
+                .doOnNext { if (!it) {
+                    showErrFn()
+                    view.toggleSubmit(false)
+                } }
                 .filter { it }
                 .subscribe { view.toggleSubmit(validateAllFields()) }
+                .addToComposite()
     }
 
     fun setupGetNoteDetailSubscription(noteId: String) {
