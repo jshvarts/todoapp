@@ -14,5 +14,15 @@ interface EditNoteModel {
      * creates in-memory Note object based on existing item and the new data
      */
     fun buildNote(oldNote: Note, newNoteTitle: String, newNoteBody: String) : Note
+
+    /**
+     * Returns true if valid and false otherwise
+     */
+    fun validateNoteTitleText(text: String): Boolean
+
+    /**
+     * Returns true if valid and false otherwise
+     */
+    fun validateNoteBodyText(text: String): Boolean
 }
 

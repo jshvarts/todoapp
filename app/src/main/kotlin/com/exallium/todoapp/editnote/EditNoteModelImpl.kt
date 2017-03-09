@@ -11,4 +11,8 @@ class EditNoteModelImpl(private val repository: Repository) : EditNoteModel {
     override fun editNote(note: Note) = repository.saveNote(note)
     override fun buildNote(oldNote: Note, newNoteTitle: String, newNoteBody: String): Note
             = Note(oldNote.id, newNoteTitle, newNoteBody, oldNote.created, System.currentTimeMillis())
+
+    override fun validateNoteTitleText(text: String): Boolean = !text.isNullOrBlank()
+
+    override fun validateNoteBodyText(text: String): Boolean = !text.isNullOrBlank()
 }

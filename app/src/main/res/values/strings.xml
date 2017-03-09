@@ -22,6 +22,8 @@
 
     <!-- Edit Note -->
     <string name="edit_note_screen_title">Edit Note</string>
+    <string name="invalid_note_title_error">Title cannot be empty</string>
+    <string name="invalid_note_body_error">Body cannot be empty</string>
     <string name="edit_note_cancel_button_text">Cancel</string>
     <string name="edit_note_save_button_text">Save</string>
 

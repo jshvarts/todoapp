@@ -30,6 +30,22 @@ class EditNotePresenter(private val view: EditNoteView,
         setupSaveNoteSubscription(noteId)
 
         view.cancelEditNoteClicks().map { null }.subscribe(showNewNoteDetailSubscriberFn).addToComposite()
+
+        setupTextViewsChanged()
+    }
+
+    fun setupTextViewsChanged() {
+        view.titleTextChanges()
+                .map { model.validateNoteTitleText(it.toString()) }
+                .doOnNext { if (!it) { view.showInvalidNoteTitleError(); view.toggleSubmit(false) } }
+                .filter { it }
+                .subscribe { view.toggleSubmit(validateAllFields()) }
+
+        view.bodyTextChanges()
+                .map { model.validateNoteBodyText(it.toString()) }
+                .doOnNext { if (!it) { view.showInvalidNoteBodyError(); view.toggleSubmit(false) } }
+                .filter { it }
+                .subscribe { view.toggleSubmit(validateAllFields()) }
     }
 
     fun setupGetNoteDetailSubscription(noteId: String) {
@@ -79,4 +95,8 @@ class EditNotePresenter(private val view: EditNoteView,
     }
 
     internal fun buildNote(oldNote: Note): Note = model.buildNote(oldNote, view.getNewNoteTitle(), view.getNewNoteBody())
+
+    internal fun validateAllFields(): Boolean {
+        return model.validateNoteTitleText(view.getNewNoteTitle()) && model.validateNoteBodyText(view.getNewNoteBody())
+    }
 }

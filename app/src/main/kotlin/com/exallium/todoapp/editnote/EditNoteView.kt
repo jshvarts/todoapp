@@ -12,9 +12,14 @@ interface EditNoteView : BaseView {
     fun setNoteData(note: Note)
     fun cancelEditNoteClicks(): Observable<Unit>
     fun saveNoteClicks(): Observable<Unit>
+    fun titleTextChanges(): Observable<CharSequence>
+    fun bodyTextChanges(): Observable<CharSequence>
     fun showNewNoteDetail(args: Bundle)
     fun showUnableToLoadNoteError()
     fun showUnableToSaveNoteError()
+    fun showInvalidNoteTitleError()
+    fun showInvalidNoteBodyError()
     fun getNewNoteTitle(): String
     fun getNewNoteBody(): String
+    fun toggleSubmit(inputValid: Boolean)
 }
