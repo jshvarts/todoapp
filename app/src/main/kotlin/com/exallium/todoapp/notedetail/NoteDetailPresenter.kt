@@ -12,12 +12,12 @@ import timber.log.Timber
 /**
  * Presenter for Note Detail Screen
  */
-class NoteDetailPresenter(private val view: NoteDetailView,
+class NoteDetailPresenter(view: NoteDetailView,
                           private val model: NoteDetailModel,
                           private val screenBundleHelper: ScreenBundleHelper,
                           private val bundleFactory: BundleFactory) : BasePresenter<NoteDetailView>(view) {
 
-    private val showEditNoteSubscriberFn = { unit: Unit? ->
+    private val showEditNoteSubscriberFn: (Unit?) -> (Unit) = {
         view.showEditNote(getArgs())
     }
 

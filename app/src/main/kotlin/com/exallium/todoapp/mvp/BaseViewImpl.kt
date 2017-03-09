@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import butterknife.ButterKnife
 import com.bluelinelabs.conductor.Controller
 import com.exallium.todoapp.di.BaseComponent
@@ -89,4 +90,8 @@ abstract class BaseViewImpl<
 
     @IdRes
     abstract protected fun getLayoutId(): Int
+
+    protected fun View.hideKeyboard(inputMethodManager: InputMethodManager) {
+        inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+    }
 }

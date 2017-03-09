@@ -71,4 +71,52 @@ class EditNoteModelImplTest {
         Assert.assertEquals(oldNote.created, result.created)
         Assert.assertNotNull(result.updated)
     }
+
+    @Test
+    fun validateNoteTitleText_whenTitleIsEmpty_returnsFalse() {
+        // GIVEN
+        val newNoteTitle: String = ""
+
+        // WHEN
+        val result = testSubject.validateNoteTitleText(newNoteTitle)
+
+        // THEN
+        Assert.assertFalse(result)
+    }
+
+    @Test
+    fun validateNoteTitleText_whenTitleIsNotEmpty_returnsFalse() {
+        // GIVEN
+        val newNoteTitle: String = "asdf"
+
+        // WHEN
+        val result = testSubject.validateNoteTitleText(newNoteTitle)
+
+        // THEN
+        Assert.assertTrue(result)
+    }
+
+    @Test
+    fun validateNoteBodyText_whenBodyIsEmpty_returnsFalse() {
+        // GIVEN
+        val newNoteBody: String = ""
+
+        // WHEN
+        val result = testSubject.validateNoteBodyText(newNoteBody)
+
+        // THEN
+        Assert.assertFalse(result)
+    }
+
+    @Test
+    fun validateNoteBodyText_whenBodyIsNotEmpty_returnsFalse() {
+        // GIVEN
+        val newNoteBody: String = "asdf"
+
+        // WHEN
+        val result = testSubject.validateNoteBodyText(newNoteBody)
+
+        // THEN
+        Assert.assertTrue(result)
+    }
 }

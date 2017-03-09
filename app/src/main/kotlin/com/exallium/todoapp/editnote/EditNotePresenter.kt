@@ -4,6 +4,7 @@ import com.exallium.todoapp.R
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BasePresenter
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
+import rx.Observable
 import rx.SingleSubscriber
 import rx.Subscriber
 import timber.log.Timber
@@ -11,24 +12,45 @@ import timber.log.Timber
 /**
  * Presenter for Edit Note Screen
  */
-class EditNotePresenter(private val view: EditNoteView,
+class EditNotePresenter(view: EditNoteView,
                           private val model: EditNoteModel,
                           private val screenBundleHelper: ScreenBundleHelper) : BasePresenter<EditNoteView>(view) {
 
-    private val showNewNoteDetailSubscriberFn = { unit: Unit? ->
+    private val showNewNoteDetailSubscriberFn: (Unit?) -> (Unit) = {
         view.showNewNoteDetail(getArgs())
     }
 
     override fun onViewCreated() {
-        val args = getArgs()
-        screenBundleHelper.setTitle(args, R.string.edit_note_screen_title)
-        val noteId: String = screenBundleHelper.getNoteId(args)
+        screenBundleHelper.setTitle(getArgs(), R.string.edit_note_screen_title)
+        val noteId: String = screenBundleHelper.getNoteId(getArgs())
 
         setupGetNoteDetailSubscription(noteId)
 
         setupSaveNoteSubscription(noteId)
 
         view.cancelEditNoteClicks().map { null }.subscribe(showNewNoteDetailSubscriberFn).addToComposite()
+
+        setupTextViewsChanged()
+    }
+
+    fun setupTextViewsChanged() {
+        setupTextChangedValidation(view.titleTextChanges(), model::validateNoteTitleText, view::showInvalidNoteTitleError)
+        setupTextChangedValidation(view.bodyTextChanges(), model::validateNoteBodyText, view::showInvalidNoteBodyError)
+    }
+
+    fun setupTextChangedValidation(textChangedObservabe: Observable<CharSequence>,
+                                   validationFn: (String) -> Boolean,
+                                   showErrFn: () -> Unit) {
+        textChangedObservabe
+                .map(CharSequence::toString)
+                .map(validationFn)
+                .doOnNext { if (!it) {
+                    showErrFn()
+                    view.toggleSubmit(false)
+                } }
+                .filter { it }
+                .subscribe { view.toggleSubmit(validateAllFields()) }
+                .addToComposite()
     }
 
     fun setupGetNoteDetailSubscription(noteId: String) {
@@ -78,4 +100,8 @@ class EditNotePresenter(private val view: EditNoteView,
     }
 
     internal fun buildNote(oldNote: Note): Note = model.buildNote(oldNote, view.getNewNoteTitle(), view.getNewNoteBody())
+
+    internal fun validateAllFields(): Boolean {
+        return model.validateNoteTitleText(view.getNewNoteTitle()) && model.validateNoteBodyText(view.getNewNoteBody())
+    }
 }

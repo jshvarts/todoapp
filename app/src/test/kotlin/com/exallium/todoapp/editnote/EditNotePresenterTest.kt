@@ -4,10 +4,7 @@ import android.os.Bundle
 import com.exallium.todoapp.R
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.spy
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockito_kotlin.*
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Answers
@@ -48,15 +45,6 @@ class EditNotePresenterTest {
     }
 
     @Test
-    fun onViewCreated_getsBundleFromView() {
-        // WHEN
-        testSubject.onViewCreated()
-
-        // THEN
-        verify(view).getArgs()
-    }
-
-    @Test
     fun onViewCreated_setsScreenTitleInBundle() {
         // WHEN
         testSubject.onViewCreated()
@@ -73,7 +61,7 @@ class EditNotePresenterTest {
         // THEN
         verify(screenBundleHelper).getNoteId(bundle)
     }
-
+    
     @Test
     fun onViewCreated_setupGetNoteDetailSubscription() {
         // GIVEN
@@ -96,6 +84,18 @@ class EditNotePresenterTest {
 
         // THEN
         verify(testSubject).setupSaveNoteSubscription(TEST_NOTE_ID_STRING)
+    }
+
+    @Test
+    fun onViewCreated_setupTextViewsChanged() {
+        // GIVEN
+        testSubject = spy(testSubject)
+
+        // WHEN
+        testSubject.onViewCreated()
+
+        // THEN
+        verify(testSubject).setupTextViewsChanged()
     }
 
     @Test

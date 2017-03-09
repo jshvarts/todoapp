@@ -8,7 +8,7 @@ import rx.subscriptions.CompositeSubscription
  * The Presenter is considered "alive" when it is created, but "dead" as soon as
  * the underlying view is destroyed.
  */
-abstract class BasePresenter<out V : BaseView>(private val view: V) {
+abstract class BasePresenter<out V : BaseView>(protected val view: V) {
 
     // All subscriptions should be written to this unless they're to be explicitly handled otherwise
     protected val compositeSubscription = CompositeSubscription()
