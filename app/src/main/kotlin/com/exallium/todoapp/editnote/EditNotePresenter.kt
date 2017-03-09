@@ -17,7 +17,7 @@ class EditNotePresenter(private val view: EditNoteView,
                           private val model: EditNoteModel,
                           private val screenBundleHelper: ScreenBundleHelper) : BasePresenter<EditNoteView>(view) {
 
-    private val showNewNoteDetailSubscriberFn = { unit: Unit? ->
+    private val showNewNoteDetailSubscriberFn: (Unit?) -> (Unit) = {
         view.showNewNoteDetail(view.getArgs())
     }
 
