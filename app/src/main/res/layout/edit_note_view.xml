@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:hint="title" />
+        android:hint="@string/edit_note_title_hint" />
 
     <EditText
         android:id="@+id/edit_note_body"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/note_detail_body_margin_top"
         android:layout_marginBottom="@dimen/edit_note_body_margin_bottom"
-        android:hint="body" />
+        android:hint="@string/edit_note_body_hint" />
 
     <android.support.v7.widget.ButtonBarLayout
         android:layout_height="wrap_content"
@@ -48,6 +48,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
+            android:enabled="false"
             android:text="@string/edit_note_save_button_text" />
 
     </android.support.v7.widget.ButtonBarLayout>

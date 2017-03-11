@@ -24,7 +24,7 @@ class NoteDetailPresenter(view: NoteDetailView,
     override fun onViewCreated() {
         val args = getArgs()
         screenBundleHelper.setTitle(args, R.string.note_detail_screen_title)
-        val noteId: String = screenBundleHelper.getNoteId(args)
+        val noteId: String = screenBundleHelper.getNoteId(args)!!
 
         setupGetNoteDetailSubscription(noteId)
 

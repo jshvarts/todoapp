@@ -8,7 +8,7 @@ import com.exallium.todoapp.repository.Repository
  */
 class EditNoteModelImpl(private val repository: Repository) : EditNoteModel {
     override fun getNote(id: String) = repository.getNoteById(id)
-    override fun editNote(note: Note) = repository.saveNote(note)
+    override fun saveNote(note: Note) = repository.saveNote(note)
     override fun buildNote(oldNote: Note, newNoteTitle: String, newNoteBody: String): Note
             = Note(oldNote.id, newNoteTitle, newNoteBody, oldNote.created, System.currentTimeMillis())
 
