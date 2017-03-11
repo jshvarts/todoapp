@@ -28,20 +28,20 @@ class EditNotePresenter(view: EditNoteView,
 
         setupSaveNoteSubscription(noteId)
 
-        view.cancelEditNoteClicks().map { null }.subscribe(showNewNoteDetailSubscriberFn).addToComposite()
+        setupTextChangedSubscription()
 
-        setupTextViewsChanged()
+        view.cancelEditNoteClicks().map { null }.subscribe(showNewNoteDetailSubscriberFn).addToComposite()
     }
 
-    fun setupTextViewsChanged() {
+    fun setupTextChangedSubscription() {
         setupTextChangedValidation(view.titleTextChanges(), model::validateNoteTitleText, view::showInvalidNoteTitleError)
         setupTextChangedValidation(view.bodyTextChanges(), model::validateNoteBodyText, view::showInvalidNoteBodyError)
     }
 
-    fun setupTextChangedValidation(textChangedObservabe: Observable<CharSequence>,
+    fun setupTextChangedValidation(textChangedObservable: Observable<CharSequence>,
                                    validationFn: (String) -> Boolean,
                                    showErrFn: () -> Unit) {
-        textChangedObservabe
+        textChangedObservable
                 .map(CharSequence::toString)
                 .map(validationFn)
                 .doOnNext { if (!it) {
