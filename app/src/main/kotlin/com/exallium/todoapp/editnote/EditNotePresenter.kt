@@ -27,19 +27,22 @@ class EditNotePresenter(view: EditNoteView,
     }
 
     override fun onViewCreated() {
-        val args = getArgs()
-        val noteId = screenBundleHelper.getNoteId(args)
-        if (noteId == null) {
-            screenBundleHelper.setTitle(args, R.string.create_note_screen_title)
-            setupSaveNewNoteSubscription()
-            setupCancelButtonClicksSubscription { showAllNotesSubscriberFn }
-        } else {
-            screenBundleHelper.setTitle(args, R.string.edit_note_screen_title)
-            setupGetNoteDetailSubscription(noteId)
-            setupSaveEditedNoteSubscription(noteId)
-            setupCancelButtonClicksSubscription { showNoteDetailSubscriberFn }
-        }
         setupTextChangedSubscription()
+        screenBundleHelper.getNoteId(getArgs())
+                .apply { if (this == null) handleCreateNote() else handleEditNote(this) }
+    }
+
+    fun handleCreateNote() {
+        screenBundleHelper.setTitle(getArgs(), R.string.create_note_screen_title)
+        setupSaveNewNoteSubscription()
+        setupCancelButtonClicksSubscription(showAllNotesSubscriberFn)
+    }
+
+    fun handleEditNote(noteId: String) {
+        screenBundleHelper.setTitle(getArgs(), R.string.edit_note_screen_title)
+        setupGetNoteDetailSubscription(noteId)
+        setupSaveEditedNoteSubscription(noteId)
+        setupCancelButtonClicksSubscription(showNoteDetailSubscriberFn)
     }
 
     fun setupCancelButtonClicksSubscription(cancelButtonSubscriberFn: (Unit?) -> (Unit)) {
@@ -133,15 +136,15 @@ class EditNotePresenter(view: EditNoteView,
                 }).addToComposite()
     }
 
-    internal fun buildNote(oldNote: Note): Note = model.buildNote(oldNote, view.getNoteTitle(), view.getNoteBody())
+    fun buildNote(oldNote: Note): Note = model.buildNote(oldNote, view.getNoteTitle(), view.getNoteBody())
 
-    internal fun buildNote(): Note {
+    fun buildNote(): Note {
         val noteId = idFactory.createId().apply { screenBundleHelper.setNoteId(getArgs(), this) }
         val now = System.currentTimeMillis()
         return Note(noteId, view.getNoteTitle(), view.getNoteBody(), now, now)
     }
 
-    internal fun validateAllFields(): Boolean {
+    fun validateAllFields(): Boolean {
         return model.validateNoteTitleText(view.getNoteTitle()) && model.validateNoteBodyText(view.getNoteBody())
     }
 }

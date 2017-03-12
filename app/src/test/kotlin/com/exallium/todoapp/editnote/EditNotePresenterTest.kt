@@ -63,7 +63,7 @@ class EditNotePresenterTest {
         testSubject.onViewCreated()
 
         // THEN
-        verify(screenBundleHelper, atLeast(1)).getNoteId(bundle)
+        verify(screenBundleHelper).getNoteId(bundle)
     }
     
     @Test
@@ -79,6 +79,19 @@ class EditNotePresenterTest {
     }
 
     @Test
+    fun onViewCreated_whenNoNoteIdInBundle_setScreenTitleToCreateNote() {
+        // GIVEN
+        whenever(screenBundleHelper.getNoteId(bundle)).thenReturn(null)
+        testSubject = spy(testSubject)
+
+        // WHEN
+        testSubject.onViewCreated()
+
+        // THEN
+        verify(screenBundleHelper).setTitle(bundle, R.string.create_note_screen_title)
+    }
+
+    @Test
     fun onViewCreated_whenNoNoteIdInBundle_setupSaveNewNoteSubscription() {
         // GIVEN
         whenever(screenBundleHelper.getNoteId(bundle)).thenReturn(null)
@@ -89,6 +102,19 @@ class EditNotePresenterTest {
 
         // THEN
         verify(testSubject).setupSaveNewNoteSubscription()
+    }
+
+    @Test
+    fun onViewCreated_whenNoteIdIsInBundle_setScreenTitleToEditNote() {
+        // GIVEN
+        whenever(screenBundleHelper.getNoteId(bundle)).thenReturn(TEST_NOTE_ID_STRING)
+        testSubject = spy(testSubject)
+
+        // WHEN
+        testSubject.onViewCreated()
+
+        // THEN
+        verify(screenBundleHelper).setTitle(bundle, R.string.edit_note_screen_title)
     }
 
     @Test
