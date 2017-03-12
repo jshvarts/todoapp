@@ -46,7 +46,7 @@ class EditNoteModelImplTest {
         val note: Note = mock()
 
         // WHEN
-        testSubject.editNote(note)
+        testSubject.saveNote(note)
 
         // THEN
         verify(repository).saveNote(note)

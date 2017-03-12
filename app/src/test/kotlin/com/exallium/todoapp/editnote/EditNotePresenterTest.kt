@@ -3,6 +3,7 @@ package com.exallium.todoapp.editnote
 import android.os.Bundle
 import com.exallium.todoapp.R
 import com.exallium.todoapp.entities.Note
+import com.exallium.todoapp.repository.IdFactory
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Before
@@ -33,6 +34,9 @@ class EditNotePresenterTest {
     @Mock(answer = Answers.RETURNS_MOCKS)
     private lateinit var screenBundleHelper: ScreenBundleHelper
 
+    @Mock(answer = Answers.RETURNS_MOCKS)
+    private lateinit var idFactory: IdFactory
+
     @Mock
     private lateinit var bundle: Bundle
 
@@ -59,7 +63,7 @@ class EditNotePresenterTest {
         testSubject.onViewCreated()
 
         // THEN
-        verify(screenBundleHelper).getNoteId(bundle)
+        verify(screenBundleHelper, atLeast(1)).getNoteId(bundle)
     }
     
     @Test
@@ -75,15 +79,42 @@ class EditNotePresenterTest {
     }
 
     @Test
-    fun onViewCreated_setupSaveNoteSubscription() {
+    fun onViewCreated_whenNoNoteIdInBundle_setupSaveNewNoteSubscription() {
         // GIVEN
+        whenever(screenBundleHelper.getNoteId(bundle)).thenReturn(null)
         testSubject = spy(testSubject)
 
         // WHEN
         testSubject.onViewCreated()
 
         // THEN
-        verify(testSubject).setupSaveNoteSubscription(TEST_NOTE_ID_STRING)
+        verify(testSubject).setupSaveNewNoteSubscription()
+    }
+
+    @Test
+    fun onViewCreated_whenNoteIdIsInBundle_setupGetNoteDetailSubscription() {
+        // GIVEN
+        whenever(screenBundleHelper.getNoteId(bundle)).thenReturn(TEST_NOTE_ID_STRING)
+        testSubject = spy(testSubject)
+
+        // WHEN
+        testSubject.onViewCreated()
+
+        // THEN
+        verify(testSubject).setupGetNoteDetailSubscription(TEST_NOTE_ID_STRING)
+    }
+
+    @Test
+    fun onViewCreated_whenNoteIdIsInBundle_setupSaveEditedNoteSubscription() {
+        // GIVEN
+        whenever(screenBundleHelper.getNoteId(bundle)).thenReturn(TEST_NOTE_ID_STRING)
+        testSubject = spy(testSubject)
+
+        // WHEN
+        testSubject.onViewCreated()
+
+        // THEN
+        verify(testSubject).setupSaveEditedNoteSubscription(TEST_NOTE_ID_STRING)
     }
 
     @Test
@@ -95,22 +126,22 @@ class EditNotePresenterTest {
         testSubject.onViewCreated()
 
         // THEN
-        verify(testSubject).setupTextViewsChanged()
+        verify(testSubject).setupTextChangedSubscription()
     }
 
     @Test
     fun buildNote_buildsNewNoteObjectUsingOldAndNewData() {
         // GIVEN
         val oldNote: Note = mock()
-        whenever(view.getNewNoteTitle()).thenReturn(TEST_NOTE_NEW_TITLE)
-        whenever(view.getNewNoteBody()).thenReturn(TEST_NOTE_NEW_BODY)
+        whenever(view.getNoteTitle()).thenReturn(TEST_NOTE_NEW_TITLE)
+        whenever(view.getNoteBody()).thenReturn(TEST_NOTE_NEW_BODY)
 
         // WHEN
         testSubject.buildNote(oldNote)
 
         // THEN
-        verify(view).getNewNoteTitle()
-        verify(view).getNewNoteBody()
+        verify(view).getNoteTitle()
+        verify(view).getNoteBody()
         verify(model).buildNote(oldNote, TEST_NOTE_NEW_TITLE, TEST_NOTE_NEW_BODY)
     }
 }

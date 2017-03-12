@@ -28,13 +28,13 @@ class EditNotePresenter(view: EditNoteView,
 
     override fun onViewCreated() {
         val args = getArgs()
-        if (screenBundleHelper.getNoteId(args) == null) {
+        val noteId = screenBundleHelper.getNoteId(args)
+        if (noteId == null) {
             screenBundleHelper.setTitle(args, R.string.create_note_screen_title)
             setupSaveNewNoteSubscription()
             setupCancelButtonClicksSubscription { showAllNotesSubscriberFn }
         } else {
             screenBundleHelper.setTitle(args, R.string.edit_note_screen_title)
-            val noteId: String = screenBundleHelper.getNoteId(args)!!
             setupGetNoteDetailSubscription(noteId)
             setupSaveEditedNoteSubscription(noteId)
             setupCancelButtonClicksSubscription { showNoteDetailSubscriberFn }
@@ -42,8 +42,8 @@ class EditNotePresenter(view: EditNoteView,
         setupTextChangedSubscription()
     }
 
-    fun setupCancelButtonClicksSubscription(cancelButtonFn: (Unit?) -> (Unit)) {
-        cancelButtonFn
+    fun setupCancelButtonClicksSubscription(cancelButtonSubscriberFn: (Unit?) -> (Unit)) {
+        view.cancelEditNoteClicks().map { null }.subscribe(cancelButtonSubscriberFn).addToComposite()
     }
 
     fun setupTextChangedSubscription() {
