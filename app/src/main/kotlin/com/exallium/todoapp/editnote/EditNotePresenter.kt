@@ -68,7 +68,7 @@ class EditNotePresenter(view: EditNoteView,
 
             override fun onError(t: Throwable) {
                 Timber.w(t, "error looking up note for edit with id " + noteId)
-                view.showUnableToLoadNoteError()
+                view::showUnableToLoadNoteError
             }
         }).addToComposite()
     }
@@ -79,10 +79,7 @@ class EditNotePresenter(view: EditNoteView,
      * @param noteId is required for editing a note
      */
     fun setupSaveNoteSubscription(noteId: String?) {
-        if (noteId == null) {
-            saveNote(null)
-            return
-        }
+        noteId ?: return saveNote(null)
         model.getNote(noteId).subscribe(object : SingleSubscriber<Note>() {
             override fun onSuccess(note: Note) {
                 saveNote(note)
@@ -90,7 +87,7 @@ class EditNotePresenter(view: EditNoteView,
 
             override fun onError(t: Throwable) {
                 Timber.w(t, "error looking up note with id " + noteId)
-                view.showUnableToLoadNoteError()
+                view::showUnableToLoadNoteError
             }
         }).addToComposite()
     }
@@ -125,7 +122,7 @@ class EditNotePresenter(view: EditNoteView,
                     }
 
                     override fun onError(t: Throwable) {
-                        view.showUnableToSaveNoteError()
+                        view::showUnableToSaveNoteError
                     }
                 }).addToComposite()
     }
