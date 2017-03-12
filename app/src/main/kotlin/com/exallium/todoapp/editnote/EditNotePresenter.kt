@@ -11,7 +11,7 @@ import rx.Subscriber
 import timber.log.Timber
 
 /**
- * Presenter for Edit Note Screen
+ * Presenter for Creating and Modifying Notes Screen
  */
 class EditNotePresenter(view: EditNoteView,
                         private val model: EditNoteModel,
@@ -57,6 +57,9 @@ class EditNotePresenter(view: EditNoteView,
                 .addToComposite()
     }
 
+    /**
+     * Used by edit note functionality
+     */
     fun setupGetNoteDetailSubscription(noteId: String) {
         model.getNote(noteId).subscribe(object : SingleSubscriber<Note>() {
             override fun onSuccess(note: Note) {
@@ -70,30 +73,19 @@ class EditNotePresenter(view: EditNoteView,
         }).addToComposite()
     }
 
-    fun setupSaveNewNoteSubscription() {
-        view.saveNoteClicks()
-                .flatMap { model.saveNote(buildNote()).toObservable() }
-                .subscribe(object : Subscriber<Unit>() {
-                    override fun onCompleted() {
-                        // do nothing
-                    }
-
-                    override fun onNext(unit: Unit) {
-                        Timber.d("saved new note")
-                        view.showNoteDetail(getArgs())
-                    }
-
-                    override fun onError(t: Throwable) {
-                        Timber.w(t, "error saving note")
-                        view.showUnableToSaveNoteError()
-                    }
-                }).addToComposite()
-    }
-
-    fun setupSaveEditedNoteSubscription(noteId: String) {
+    /**
+     * Used by both create and edit note functionality
+     *
+     * @param noteId is required for editing a note
+     */
+    fun setupSaveNoteSubscription(noteId: String?) {
+        if (noteId == null) {
+            saveNote(null)
+            return
+        }
         model.getNote(noteId).subscribe(object : SingleSubscriber<Note>() {
             override fun onSuccess(note: Note) {
-                performSaveNote(note)
+                saveNote(note)
             }
 
             override fun onError(t: Throwable) {
@@ -115,21 +107,24 @@ class EditNotePresenter(view: EditNoteView,
         return model.validateNoteTitleText(view.getNoteTitle()) && model.validateNoteBodyText(view.getNoteBody())
     }
 
-    private fun performSaveNote(oldNote: Note) {
+    private fun saveNote(oldNote: Note?) {
         view.saveNoteClicks()
-                .flatMap { model.saveNote(buildNote(oldNote)).toObservable() }
+                .flatMap {
+                    if (oldNote == null)
+                        model.saveNote(buildNote()).toObservable()
+                    else
+                        model.saveNote(buildNote(oldNote)).toObservable()
+                }
                 .subscribe(object : Subscriber<Unit>() {
                     override fun onCompleted() {
                         // do nothing
                     }
 
                     override fun onNext(unit: Unit) {
-                        Timber.d("saved note with id " + oldNote.id)
                         view.showNoteDetail(getArgs())
                     }
 
                     override fun onError(t: Throwable) {
-                        Timber.w(t, "error saving note with id " + oldNote.id)
                         view.showUnableToSaveNoteError()
                     }
                 }).addToComposite()
@@ -137,14 +132,14 @@ class EditNotePresenter(view: EditNoteView,
 
     private fun handleCreateNote() {
         screenBundleHelper.setTitle(getArgs(), R.string.create_note_screen_title)
-        setupSaveNewNoteSubscription()
+        setupSaveNoteSubscription(null)
         setupCancelButtonClicksSubscription(showAllNotesSubscriberFn)
     }
 
     private fun handleEditNote(noteId: String) {
         screenBundleHelper.setTitle(getArgs(), R.string.edit_note_screen_title)
         setupGetNoteDetailSubscription(noteId)
-        setupSaveEditedNoteSubscription(noteId)
+        setupSaveNoteSubscription(noteId)
         setupCancelButtonClicksSubscription(showNoteDetailSubscriberFn)
     }
 }

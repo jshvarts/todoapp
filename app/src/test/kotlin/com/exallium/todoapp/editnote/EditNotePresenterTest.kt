@@ -101,7 +101,7 @@ class EditNotePresenterTest {
         testSubject.onViewCreated()
 
         // THEN
-        verify(testSubject).setupSaveNewNoteSubscription()
+        verify(testSubject).setupSaveNoteSubscription(null)
     }
 
     @Test
@@ -140,7 +140,7 @@ class EditNotePresenterTest {
         testSubject.onViewCreated()
 
         // THEN
-        verify(testSubject).setupSaveEditedNoteSubscription(TEST_NOTE_ID_STRING)
+        verify(testSubject).setupSaveNoteSubscription(TEST_NOTE_ID_STRING)
     }
 
     @Test
