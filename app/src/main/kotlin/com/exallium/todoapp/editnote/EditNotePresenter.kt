@@ -32,19 +32,6 @@ class EditNotePresenter(view: EditNoteView,
                 .apply { if (this == null) handleCreateNote() else handleEditNote(this) }
     }
 
-    fun handleCreateNote() {
-        screenBundleHelper.setTitle(getArgs(), R.string.create_note_screen_title)
-        setupSaveNewNoteSubscription()
-        setupCancelButtonClicksSubscription(showAllNotesSubscriberFn)
-    }
-
-    fun handleEditNote(noteId: String) {
-        screenBundleHelper.setTitle(getArgs(), R.string.edit_note_screen_title)
-        setupGetNoteDetailSubscription(noteId)
-        setupSaveEditedNoteSubscription(noteId)
-        setupCancelButtonClicksSubscription(showNoteDetailSubscriberFn)
-    }
-
     fun setupCancelButtonClicksSubscription(cancelButtonSubscriberFn: (Unit?) -> (Unit)) {
         view.cancelEditNoteClicks().map { null }.subscribe(cancelButtonSubscriberFn).addToComposite()
     }
@@ -116,6 +103,18 @@ class EditNotePresenter(view: EditNoteView,
         }).addToComposite()
     }
 
+    fun buildNote(oldNote: Note): Note = model.buildNote(oldNote, view.getNoteTitle(), view.getNoteBody())
+
+    fun buildNote(): Note {
+        val noteId = idFactory.createId().apply { screenBundleHelper.setNoteId(getArgs(), this) }
+        val now = System.currentTimeMillis()
+        return Note(noteId, view.getNoteTitle(), view.getNoteBody(), now, now)
+    }
+
+    fun validateAllFields(): Boolean {
+        return model.validateNoteTitleText(view.getNoteTitle()) && model.validateNoteBodyText(view.getNoteBody())
+    }
+
     private fun performSaveNote(oldNote: Note) {
         view.saveNoteClicks()
                 .flatMap { model.saveNote(buildNote(oldNote)).toObservable() }
@@ -136,15 +135,16 @@ class EditNotePresenter(view: EditNoteView,
                 }).addToComposite()
     }
 
-    fun buildNote(oldNote: Note): Note = model.buildNote(oldNote, view.getNoteTitle(), view.getNoteBody())
-
-    fun buildNote(): Note {
-        val noteId = idFactory.createId().apply { screenBundleHelper.setNoteId(getArgs(), this) }
-        val now = System.currentTimeMillis()
-        return Note(noteId, view.getNoteTitle(), view.getNoteBody(), now, now)
+    private fun handleCreateNote() {
+        screenBundleHelper.setTitle(getArgs(), R.string.create_note_screen_title)
+        setupSaveNewNoteSubscription()
+        setupCancelButtonClicksSubscription(showAllNotesSubscriberFn)
     }
 
-    fun validateAllFields(): Boolean {
-        return model.validateNoteTitleText(view.getNoteTitle()) && model.validateNoteBodyText(view.getNoteBody())
+    private fun handleEditNote(noteId: String) {
+        screenBundleHelper.setTitle(getArgs(), R.string.edit_note_screen_title)
+        setupGetNoteDetailSubscription(noteId)
+        setupSaveEditedNoteSubscription(noteId)
+        setupCancelButtonClicksSubscription(showNoteDetailSubscriberFn)
     }
 }
