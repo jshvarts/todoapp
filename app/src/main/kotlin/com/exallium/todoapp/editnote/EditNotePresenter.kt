@@ -93,14 +93,14 @@ class EditNotePresenter(view: EditNoteView,
     }
 
     fun buildNote(oldNote: Note?): Note  {
-        if (oldNote == null) {
-            // creating new note
-            val noteId = idFactory.createId().apply { screenBundleHelper.setNoteId(getArgs(), this) }
-            val now = System.currentTimeMillis()
-            return Note(noteId, view.getNoteTitle(), view.getNoteBody(), now, now)
+        oldNote?.let {
+            // editing an existing note
+            return model.buildNote(oldNote, view.getNoteTitle(), view.getNoteBody())
         }
-        // editing existing note
-        return model.buildNote(oldNote, view.getNoteTitle(), view.getNoteBody())
+        // creating a new note
+        val noteId = idFactory.createId().apply { screenBundleHelper.setNoteId(getArgs(), this) }
+        val now = System.currentTimeMillis()
+        return Note(noteId, view.getNoteTitle(), view.getNoteBody(), now, now)
     }
 
     fun validateAllFields(): Boolean {
