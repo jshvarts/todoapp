@@ -7,7 +7,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import butterknife.BindString
 import butterknife.BindView
+import com.bluelinelabs.conductor.RouterTransaction
 import com.exallium.todoapp.R
+import com.exallium.todoapp.allnotes.AllNotesViewImpl
 import com.exallium.todoapp.app.TodoApp
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BaseViewImpl
@@ -93,6 +95,6 @@ class EditNoteViewImpl(val bundle: Bundle) : BaseViewImpl<EditNoteView, EditNote
     }
 
     override fun showAllNotes(args: Bundle) {
-        router.popCurrentController()
+        router.pushController(RouterTransaction.with(AllNotesViewImpl(args)))
     }
 }

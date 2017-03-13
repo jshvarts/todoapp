@@ -68,7 +68,7 @@ class EditNotePresenter(view: EditNoteView,
 
             override fun onError(t: Throwable) {
                 Timber.w(t, "error looking up note for edit with id " + noteId)
-                view::showUnableToLoadNoteError
+                view.showUnableToLoadNoteError()
             }
         }).addToComposite()
     }
@@ -87,17 +87,20 @@ class EditNotePresenter(view: EditNoteView,
 
             override fun onError(t: Throwable) {
                 Timber.w(t, "error looking up note with id " + noteId)
-                view::showUnableToLoadNoteError
+                view.showUnableToLoadNoteError()
             }
         }).addToComposite()
     }
 
-    fun buildNote(oldNote: Note): Note = model.buildNote(oldNote, view.getNoteTitle(), view.getNoteBody())
-
-    fun buildNote(): Note {
-        val noteId = idFactory.createId().apply { screenBundleHelper.setNoteId(getArgs(), this) }
-        val now = System.currentTimeMillis()
-        return Note(noteId, view.getNoteTitle(), view.getNoteBody(), now, now)
+    fun buildNote(oldNote: Note?): Note  {
+        if (oldNote == null) {
+            // creating new note
+            val noteId = idFactory.createId().apply { screenBundleHelper.setNoteId(getArgs(), this) }
+            val now = System.currentTimeMillis()
+            return Note(noteId, view.getNoteTitle(), view.getNoteBody(), now, now)
+        }
+        // editing existing note
+        return model.buildNote(oldNote, view.getNoteTitle(), view.getNoteBody())
     }
 
     fun validateAllFields(): Boolean {
@@ -106,12 +109,7 @@ class EditNotePresenter(view: EditNoteView,
 
     private fun saveNote(oldNote: Note?) {
         view.saveNoteClicks()
-                .flatMap {
-                    if (oldNote == null)
-                        model.saveNote(buildNote()).toObservable()
-                    else
-                        model.saveNote(buildNote(oldNote)).toObservable()
-                }
+                .flatMap { model.saveNote(buildNote(oldNote)).toObservable() }
                 .subscribe(object : Subscriber<Unit>() {
                     override fun onCompleted() {
                         // do nothing
@@ -122,7 +120,7 @@ class EditNotePresenter(view: EditNoteView,
                     }
 
                     override fun onError(t: Throwable) {
-                        view::showUnableToSaveNoteError
+                        view.showUnableToSaveNoteError()
                     }
                 }).addToComposite()
     }
