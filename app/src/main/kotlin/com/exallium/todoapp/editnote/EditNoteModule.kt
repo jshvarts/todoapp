@@ -1,6 +1,7 @@
 package com.exallium.todoapp.editnote
 
 import com.exallium.todoapp.di.PerScreen
+import com.exallium.todoapp.repository.IdFactory
 import com.exallium.todoapp.repository.Repository
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
 import dagger.Module
@@ -17,6 +18,6 @@ class EditNoteModule(private val editNoteView: EditNoteView) {
 
     @Provides
     @PerScreen
-    fun providePresenter(model: EditNoteModel, screenBundleHelper: ScreenBundleHelper): EditNotePresenter
-            = EditNotePresenter(editNoteView, model, screenBundleHelper)
+    fun providePresenter(model: EditNoteModel, screenBundleHelper: ScreenBundleHelper, idFactory: IdFactory): EditNotePresenter
+            = EditNotePresenter(editNoteView, model, screenBundleHelper, idFactory)
 }

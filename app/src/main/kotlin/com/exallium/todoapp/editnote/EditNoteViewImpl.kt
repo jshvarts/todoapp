@@ -7,7 +7,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import butterknife.BindString
 import butterknife.BindView
+import com.bluelinelabs.conductor.RouterTransaction
 import com.exallium.todoapp.R
+import com.exallium.todoapp.allnotes.AllNotesViewImpl
 import com.exallium.todoapp.app.TodoApp
 import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BaseViewImpl
@@ -59,16 +61,16 @@ class EditNoteViewImpl(val bundle: Bundle) : BaseViewImpl<EditNoteView, EditNote
 
     override fun bodyTextChanges(): Observable<CharSequence> = noteBodyEditText.textChanges()
 
-    override fun showNewNoteDetail(args: Bundle) {
+    override fun showNoteDetail(args: Bundle) {
         view?.hideKeyboard(applicationContext?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
         router.popCurrentController()
     }
 
-    override fun getNewNoteTitle(): String {
+    override fun getNoteTitle(): String {
         return noteTitleEditText.text.toString()
     }
 
-    override fun getNewNoteBody(): String {
+    override fun getNoteBody(): String {
         return noteBodyEditText.text.toString()
     }
 
@@ -90,5 +92,9 @@ class EditNoteViewImpl(val bundle: Bundle) : BaseViewImpl<EditNoteView, EditNote
 
     override fun toggleSubmit(enable: Boolean) {
         saveNote.isEnabled = enable
+    }
+
+    override fun showAllNotes(args: Bundle) {
+        router.pushController(RouterTransaction.with(AllNotesViewImpl(args)))
     }
 }

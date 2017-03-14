@@ -31,6 +31,6 @@ class ScreenBundleHelperImpl(private val resources: Resources) : ScreenBundleHel
         bundle.putString(NOTE_ID, noteId)
     }
 
-    override fun getNoteId(bundle: Bundle): String
+    override fun getNoteId(bundle: Bundle): String?
             = bundle.getString(NOTE_ID, null)
 }
