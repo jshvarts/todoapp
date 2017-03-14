@@ -27,9 +27,22 @@ class EditNotePresenter(view: EditNoteView,
     }
 
     override fun onViewCreated() {
+        fun createNote() {
+            screenBundleHelper.setTitle(getArgs(), R.string.create_note_screen_title)
+            setupSaveNoteSubscription(null)
+            setupCancelButtonClicksSubscription(showAllNotesSubscriberFn)
+        }
+
+        fun editNote(noteId: String) {
+            screenBundleHelper.setTitle(getArgs(), R.string.edit_note_screen_title)
+            setupGetNoteDetailSubscription(noteId)
+            setupSaveNoteSubscription(noteId)
+            setupCancelButtonClicksSubscription(showNoteDetailSubscriberFn)
+        }
+
         setupTextChangedSubscription()
         screenBundleHelper.getNoteId(getArgs())
-                .apply { if (this == null) handleCreateNote() else handleEditNote(this) }
+                .apply { if (this == null) createNote() else editNote(this) }
     }
 
     fun setupCancelButtonClicksSubscription(cancelButtonSubscriberFn: (Unit?) -> (Unit)) {
@@ -37,24 +50,28 @@ class EditNotePresenter(view: EditNoteView,
     }
 
     fun setupTextChangedSubscription() {
+        fun validateAllFields(): Boolean {
+            return model.validateNoteTitleText(view.getNoteTitle()) && model.validateNoteBodyText(view.getNoteBody())
+        }
+
+        fun setupTextChangedValidation(textChangedObservable: Observable<CharSequence>,
+                                       validationFn: (String) -> Boolean,
+                                       showErrFn: () -> Unit) {
+            textChangedObservable
+                    .skip(1) // ignore initial load
+                    .map(CharSequence::toString)
+                    .map(validationFn)
+                    .doOnNext { if (!it) {
+                        showErrFn()
+                        view.toggleSubmit(false)
+                    } }
+                    .filter { it }
+                    .subscribe { view.toggleSubmit(validateAllFields()) }
+                    .addToComposite()
+        }
+
         setupTextChangedValidation(view.titleTextChanges(), model::validateNoteTitleText, view::showInvalidNoteTitleError)
         setupTextChangedValidation(view.bodyTextChanges(), model::validateNoteBodyText, view::showInvalidNoteBodyError)
-    }
-
-    fun setupTextChangedValidation(textChangedObservable: Observable<CharSequence>,
-                                   validationFn: (String) -> Boolean,
-                                   showErrFn: () -> Unit) {
-        textChangedObservable
-                .skip(1) // ignore initial load
-                .map(CharSequence::toString)
-                .map(validationFn)
-                .doOnNext { if (!it) {
-                    showErrFn()
-                    view.toggleSubmit(false)
-                } }
-                .filter { it }
-                .subscribe { view.toggleSubmit(validateAllFields()) }
-                .addToComposite()
     }
 
     /**
@@ -92,22 +109,18 @@ class EditNotePresenter(view: EditNoteView,
         }).addToComposite()
     }
 
-    fun buildNote(oldNote: Note?): Note  {
-        oldNote?.let {
-            // editing an existing note
-            return model.buildNote(oldNote, view.getNoteTitle(), view.getNoteBody())
-        }
-        // creating a new note
-        val noteId = idFactory.createId().apply { screenBundleHelper.setNoteId(getArgs(), this) }
-        val now = System.currentTimeMillis()
-        return Note(noteId, view.getNoteTitle(), view.getNoteBody(), now, now)
-    }
-
-    fun validateAllFields(): Boolean {
-        return model.validateNoteTitleText(view.getNoteTitle()) && model.validateNoteBodyText(view.getNoteBody())
-    }
-
     private fun saveNote(oldNote: Note?) {
+        fun buildNote(oldNote: Note?): Note  {
+            oldNote?.let {
+                // editing an existing note
+                return model.buildNote(oldNote, view.getNoteTitle(), view.getNoteBody())
+            }
+            // creating a new note
+            val noteId = idFactory.createId().apply { screenBundleHelper.setNoteId(getArgs(), this) }
+            val now = System.currentTimeMillis()
+            return Note(noteId, view.getNoteTitle(), view.getNoteBody(), now, now)
+        }
+
         view.saveNoteClicks()
                 .flatMap { model.saveNote(buildNote(oldNote)).toObservable() }
                 .subscribe(object : Subscriber<Unit>() {
@@ -123,18 +136,5 @@ class EditNotePresenter(view: EditNoteView,
                         view.showUnableToSaveNoteError()
                     }
                 }).addToComposite()
-    }
-
-    private fun handleCreateNote() {
-        screenBundleHelper.setTitle(getArgs(), R.string.create_note_screen_title)
-        setupSaveNoteSubscription(null)
-        setupCancelButtonClicksSubscription(showAllNotesSubscriberFn)
-    }
-
-    private fun handleEditNote(noteId: String) {
-        screenBundleHelper.setTitle(getArgs(), R.string.edit_note_screen_title)
-        setupGetNoteDetailSubscription(noteId)
-        setupSaveNoteSubscription(noteId)
-        setupCancelButtonClicksSubscription(showNoteDetailSubscriberFn)
     }
 }

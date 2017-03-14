@@ -2,7 +2,6 @@ package com.exallium.todoapp.editnote
 
 import android.os.Bundle
 import com.exallium.todoapp.R
-import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.repository.IdFactory
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
 import com.nhaarman.mockito_kotlin.*
@@ -19,8 +18,6 @@ import org.mockito.MockitoAnnotations
 class EditNotePresenterTest {
 
     private val TEST_NOTE_ID_STRING = "test note id"
-    private val TEST_NOTE_NEW_TITLE = "new title"
-    private val TEST_NOTE_NEW_BODY = "new body"
 
     @InjectMocks
     private lateinit var testSubject: EditNotePresenter
@@ -153,21 +150,5 @@ class EditNotePresenterTest {
 
         // THEN
         verify(testSubject).setupTextChangedSubscription()
-    }
-
-    @Test
-    fun buildNote_buildsNewNoteObjectUsingOldAndNewData() {
-        // GIVEN
-        val oldNote: Note = mock()
-        whenever(view.getNoteTitle()).thenReturn(TEST_NOTE_NEW_TITLE)
-        whenever(view.getNoteBody()).thenReturn(TEST_NOTE_NEW_BODY)
-
-        // WHEN
-        testSubject.buildNote(oldNote)
-
-        // THEN
-        verify(view).getNoteTitle()
-        verify(view).getNoteBody()
-        verify(model).buildNote(oldNote, TEST_NOTE_NEW_TITLE, TEST_NOTE_NEW_BODY)
     }
 }
