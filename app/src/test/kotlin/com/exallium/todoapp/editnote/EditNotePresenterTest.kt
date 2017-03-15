@@ -45,7 +45,6 @@ class EditNotePresenterTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
 
-        whenever(screenBundleHelper.getNoteId(bundle)).thenReturn(TEST_NOTE_ID_STRING)
         whenever(view.getArgs()).thenReturn(bundle)
     }
 
@@ -70,6 +69,7 @@ class EditNotePresenterTest {
     @Test
     fun onViewCreated_setupGetNoteDetailSubscription() {
         // GIVEN
+        whenever(screenBundleHelper.getNoteId(bundle)).thenReturn(TEST_NOTE_ID_STRING)
         testSubject = spy(testSubject)
 
         // WHEN
@@ -251,6 +251,114 @@ class EditNotePresenterTest {
         verify(view).showInvalidNoteTitleError()
         verify(view).showInvalidNoteBodyError()
         then_toggleSubmit(false)
+    }
+
+    @Test
+    fun setupSaveNoteSubscription_whenNoteIdIsNotNull_editNoteAndShowNoteDetail() {
+        // GIVEN
+        val note = getTestNote()
+        whenever(model.getNote(TEST_NOTE_ID_STRING)).thenReturn(Single.just(note))
+        whenever(model.saveNote(note)).thenReturn(Single.just(Unit))
+        whenever(model.buildNote(eq(note), any(), any())).thenReturn(note)
+        whenever(view.saveNoteClicks()).thenReturn(Observable.just(Unit))
+
+        // WHEN
+        testSubject.setupSaveNoteSubscription(TEST_NOTE_ID_STRING)
+
+        // THEN
+        verify(view).showNoteDetail(bundle)
+    }
+
+    @Test
+    fun setupSaveNoteSubscription_whenNoteIdIsNotNull_andErrorThrownWhenSaving_showsUnableToSaveNoteError() {
+        // GIVEN
+        val note = getTestNote()
+        whenever(model.getNote(TEST_NOTE_ID_STRING)).thenReturn(Single.just(note))
+        whenever(model.saveNote(note)).thenReturn(Single.error(RepositoryException("")))
+        whenever(model.buildNote(eq(note), any(), any())).thenReturn(note)
+        whenever(view.saveNoteClicks()).thenReturn(Observable.just(Unit))
+
+        // WHEN
+        testSubject.setupSaveNoteSubscription(TEST_NOTE_ID_STRING)
+
+        // THEN
+        verify(view).showUnableToSaveNoteError()
+    }
+
+    @Test
+    fun setupSaveNoteSubscription_whenNoteIdIsNull_saveNewNoteAndShowNoteDetail() {
+        // GIVEN
+        val note = getTestNote()
+        whenever(model.saveNote(any())).thenReturn(Single.just(Unit))
+        whenever(model.buildNote(eq(note), any(), any())).thenReturn(note)
+        whenever(view.saveNoteClicks()).thenReturn(Observable.just(Unit))
+        whenever(idFactory.createId()).thenReturn(TEST_NOTE_ID_STRING)
+        whenever(view.getNoteTitle()).thenReturn("")
+        whenever(view.getNoteBody()).thenReturn("")
+
+        // WHEN
+        testSubject.setupSaveNoteSubscription(null)
+
+        // THEN
+        verify(screenBundleHelper).setNoteId(bundle, TEST_NOTE_ID_STRING)
+        verify(view).showNoteDetail(any())
+    }
+
+    @Test
+    fun setupSaveNoteSubscription_whenNoteIdIsNull_andErrorThrownWhenSaving_showsUnableToSaveNoteError() {
+        // GIVEN
+        val note = getTestNote()
+        whenever(model.saveNote(any())).thenReturn(Single.error(RepositoryException("")))
+        whenever(model.buildNote(eq(note), any(), any())).thenReturn(note)
+        whenever(view.saveNoteClicks()).thenReturn(Observable.just(Unit))
+        whenever(idFactory.createId()).thenReturn(TEST_NOTE_ID_STRING)
+        whenever(view.getNoteTitle()).thenReturn("")
+        whenever(view.getNoteBody()).thenReturn("")
+
+        // WHEN
+        testSubject.setupSaveNoteSubscription(null)
+
+        // THEN
+        verify(screenBundleHelper).setNoteId(bundle, TEST_NOTE_ID_STRING)
+        verify(view).showUnableToSaveNoteError()
+    }
+
+    @Test
+    fun setupSaveNoteSubscription_whenNoteIdIsNotNull_andErrorThrownWhenLoadingNote_showsUnableToLoadNoteError() {
+        // GIVEN
+        whenever(model.getNote(TEST_NOTE_ID_STRING)).thenReturn(Single.error(RepositoryException("")))
+
+        // WHEN
+        testSubject.setupSaveNoteSubscription(TEST_NOTE_ID_STRING)
+
+        // THEN
+        verify(view).showUnableToLoadNoteError()
+    }
+
+    @Test
+    fun onViewCreated_whenCancelButtonIsClicked_andNoteIdIsNull_showsAllNotes() {
+        // GIVEN
+        whenever(screenBundleHelper.getNoteId(bundle)).thenReturn(null)
+        whenever(view.cancelEditNoteClicks()).thenReturn(Observable.just(Unit))
+
+        // WHEN
+        testSubject.onViewCreated()
+
+        // THEN
+        verify(view).showAllNotes(any())
+    }
+
+    @Test
+    fun onViewCreated_whenCancelButtonIsClicked_andNoteIdIsNotNull_showsNoteDetail() {
+        // GIVEN
+        whenever(screenBundleHelper.getNoteId(bundle)).thenReturn(TEST_NOTE_ID_STRING)
+        whenever(view.cancelEditNoteClicks()).thenReturn(Observable.just(Unit))
+
+        // WHEN
+        testSubject.onViewCreated()
+
+        // THEN
+        verify(view).showNoteDetail(any())
     }
 
     private fun getTestNote() = Note(TEST_NOTE_ID_STRING, "", "", 0, 0)
