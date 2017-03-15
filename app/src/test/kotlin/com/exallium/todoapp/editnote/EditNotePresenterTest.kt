@@ -14,6 +14,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import rx.Single
+import rx.Observable
 
 /**
  * Unit testing for {@link EditNotePresenter}
@@ -180,5 +181,90 @@ class EditNotePresenterTest {
         verify(view).showUnableToLoadNoteError()
     }
 
+    @Test
+    fun setupTextChangedSubscription_whenNewNoteTitleIsValid_andNewNoteBodyIsValid_togglesSubmitToTrue() {
+        // GIVEN
+        given_textChangedObservables()
+        whenever(model.validateNoteTitleText(any())).thenReturn(true)
+        whenever(model.validateNoteBodyText(any())).thenReturn(true)
+
+        whenever(testSubject.validateAllFields()).thenReturn(true)
+
+        // WHEN
+        testSubject.setupTextChangedSubscription()
+
+        // THEN
+        verify(view, never()).showInvalidNoteTitleError()
+        verify(view, never()).showInvalidNoteBodyError()
+        then_toggleSubmit(true)
+    }
+
+    @Test
+    fun setupTextChangedSubscription_whenNewNoteTitleIsNotValid_andNewNoteBodyIsValid_togglesSubmitToFalse() {
+        // GIVEN
+        given_textChangedObservables()
+        whenever(model.validateNoteTitleText(any())).thenReturn(false)
+        whenever(model.validateNoteBodyText(any())).thenReturn(true)
+
+        whenever(testSubject.validateAllFields()).thenReturn(false)
+
+        // WHEN
+        testSubject.setupTextChangedSubscription()
+
+        // THEN
+        verify(view).showInvalidNoteTitleError()
+        verify(view, never()).showInvalidNoteBodyError()
+        then_toggleSubmit(false)
+    }
+
+    @Test
+    fun setupTextChangedSubscription_whenNewNoteTitleIsValid_andNewNoteBodyIsNotValid_togglesSubmitToFalse() {
+        // GIVEN
+        given_textChangedObservables()
+        whenever(model.validateNoteTitleText(any())).thenReturn(true)
+        whenever(model.validateNoteBodyText(any())).thenReturn(false)
+
+        whenever(testSubject.validateAllFields()).thenReturn(false)
+
+        // WHEN
+        testSubject.setupTextChangedSubscription()
+
+        // THEN
+        verify(view, never()).showInvalidNoteTitleError()
+        verify(view).showInvalidNoteBodyError()
+        then_toggleSubmit(false)
+    }
+
+    @Test
+    fun setupTextChangedSubscription_whenNewNoteTitleIsNotValid_andNewNoteBodyIsNotValid_togglesSubmitToFalse() {
+        // GIVEN
+        given_textChangedObservables()
+        whenever(model.validateNoteTitleText(any())).thenReturn(false)
+        whenever(model.validateNoteBodyText(any())).thenReturn(false)
+
+        whenever(testSubject.validateAllFields()).thenReturn(false)
+
+        // WHEN
+        testSubject.setupTextChangedSubscription()
+
+        // THEN
+        verify(view).showInvalidNoteTitleError()
+        verify(view).showInvalidNoteBodyError()
+        then_toggleSubmit(false)
+    }
+
     private fun getTestNote() = Note(TEST_NOTE_ID_STRING, "", "", 0, 0)
+
+    /**
+     * emit two values since the first one will be skipped on initial load
+     */
+    private fun given_textChangedObservables() {
+        whenever(view.titleTextChanges()).thenReturn(Observable.just("asdf", "ghjk"))
+        whenever(view.bodyTextChanges()).thenReturn(Observable.just("asdf", "ghjk"))
+    }
+
+    /**
+     * submit button toggled for each of the 2 fields validated
+     */
+    private fun then_toggleSubmit(enabled: Boolean) = verify(view, times(2)).toggleSubmit(enabled)
 }
