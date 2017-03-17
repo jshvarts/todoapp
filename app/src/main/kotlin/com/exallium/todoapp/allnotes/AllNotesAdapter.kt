@@ -8,7 +8,6 @@ import rx.Observable
 import rx.Subscription
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
-import timber.log.Timber
 
 /**
  * Adapter which displays all notes in the repository
@@ -69,7 +68,6 @@ class AllNotesAdapter(val model: AllNotesModel,
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder?, position: Int) {
-        Timber.d("here")
         val note = notes[position]
         holder?.setTitle(note.title)
         holder?.setBody(note.body)
