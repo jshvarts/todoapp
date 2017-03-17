@@ -50,9 +50,6 @@ class EditNotePresenter(view: EditNoteView,
     }
 
     fun setupTextChangedSubscription() {
-        fun validateAllFields(): Boolean {
-            return model.validateNoteTitleText(view.getNoteTitle()) && model.validateNoteBodyText(view.getNoteBody())
-        }
 
         fun setupTextChangedValidation(textChangedObservable: Observable<CharSequence>,
                                        validationFn: (String) -> Boolean,
@@ -72,6 +69,10 @@ class EditNotePresenter(view: EditNoteView,
 
         setupTextChangedValidation(view.titleTextChanges(), model::validateNoteTitleText, view::showInvalidNoteTitleError)
         setupTextChangedValidation(view.bodyTextChanges(), model::validateNoteBodyText, view::showInvalidNoteBodyError)
+    }
+
+    fun validateAllFields(): Boolean {
+        return model.validateNoteTitleText(view.getNoteTitle()) && model.validateNoteBodyText(view.getNoteBody())
     }
 
     /**
