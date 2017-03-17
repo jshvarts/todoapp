@@ -23,10 +23,10 @@ class AllNotesModule(private val allNotesView: AllNotesView) {
     @Provides
     @PerScreen
     fun provideAdapter(model: AllNotesModel, diffUtilProxy: AllNotesDiffUtilProxy): AllNotesAdapter
-        = AllNotesAdapter(model, diffUtilProxy, NoteViewHolder)
+        = AllNotesAdapter(model, allNotesView, diffUtilProxy, NoteViewHolder)
 
     @Provides
     @PerScreen
-    fun providePresenter(adapter: AllNotesAdapter, screenBundleHelper: ScreenBundleHelper, bundleFactory: BundleFactory): AllNotesPresenter
-            = AllNotesPresenter(allNotesView, adapter, screenBundleHelper, bundleFactory)
+    fun providePresenter(adapter: AllNotesAdapter, model: AllNotesModel, screenBundleHelper: ScreenBundleHelper, bundleFactory: BundleFactory): AllNotesPresenter
+            = AllNotesPresenter(allNotesView, adapter, model, screenBundleHelper, bundleFactory)
 }
