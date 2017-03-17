@@ -33,6 +33,9 @@ class AllNotesPresenterTest {
     @Mock(answer = Answers.RETURNS_MOCKS)
     private lateinit var screenBundleHelper: ScreenBundleHelper
 
+    @Mock(answer = Answers.RETURNS_MOCKS)
+    private lateinit var model: AllNotesModel
+
     @Mock
     private lateinit var bundleFactory: BundleFactory
 

@@ -8,6 +8,7 @@ import rx.Observable
 import rx.Subscription
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
+import timber.log.Timber
 
 /**
  * Adapter which displays all notes in the repository
@@ -19,17 +20,11 @@ class AllNotesAdapter(val model: AllNotesModel,
 
     private val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.START or ItemTouchHelper.END) {
 
-        override fun isLongPressDragEnabled(): Boolean {
-            return false
-        }
+        override fun isLongPressDragEnabled() = false
 
-        override fun isItemViewSwipeEnabled(): Boolean {
-            return true
-        }
+        override fun isItemViewSwipeEnabled() = true
 
-        override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
-            return false
-        }
+        override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?) = false
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
             if (viewHolder == null || viewHolder.adapterPosition == -1) {
@@ -74,6 +69,7 @@ class AllNotesAdapter(val model: AllNotesModel,
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder?, position: Int) {
+        Timber.d("here")
         val note = notes[position]
         holder?.setTitle(note.title)
         holder?.setBody(note.body)
