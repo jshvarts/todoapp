@@ -55,9 +55,5 @@ class AllNotesViewImpl(bundle: Bundle) : BaseViewImpl<AllNotesView, AllNotesPres
         displaySnackbar(R.string.note_deleted_message)
     }
 
-    override fun showAllNotes(args: Bundle) {
-        router.pushController(RouterTransaction.with(AllNotesViewImpl(args)))
-    }
-
     override fun addNoteClicks(): Observable<Unit> = addNote.clicks()
 }

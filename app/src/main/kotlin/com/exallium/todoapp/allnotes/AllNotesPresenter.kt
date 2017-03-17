@@ -43,8 +43,8 @@ class AllNotesPresenter(view: AllNotesView,
                     }
 
                     override fun onNext(unit: Unit) {
+                        adapter.requestUpdate()
                         view.showNoteDeletedMessage()
-                        view.showAllNotes(bundleFactory.createBundle())
                     }
 
                     override fun onError(t: Throwable) {
