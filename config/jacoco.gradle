@@ -23,12 +23,13 @@ def excluded = [
         '**/*Component.class',
         '**/Dagger*',
         '**/app/TodoApp*.class',
-        '**/entities/Note.class'
+        '**/entities/Note.class',
+        '**/BuildConfig*'
 ]
 
 def views = [
-        '**/**ViewImpl*',
-        '**/**ViewHolder*',
+        '**/*ViewImpl*',
+        '**/NoteViewHolder*'
 ]
 
 excluded.addAll(views);
