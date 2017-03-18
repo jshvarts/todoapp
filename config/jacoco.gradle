@@ -15,6 +15,24 @@ def coverageSourceDirs = [
 
 def buildTypes = android.buildTypes.collect { it }
 
+def excluded = [
+        '**/R.class',
+        '**/R$*.class',
+        '**/*Module.class',
+        '**/*Module_*.class',
+        '**/*Component.class',
+        '**/Dagger*',
+        '**/app/TodoApp*.class',
+        '**/entities/Note.class'
+]
+
+def views = [
+        '**/**ViewImpl*',
+        '**/**ViewHolder*',
+]
+
+excluded.addAll(views);
+
 buildTypes.each { buildType ->
     if (!buildType.testCoverageEnabled) {
         return
@@ -31,7 +49,7 @@ buildTypes.each { buildType ->
 
         classDirectories = fileTree(
                 dir: "${rootDir}/app/build/intermediates/classes/debug/",
-                excludes: reportExcludes()
+                excludes: excluded
         )
 
         sourceDirectories = files(coverageSourceDirs)
@@ -41,13 +59,5 @@ buildTypes.each { buildType ->
             xml.enabled false
         }
     }
-}
-
-def reportExcludes() {
-    return ['**/R.class',
-            '**/R$*.class',
-            '**/*Module.class',
-            '**/*Module_*.class',
-            '**/*Component.class']
 }
 

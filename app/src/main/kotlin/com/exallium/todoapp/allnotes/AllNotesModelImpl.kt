@@ -5,6 +5,6 @@ import com.exallium.todoapp.repository.Repository
 /**
  * Implementation for All Notes model
  */
-class AllNotesModelImpl(val repository: Repository) : AllNotesModel {
+class AllNotesModelImpl(private val repository: Repository) : AllNotesModel {
     override fun getAllNotes() = repository.getAllNotes()
 }
