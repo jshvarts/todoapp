@@ -1,13 +1,9 @@
 package com.exallium.todoapp.notedetail
 
 import com.exallium.todoapp.R
-import com.exallium.todoapp.entities.Note
 import com.exallium.todoapp.mvp.BasePresenter
 import com.exallium.todoapp.screenbundle.BundleFactory
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
-import rx.SingleSubscriber
-import rx.Subscriber
-import timber.log.Timber
 
 /**
  * Presenter for Note Detail Screen
@@ -21,12 +17,14 @@ class NoteDetailPresenter(view: NoteDetailView,
         view.showEditNote(getArgs())
     }
 
-    override fun onViewCreated() {
+    override fun onViewCreated(restore: Boolean) {
         val args = getArgs()
         screenBundleHelper.setTitle(args, R.string.note_detail_screen_title)
         val noteId: String = screenBundleHelper.getNoteId(args)!!
 
-        setupGetNoteDetailSubscription(noteId)
+        if (!restore) {
+            setupGetNoteDetailSubscription(noteId)
+        }
 
         setupDeleteNoteSubscription(noteId)
 
@@ -34,36 +32,21 @@ class NoteDetailPresenter(view: NoteDetailView,
     }
 
     fun setupGetNoteDetailSubscription(noteId: String) {
-        model.getNote(noteId).subscribe(object : SingleSubscriber<Note>() {
-            override fun onSuccess(note: Note) {
-                view.setNoteData(note)
-            }
-
-            override fun onError(t: Throwable) {
-                Timber.w(t, "error looking up note with id " + noteId)
-                view.showUnableToLoadNoteDetailError()
-            }
-        }).addToComposite()
+        model.getNote(noteId).subscribe(
+            { view.setNoteData(it) },
+            { view.showUnableToLoadNoteDetailError() }
+        ).addToComposite()
     }
 
     fun setupDeleteNoteSubscription(noteId: String) {
         view.deleteNoteClicks()
             .flatMap { model.deleteNote(noteId).toObservable() }
-            .subscribe(object : Subscriber<Unit>() {
-                override fun onCompleted() {
-                    // do nothing
-                }
-
-                override fun onNext(unit: Unit) {
-                    Timber.d("deleted note with id " + noteId)
+            .subscribe(
+                {
                     view.showNoteDeletedMessage()
                     view.showAllNotes(bundleFactory.createBundle())
-                }
-
-                override fun onError(t: Throwable) {
-                    Timber.w(t, "error deleting note with id " + noteId)
-                    view.showUnableToLoadNoteDetailError()
-                }
-            }).addToComposite()
+                },
+                { view.showUnableToLoadNoteDetailError() }
+            ).addToComposite()
     }
 }

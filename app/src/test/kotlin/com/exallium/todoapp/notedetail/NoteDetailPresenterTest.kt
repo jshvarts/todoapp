@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.exallium.todoapp.R
 import com.exallium.todoapp.screenbundle.BundleFactory
 import com.exallium.todoapp.screenbundle.ScreenBundleHelper
+import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.spy
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
@@ -19,9 +20,7 @@ import org.mockito.MockitoAnnotations
  */
 class NoteDetailPresenterTest {
 
-    companion object {
-        private val TEST_NOTE_ID_STRING = "test note id"
-    }
+    private val TEST_NOTE_ID_STRING = "test note id"
 
     @InjectMocks
     private lateinit var testSubject: NoteDetailPresenter
@@ -86,6 +85,18 @@ class NoteDetailPresenterTest {
 
         // THEN
         verify(testSubject).setupGetNoteDetailSubscription(TEST_NOTE_ID_STRING)
+    }
+
+    @Test
+    fun onViewCreated_whenStateRestored_setupGetNoteDetailSubscription() {
+        // GIVEN
+        testSubject = spy(testSubject)
+
+        // WHEN
+        testSubject.onViewCreated(true)
+
+        // THEN
+        verify(testSubject, never()).setupGetNoteDetailSubscription(TEST_NOTE_ID_STRING)
     }
 
     @Test

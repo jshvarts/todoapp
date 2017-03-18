@@ -21,8 +21,10 @@ abstract class BasePresenter<out V : BaseView>(protected val view: V) {
 
     /**
      * Called when underlying view is created
+     *
+     * @param restore - true if saved view state exists
      */
-    open fun onViewCreated() {}
+    open fun onViewCreated(restore: Boolean = false) {}
 
     /**
      * Called when activity is started
@@ -52,6 +54,7 @@ abstract class BasePresenter<out V : BaseView>(protected val view: V) {
     private fun routeLifecycleEvent(event: BaseView.LifecycleEvent) {
         when (event) {
             BaseView.LifecycleEvent.CREATE_VIEW -> onViewCreated()
+            BaseView.LifecycleEvent.RESTORE_VIEW -> onViewCreated(true)
             BaseView.LifecycleEvent.ACTIVITY_START -> onActivityStarted()
             BaseView.LifecycleEvent.ACTIVITY_RESUME -> onActivityResumed()
             BaseView.LifecycleEvent.ACTIVITY_PAUSE -> onActivityPaused()

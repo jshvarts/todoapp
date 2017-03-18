@@ -22,7 +22,7 @@ class AllNotesPresenter(view: AllNotesView,
         view.showCreateNote(bundleFactory.createBundle())
     }
 
-    override fun onViewCreated() {
+    override fun onViewCreated(restore: Boolean) {
         view.setAdapter(adapter)
         adapter.requestUpdate()
 

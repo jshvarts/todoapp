@@ -26,7 +26,7 @@ class EditNotePresenter(view: EditNoteView,
         view.showNoteDetail(getArgs())
     }
 
-    override fun onViewCreated() {
+    override fun onViewCreated(restore: Boolean) {
         fun createNote() {
             screenBundleHelper.setTitle(getArgs(), R.string.create_note_screen_title)
             setupSaveNoteSubscription(null)

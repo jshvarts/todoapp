@@ -13,6 +13,7 @@ interface BaseView {
 
     enum class LifecycleEvent {
         CREATE_VIEW,
+        RESTORE_VIEW,
         ACTIVITY_START,
         ACTIVITY_RESUME,
         ACTIVITY_PAUSE,

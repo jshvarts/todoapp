@@ -11,7 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import butterknife.ButterKnife
-import com.bluelinelabs.conductor.Controller
+import com.bluelinelabs.conductor.RestoreViewOnCreateController
 import com.exallium.todoapp.di.BaseComponent
 import rx.Observable
 import rx.subjects.PublishSubject
@@ -24,19 +24,23 @@ abstract class BaseViewImpl<
         out V : BaseView,
         P : BasePresenter<V>,
         B : BaseViewImpl<V, P, B, C>,
-        out C : BaseComponent<B>>(bundle: Bundle) : Controller(bundle), BaseView {
+        out C : BaseComponent<B>>(bundle: Bundle) : RestoreViewOnCreateController(bundle), BaseView {
 
     private lateinit var _presenter: P
 
     private val lifecycleSubject: PublishSubject<BaseView.LifecycleEvent> = PublishSubject.create<BaseView.LifecycleEvent>()
 
     @Suppress("UNCHECKED_CAST")
-    override final fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
+    override final fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedViewState: Bundle?): View {
         val view = inflater.inflate(getLayoutId(), container, false)
         ButterKnife.bind(this, view)
         getComponent().inject(this as B)
         setUp()
-        lifecycleSubject.onNext(BaseView.LifecycleEvent.CREATE_VIEW)
+        if (savedViewState == null) {
+            lifecycleSubject.onNext(BaseView.LifecycleEvent.CREATE_VIEW)
+        } else {
+            lifecycleSubject.onNext(BaseView.LifecycleEvent.RESTORE_VIEW)
+        }
         return view
     }
 

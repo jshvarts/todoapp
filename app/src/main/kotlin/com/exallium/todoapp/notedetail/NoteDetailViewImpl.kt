@@ -22,6 +22,11 @@ import java.util.Date
 class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, NoteDetailPresenter, NoteDetailViewImpl,
         NoteDetailComponent>(bundle), NoteDetailView {
 
+    private val STATE_NOTE_TITLE = "noteTitle"
+    private val STATE_NOTE_BODY = "noteBody"
+    private val STATE_NOTE_CREATED = "noteCreated"
+    private val STATE_NOTE_UPDATED = "noteUpdated"
+
     @BindView(R.id.note_title)
     lateinit var noteTitleTextView: TextView
 
@@ -46,6 +51,24 @@ class NoteDetailViewImpl(val bundle: Bundle) : BaseViewImpl<NoteDetailView, Note
             .build()
 
     override fun getLayoutId(): Int = R.layout.note_detail_view
+
+    override fun onSaveViewState(view: View, outState: Bundle) {
+        super.onSaveViewState(view, outState)
+        outState.putString(STATE_NOTE_TITLE, noteTitleTextView.text.toString())
+        outState.putString(STATE_NOTE_BODY, noteBodyTextView.text.toString())
+        outState.putString(STATE_NOTE_CREATED, noteDateCreated.text.toString())
+        outState.putString(STATE_NOTE_UPDATED, noteDateUpdated.text.toString())
+    }
+
+    override fun onRestoreViewState(view: View, savedViewState: Bundle) {
+        super.onRestoreViewState(view, savedViewState)
+        if (savedViewState != null) {
+            noteTitleTextView.text = savedViewState.getString(STATE_NOTE_TITLE)
+            noteBodyTextView.text = savedViewState.getString(STATE_NOTE_BODY)
+            savedViewState.getString(STATE_NOTE_CREATED)?.let { noteDateCreated.text = it }
+            savedViewState.getString(STATE_NOTE_UPDATED)?.let { noteDateUpdated.text = it }
+        }
+    }
 
     override fun setNoteData(note: Note) {
         noteTitleTextView.text = note.title
