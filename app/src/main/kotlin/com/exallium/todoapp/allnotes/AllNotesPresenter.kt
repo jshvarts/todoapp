@@ -11,6 +11,7 @@ import com.exallium.todoapp.screenbundle.ScreenBundleHelper
  */
 class AllNotesPresenter(view: AllNotesView,
                         private val adapter: AllNotesAdapter,
+                        private val model: AllNotesModel,
                         private val screenBundleHelper: ScreenBundleHelper,
                         private val bundleFactory: BundleFactory) : BasePresenter<AllNotesView>(view) {
 
@@ -28,6 +29,17 @@ class AllNotesPresenter(view: AllNotesView,
 
         adapter.noteClicks().subscribe(showNoteSubscriberFn).addToComposite()
         view.addNoteClicks().map { null }.subscribe(showCreateNoteSubscriberFn).addToComposite()
+
+        setupDeleteNoteSubscription()
+    }
+
+    fun setupDeleteNoteSubscription() {
+        adapter.noteSwipes()
+                .flatMap { model.deleteNote(it).toObservable() }
+                .subscribe( {
+                    adapter.requestUpdate()
+                    view.showNoteDeletedMessage()
+                }, { view.showUnableToLoadNoteDetailError() }).addToComposite()
     }
 
     override fun onViewDestroyed() {

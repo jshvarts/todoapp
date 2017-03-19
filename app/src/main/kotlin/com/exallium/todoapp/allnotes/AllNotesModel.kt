@@ -8,4 +8,5 @@ import rx.Single
  */
 interface AllNotesModel {
     fun getAllNotes(): Single<Set<Note>>
+    fun deleteNote(id: String): Single<Unit>
 }

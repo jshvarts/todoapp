@@ -7,4 +7,5 @@ import com.exallium.todoapp.repository.Repository
  */
 class AllNotesModelImpl(val repository: Repository) : AllNotesModel {
     override fun getAllNotes() = repository.getAllNotes()
-}
+    override fun deleteNote(id: String) = repository.deleteNote(id)
+ }

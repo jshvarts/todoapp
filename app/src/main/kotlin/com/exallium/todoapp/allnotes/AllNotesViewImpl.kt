@@ -47,5 +47,13 @@ class AllNotesViewImpl(bundle: Bundle) : BaseViewImpl<AllNotesView, AllNotesPres
         router.pushController(RouterTransaction.with(EditNoteViewImpl(args)))
     }
 
+    override fun showUnableToLoadNoteDetailError() {
+        displaySnackbar(R.string.unable_to_load_note_error)
+    }
+
+    override fun showNoteDeletedMessage() {
+        displaySnackbar(R.string.note_deleted_message)
+    }
+
     override fun addNoteClicks(): Observable<Unit> = addNote.clicks()
 }

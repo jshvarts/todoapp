@@ -12,4 +12,6 @@ interface AllNotesView : BaseView {
     fun showSingleNote(args: Bundle)
     fun showCreateNote(args: Bundle)
     fun addNoteClicks(): Observable<Unit>
+    fun showUnableToLoadNoteDetailError()
+    fun showNoteDeletedMessage()
 }
