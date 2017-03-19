@@ -12,7 +12,7 @@ class EditNoteModelImpl(private val repository: Repository) : EditNoteModel {
     override fun buildNote(oldNote: Note, newNoteTitle: String, newNoteBody: String): Note
             = Note(oldNote.id, newNoteTitle, newNoteBody, oldNote.created, System.currentTimeMillis())
 
-    override fun validateNoteTitleText(text: String): Boolean = !text.isNullOrBlank()
+    override fun validateNoteTitleText(text: String): Boolean = text.isNotEmpty() && text.isNotBlank()
 
-    override fun validateNoteBodyText(text: String): Boolean = !text.isNullOrBlank()
+    override fun validateNoteBodyText(text: String): Boolean = text.isNotEmpty() && text.isNotBlank()
 }

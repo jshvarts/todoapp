@@ -85,6 +85,18 @@ class EditNoteModelImplTest {
     }
 
     @Test
+    fun validateNoteTitleText_whenTitleIsBlank_returnsFalse() {
+        // GIVEN
+        val newNoteTitle: String = "  "
+
+        // WHEN
+        val result = testSubject.validateNoteTitleText(newNoteTitle)
+
+        // THEN
+        Assert.assertFalse(result)
+    }
+
+    @Test
     fun validateNoteTitleText_whenTitleIsNotEmpty_returnsFalse() {
         // GIVEN
         val newNoteTitle: String = "asdf"
@@ -100,6 +112,18 @@ class EditNoteModelImplTest {
     fun validateNoteBodyText_whenBodyIsEmpty_returnsFalse() {
         // GIVEN
         val newNoteBody: String = ""
+
+        // WHEN
+        val result = testSubject.validateNoteBodyText(newNoteBody)
+
+        // THEN
+        Assert.assertFalse(result)
+    }
+
+    @Test
+    fun validateNoteBodyText_whenBodyIsBlank_returnsFalse() {
+        // GIVEN
+        val newNoteBody: String = "  "
 
         // WHEN
         val result = testSubject.validateNoteBodyText(newNoteBody)
